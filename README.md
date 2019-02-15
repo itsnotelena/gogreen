@@ -40,3 +40,6 @@ Alin Dondera (adondera)
 
 ![](./pics/Alin.jpg)
 
+Merthan Tukus
+
+![](./pics/Merthan.jpg)
