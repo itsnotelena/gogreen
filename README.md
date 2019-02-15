@@ -43,3 +43,6 @@ Alin Dondera (adondera)
 Merthan Tukus
 
 ![](./pics/Merthan.jpg)
+
+Elena Ibanez 
+![](./pics/elena.jpeg)
