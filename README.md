@@ -31,3 +31,7 @@ Victor Roest (vroest)
 Vykintas Civas (vcivas)
 
 ![](./pics/Vykintas.jpeg)
+
+Alin Dondera (adondera)
+
+![](./pics/Alin.jpg)
