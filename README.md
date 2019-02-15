@@ -27,3 +27,7 @@ Run `maven site`
 Victor Roest (vroest)
 
 ![](./pics/victor.jpeg)
+
+Vykintas Civas (vcivas)
+
+![](./pics/Vykintas.jpeg)
