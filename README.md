@@ -36,3 +36,7 @@ Agata Kordyl (akordyl)
 
 ![](./pics/agata.JPG)
 
+Alin Dondera (adondera)
+
+![](./pics/Alin.jpg)
+
