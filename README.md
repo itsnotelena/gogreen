@@ -32,6 +32,7 @@ Vykintas Civas (vcivas)
 
 ![](./pics/Vykintas.jpeg)
 
-Alin Dondera (adondera)
+Agata Kordyl (akordyl)
 
-![](./pics/Alin.jpg)
+![](./pics/agata.JPG)
+
