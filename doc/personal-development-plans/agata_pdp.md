@@ -1,4 +1,4 @@
-What are two of your strong points?<br/> 
+What are two of your strong points? ## <br/> 
 1.Learning Quickly <br/>
 I don't need a long time to grasp a general idea of a tool/concept and
 start using it.In a team,I can possibly help and support my fellow team-members 
