@@ -1,6 +1,6 @@
-#Personal Development Plan
+# Personal Development Plan
 
-##Step 1: Develop a goal#
+## Step 1: Develop a goal
 * *What are two of your strong points? Do you have examples of this? How is this point shown in a team?*
 
 I have good analytical skills and I am quick to grasp new concepts, which I learned by participating in all sorts of mathematical competitions in high school. I can help the team by identifying problems and helping in finding solutions in an efficient matter.
@@ -11,8 +11,8 @@ How is this point shown in a team?*
 
 I sometimes find myself too comfortable w.r.t deadlines (I finished almost all projects in the week before the deadline this year) and also I lack the experience for this sort of project.
 
-##Step 2: Create a plan to achieve your goal
-###G - Goal
+## Step 2: Create a plan to achieve your goal
+### G - Goal
 
 * *What is your learning goal during this course?
 Do you have multiple? List them separately
@@ -28,7 +28,7 @@ I believe these are critical skills that I will rely on later on.
 
 Hopefully, I will have succeeded by the end of this project.
 
-###R - Reality (Your current situation)
+### R - Reality (Your current situation)
 
 * *Are you actively working on your goal?*
 
@@ -42,7 +42,7 @@ So far everything seems to be on track. Communication with the team is going wel
 
 I believe that there is always room for improvement in almost anything and hopefully the team can learn a lot of things from each other.
 
-###O - Options (Look at possible options)
+### O - Options (Look at possible options)
 
 * *What are the options you have to achieve your goal?*
 
@@ -53,7 +53,7 @@ Since my goal relates to every aspect of developing a  project I believe the onl
 
 Right now I can't think of anything that can stop me from reaching this goal except myself. Hopefully, that won't happen.
 
-###W - Will (Motivation, plan of action)
+### W - Will (Motivation, plan of action)
 
 * *What are you going to do to reach your goal?*
 
