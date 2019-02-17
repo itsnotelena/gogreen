@@ -21,3 +21,28 @@ Run `maven install` ([Intellij](https://www.jetbrains.com/help/idea/2016.3/getti
 
 **Checkstyle**:  
 Run `maven site`
+
+## Team
+
+Victor Roest (vroest)
+
+![](./pics/victor.jpeg)
+
+Vykintas Civas (vcivas)
+
+![](./pics/Vykintas.jpeg)
+
+Agata Kordyl (akordyl)
+
+![](./pics/agata.JPG)
+
+Alin Dondera (adondera)
+
+![](./pics/Alin.jpg)
+
+Merthan Tukus
+
+![](./pics/Merthan.jpg)
+
+Elena Ibanez 
+![](./pics/elena.jpeg)
