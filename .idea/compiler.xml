@@ -8,12 +8,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="project-client" />
         <module name="project-server" />
+        <module name="project-shared" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="gogreen" target="1.8" />
       <module name="project-client" target="1.8" />
       <module name="project-root" target="1.8" />
       <module name="project-server" target="1.8" />
+      <module name="project-shared" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
