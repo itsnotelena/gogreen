@@ -2,11 +2,16 @@ package client;
 
 import org.springframework.web.client.RestTemplate;
 
+import RequestModels.HelloWorld;
+
+
 public class Application {
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         RestTemplate restTemplate = new RestTemplate();
-        Message message = restTemplate.getForObject("http://localhost:8080/hello", Message.class);
-        System.out.println(message.toString());
+        HelloWorld message = restTemplate.getForObject("http://localhost:8080/hello", HelloWorld.class);
+        if (message != null) {
+            System.out.println("Message from the server\n" + message.toString() + "\n");
+        }
     }
 }

@@ -1,9 +1,15 @@
 package RequestModels;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class HelloWorld {
 
-    private final long id;
-    private final String content;
+    private long id;
+    private String content;
+
+    public HelloWorld() {
+
+    }
 
     public HelloWorld(long id, String content) {
         this.id = id;
@@ -16,5 +22,10 @@ public class HelloWorld {
 
     public String getContent() {
         return content;
+    }
+
+    @Override
+    public String toString() {
+        return this.content;
     }
 }
