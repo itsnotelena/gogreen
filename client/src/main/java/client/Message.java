@@ -34,6 +34,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return this.content;
+        return "ID: " + this.id + " " + this.content;
     }
 }
