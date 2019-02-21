@@ -1,8 +1,8 @@
 package server;
 
+import RequestModels.HelloWorld;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import RequestModels.HelloWorld;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -12,7 +12,7 @@ public class HelloWorldController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/hello")
-    public HelloWorld helloWorld(){
+    public HelloWorld helloWorld() {
         return new HelloWorld(counter.incrementAndGet(), hello);
     }
 }
