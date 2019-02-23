@@ -24,25 +24,26 @@ Run `maven site`
 
 ## Team
 
-Victor Roest (vroest)
+Victor Roest (vroest) [Personal Development Plan](doc/personal-development-plans/victor.md)
 
 ![](./pics/victor.jpeg)
 
-Vykintas Civas (vcivas)
+Vykintas Civas (vcivas) [Personal Development Plan](doc/personal-development-plans/Vykintas_personal_plan.md)
 
 ![](./pics/Vykintas.jpeg)
 
-Agata Kordyl (akordyl)
+Agata Kordyl (akordyl) [Personal Development Plan](doc/personal-development-plans/agata_pdp.md)
 
 ![](./pics/agata.JPG)
 
-Alin Dondera (adondera)
+Alin Dondera (adondera) [Personal Development Plan](doc/personal-development-plans/Alin_Plan.md)
 
 ![](./pics/Alin.jpg)
 
-Merthan Tukus
+Merthan Tukus [Personal Development Plan](doc/personal-development-plans/Merthan.md)
 
 ![](./pics/Merthan.jpg)
 
-Elena Ibanez 
+Elena Ibanez [Personal Development Plan](doc/personal-development-plans/elena.md)
+
 ![](./pics/elena.jpeg)
