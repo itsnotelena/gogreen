@@ -2,7 +2,7 @@ package client;
 
 import org.springframework.web.client.RestTemplate;
 
-import RequestModels.HelloWorld;
+import models.HelloWorld;
 
 
 public class Application {

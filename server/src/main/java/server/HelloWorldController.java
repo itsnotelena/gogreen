@@ -1,6 +1,6 @@
 package server;
 
-import RequestModels.HelloWorld;
+import models.HelloWorld;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
