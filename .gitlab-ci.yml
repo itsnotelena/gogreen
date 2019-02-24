@@ -13,10 +13,20 @@ build:
   script:
     - mvn $MAVEN_CLI_OPTS clean compile
 
+#test:
+#  stage: test
+#  script:
+#    - mvn $MAVEN_CLI_OPTS clean test
+
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS clean test
+    - mvn $MAVEN_CLI_OPTS clean test jacoco:report
+  artifacts:
+    paths:
+      - client/target/site/jacoco/
+      - server/target/site/jacoco/
+      - shared/target/site/jacoco/
 
 #deploy:
 #  stage: deploy
