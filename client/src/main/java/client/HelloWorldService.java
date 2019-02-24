@@ -7,8 +7,13 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class HelloWorldService {
+
+    private RestTemplate restTemplate;
+
     @Autowired
-    private RestTemplate restTemplate = new RestTemplate();
+    public HelloWorldService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     String getHello() {
         HelloWorld message = restTemplate.getForObject("http://localhost:8080/hello", HelloWorld.class);
