@@ -32,4 +32,10 @@ public class HelloWorldTest {
         Assert.assertEquals(1,hello.getId());
         Assert.assertEquals("Hello World", hello.getContent());
     }
+
+    @Test
+    public void getIdTest() {
+        HelloWorld hello = new HelloWorld(12, "Hello World");
+        Assert.assertEquals(12, hello.getId());
+    }
 }

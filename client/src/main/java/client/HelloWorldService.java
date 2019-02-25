@@ -15,7 +15,12 @@ public class HelloWorldService {
         this.restTemplate = restTemplate;
     }
 
-    String getHello() {
+    /**
+     * Gets the hello world endpoint.
+     *
+     * @return the message from the endpoint
+     */
+    public String getHello() {
         HelloWorld message = restTemplate.getForObject("http://localhost:8080/hello", HelloWorld.class);
         if (message != null) {
             return message.toString();

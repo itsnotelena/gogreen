@@ -1,7 +1,7 @@
 package client;
 
-import models.HelloWorld;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import models.HelloWorld;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withNoContent;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @ContextConfiguration(locations = {"classpath:/applicationContext-test.xml"})
 public class TestHelloWorldService extends AbstractJUnit4SpringContextTests {
