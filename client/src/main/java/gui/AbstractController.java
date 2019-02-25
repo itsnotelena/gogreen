@@ -1,11 +1,9 @@
-package abstractcontrollers;
+package gui;
 
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,14 +11,13 @@ import java.util.Objects;
 
 import static com.sun.javafx.scene.control.skin.Utils.getResource;
 
-public class AbstractController {
+public abstract class AbstractController {
+
     /**
-     * The method goes back to a provided window.
-     *
-     * @param fileName takes a fxml file name to go back to
-     * @throws IOException when the file does not exist
+     * A simplified version of: {@link #goBack(String, Control)}. Which opens a new window instead
+     * of replacing the current scene
      */
-    public void goBack(String fileName) throws IOException {
+    void goBack(String fileName) throws IOException {
         Stage signup = new Stage();
         Parent root = FXMLLoader.load(getResource(fileName));
 
@@ -28,21 +25,22 @@ public class AbstractController {
         signup.setScene(scene);
         signup.show();
         signup.setResizable(false);
-
     }
 
     /**
-     * @param fileName
-     * @param btn
-     * @throws IOException
+     * The method goes back to the provided window and
+     * uses the provided control to get the current scene.
+     * @param fileName Window location to go back to
+     * @param ctrl control to get the scene from
+     * @throws IOException Throws an IOException when provided window can not be found
      */
-    public void goBack(String fileName, Control btn) throws IOException {
-        Stage stage = (Stage) btn.getScene().getWindow();
+    void goBack(String fileName, Control ctrl) throws IOException {
+        Stage stage = (Stage) ctrl.getScene().getWindow();
         Parent root = FXMLLoader.load(
                 Objects.requireNonNull(getClass().getResource(fileName)));
 
         stage.setTitle("Go Green");
-        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+        // Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         stage.setScene(new Scene(root, 600, 500));
     }
 

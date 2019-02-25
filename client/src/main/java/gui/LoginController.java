@@ -1,4 +1,4 @@
-package controllers;
+package gui;
 
 import client.HelloWorldService;
 import javafx.fxml.FXML;
@@ -17,12 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import java.awt.Checkbox;
+import javax.swing.text.html.ImageView;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import javax.swing.text.html.ImageView;
 
 
 

@@ -1,6 +1,5 @@
-package controllers;
+package gui;
 
-import abstractcontrollers.AbstractController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,6 @@ import java.io.IOException;
 @Component
 public class MenuController extends AbstractController {
 
-    private String fileName = "/window1.fxml";
     @FXML
     private TabPane menupane;
 
@@ -21,6 +19,7 @@ public class MenuController extends AbstractController {
      */
 
     public void goBack() throws IOException {
+        String fileName = "/window1.fxml";
         goBack(fileName, menupane);
     }
 

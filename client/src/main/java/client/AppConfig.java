@@ -8,8 +8,10 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class AppConfig {
 
+    private String rootUri = "http://localhost:8080";
+
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
+        return builder.rootUri(rootUri).build();
     }
 }
