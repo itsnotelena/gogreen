@@ -100,7 +100,10 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
                 <configuration>
-                    <excludes>**/gui/**</excludes>
+                    <excludes>
+                        <exclude>**/gui/**</exclude>
+                        <exclude>**/Main.class</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
