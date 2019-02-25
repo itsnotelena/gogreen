@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" scaleShape="false" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+    <children>
+        <TextField fx:id="textfield" layoutX="183.0" layoutY="148.0" prefHeight="27.0" prefWidth="223.0" promptText="Username" />
+        <PasswordField fx:id="passwordField" layoutX="183.0" layoutY="200.0" prefHeight="27.0" prefWidth="223.0" promptText="Password" />
+        <Button layoutX="500.0" layoutY="327.0" mnemonicParsing="false" onAction="#createAccount" prefHeight="34.0" prefWidth="70.0" text="Sign Up" textFill="#46413b" />
+        <Button layoutX="343.0" layoutY="264.0" mnemonicParsing="false" onAction="#doLogin" prefHeight="27.0" prefWidth="63.0" text="Login" />
+        <CheckBox layoutX="183.0" layoutY="268.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="130.0" text="Remember Me" />
+        <Hyperlink layoutX="218.0" layoutY="331.0" onAction="#resetPass" text="Forgot Your Password?" />
+        <ImageView fitHeight="101.0" fitWidth="196.0" layoutX="234.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+            <image>
+                <Image url="@images/logo.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="helloWorld" layoutX="20.0" layoutY="264.0" mnemonicParsing="false" onAction="#hello"
+                prefHeight="27.0" text="Click me!"/>
+    </children>
+</AnchorPane>

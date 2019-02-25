@@ -8,12 +8,22 @@
         <outputRelativeToContentRoot value="true" />
         <module name="project-client" />
         <module name="project-server" />
+        <module name="project-shared" />
+        <module name="tests" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="project-client" target="1.8" />
-      <module name="project-root" target="1.8" />
-      <module name="project-server" target="1.8" />
+      <module name="gogreen" target="11" />
+      <module name="project-client" target="11" />
+      <module name="project-root" target="11" />
+      <module name="project-server" target="11" />
+      <module name="project-shared" target="11" />
+      <module name="tests" target="11" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="project-client" options="" />
+    </option>
   </component>
 </project>

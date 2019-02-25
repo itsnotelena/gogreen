@@ -17,32 +17,41 @@ Intellij:
 ## Getting your weekly reports
 
 **Jacoco**:  
-Run `maven install` ([Intellij](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-maven.html#execute_maven_goal)/[Eclipse](http://imgur.com/a/6q7pV))
+Run `mvn install` ([Intellij](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-maven.html#execute_maven_goal)/[Eclipse](http://imgur.com/a/6q7pV))
 
 **Checkstyle**:  
-Run `maven site`
+Run `mvn site`
+
+## Running it
+### Client
+Prior to running make sure all dependencies are installed (`mvn install`)
+```bash
+cd client
+mvn --also-make clean compile exec:java  # Or use the IntelliJ run config
+```
 
 ## Team
 
-Victor Roest (vroest)
+Victor Roest (vroest) [Personal Development Plan](doc/personal-development-plans/victor.md)
 
 ![](./pics/victor.jpeg)
 
-Vykintas Civas (vcivas)
+Vykintas Civas (vcivas) [Personal Development Plan](doc/personal-development-plans/Vykintas_personal_plan.md)
 
 ![](./pics/Vykintas.jpeg)
 
-Agata Kordyl (akordyl)
+Agata Kordyl (akordyl) [Personal Development Plan](doc/personal-development-plans/agata_pdp.md)
 
 ![](./pics/agata.JPG)
 
-Alin Dondera (adondera)
+Alin Dondera (adondera) [Personal Development Plan](doc/personal-development-plans/Alin_Plan.md)
 
 ![](./pics/Alin.jpg)
 
-Merthan Tukus
+Merthan Tukus [Personal Development Plan](doc/personal-development-plans/Merthan.md)
 
 ![](./pics/Merthan.jpg)
 
-Elena Ibanez 
+Elena Ibanez [Personal Development Plan](doc/personal-development-plans/elena.md)
+
 ![](./pics/elena.jpeg)
