@@ -27,7 +27,7 @@ public class MenuController {
 
         Stage stage = (Stage) menupane.getScene().getWindow();
         Parent root = FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("window1.fxml")));
+            Objects.requireNonNull(getClass().getClassLoader().getResource("window1 .fxml")));
 
         stage.setTitle("Go Green");
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
