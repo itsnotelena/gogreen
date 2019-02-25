@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 
 
 @Component
-@ComponentScan( {"client"})
+@ComponentScan({"client"})
 public class LoginController implements Initializable {
 
     @FXML
@@ -55,8 +55,13 @@ public class LoginController implements Initializable {
 
     private HelloWorldService helloWorldService;
 
+
+    public LoginController(){
+
+    }
+
     @Autowired
-    LoginController(HelloWorldService helloWorldService) {
+    public LoginController(HelloWorldService helloWorldService) {
         this.helloWorldService = helloWorldService;
     }
 
