@@ -17,10 +17,18 @@ Intellij:
 ## Getting your weekly reports
 
 **Jacoco**:  
-Run `maven install` ([Intellij](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-maven.html#execute_maven_goal)/[Eclipse](http://imgur.com/a/6q7pV))
+Run `mvn install` ([Intellij](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-maven.html#execute_maven_goal)/[Eclipse](http://imgur.com/a/6q7pV))
 
 **Checkstyle**:  
-Run `maven site`
+Run `mvn site`
+
+## Running it
+### Client
+Prior to running make sure all dependencies are installed (`mvn install`)
+```bash
+cd client
+mvn --also-make clean compile exec:java  # Or use the IntelliJ run config
+```
 
 ## Team
 
