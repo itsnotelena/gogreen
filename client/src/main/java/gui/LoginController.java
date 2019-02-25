@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 import java.awt.Checkbox;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import javax.swing.text.html.ImageView;
 
@@ -74,8 +73,7 @@ public class LoginController implements Initializable {
     @FXML
     public void createAccount() throws IOException {
         Stage signup = new Stage();
-        Parent root = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/window2.fxml")));
+        Parent root = FXMLLoader.load(getClass().getResource("/window2.fxml"));
 
         Scene scene = new Scene(root, 600, 500);
         signup.setScene(scene);
@@ -92,8 +90,7 @@ public class LoginController implements Initializable {
     @FXML
     public void resetPass() throws IOException {
         Stage signup = new Stage();
-        Parent root = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/window3.fxml")));
+        Parent root = FXMLLoader.load(getClass().getResource("/window3.fxml"));
 
         Scene scene = new Scene(root, 600, 500);
         signup.setScene(scene);
@@ -109,8 +106,7 @@ public class LoginController implements Initializable {
     public void doLogin() throws IOException {
         Stage stage = (Stage) textfield.getScene().getWindow();
         if (textfield.getText().equals("user") && passwordField.getText().equals("pass")) {
-            Parent root = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/menu.fxml")));
+            Parent root = FXMLLoader.load(getClass().getResource("/menu.fxml"));
 
             stage.setTitle("Go Green");
             Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();

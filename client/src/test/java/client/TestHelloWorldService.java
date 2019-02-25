@@ -39,7 +39,8 @@ public class TestHelloWorldService extends AbstractJUnit4SpringContextTests {
         HelloWorld helloWorld = new HelloWorld(0, "Hello World");
         String json = objectMapper.writeValueAsString(helloWorld);
 
-        mockServer.expect(requestTo("/hello")).andExpect(method(HttpMethod.GET))
+        mockServer.expect(requestTo("/hello"))
+            .andExpect(method(HttpMethod.GET))
             .andRespond(withSuccess(json, MediaType.APPLICATION_JSON));
 
         String result = helloWorldService.getHello();
@@ -50,7 +51,8 @@ public class TestHelloWorldService extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void testWrongPath() {
-        mockServer.expect(requestTo("/hello")).andExpect(method(HttpMethod.GET))
+        mockServer.expect(requestTo("/hello"))
+            .andExpect(method(HttpMethod.GET))
             .andRespond(withNoContent());
 
         String result = helloWorldService.getHello();

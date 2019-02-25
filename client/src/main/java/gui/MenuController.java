@@ -17,7 +17,6 @@ public class MenuController extends AbstractController {
      * Goes back to login screen.
      * @throws IOException Throws exception when login window cannot be found.
      */
-
     public void goBack() throws IOException {
         String fileName = "/window1.fxml";
         goBack(fileName, menupane);

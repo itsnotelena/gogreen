@@ -1,5 +1,7 @@
 package gui;
 
+import static com.sun.javafx.scene.control.skin.Utils.getResource;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -7,9 +9,6 @@ import javafx.scene.control.Control;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.sun.javafx.scene.control.skin.Utils.getResource;
 
 public abstract class AbstractController {
 
@@ -36,8 +35,7 @@ public abstract class AbstractController {
      */
     void goBack(String fileName, Control ctrl) throws IOException {
         Stage stage = (Stage) ctrl.getScene().getWindow();
-        Parent root = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource(fileName)));
+        Parent root = FXMLLoader.load(getClass().getResource(fileName));
 
         stage.setTitle("Go Green");
         // Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
