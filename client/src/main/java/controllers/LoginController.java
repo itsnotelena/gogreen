@@ -65,6 +65,7 @@ public class LoginController implements Initializable {
         this.helloWorldService = helloWorldService;
     }
 
+
     /**
      * Goes to the create account.
      *

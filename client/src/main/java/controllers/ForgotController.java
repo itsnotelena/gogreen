@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static com.sun.javafx.scene.control.skin.Utils.getResource;
@@ -54,7 +53,6 @@ public class ForgotController implements Initializable {
     public void goBack() throws IOException {
         Stage signup = new Stage();
         Parent root = FXMLLoader.load(getResource("/window1.fxml"));
-        
         Scene scene = new Scene(root, 600, 500);
         signup.setScene(scene);
         signup.show();
