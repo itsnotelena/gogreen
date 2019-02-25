@@ -56,7 +56,7 @@ public class LoginController implements Initializable {
     private HelloWorldService helloWorldService;
 
 
-    public LoginController(){
+    public LoginController() {
 
     }
 
@@ -74,7 +74,7 @@ public class LoginController implements Initializable {
     public void createAccount() throws IOException {
         Stage signup = new Stage();
         Parent root = FXMLLoader.load(
-            Objects.requireNonNull(getClass().getResource("/window2.fxml")));
+                Objects.requireNonNull(getClass().getResource("/window2.fxml")));
 
         Scene scene = new Scene(root, 600, 500);
         signup.setScene(scene);
@@ -92,7 +92,7 @@ public class LoginController implements Initializable {
     public void resetPass() throws IOException {
         Stage signup = new Stage();
         Parent root = FXMLLoader.load(
-            Objects.requireNonNull(getClass().getResource("/window3.fxml")));
+                Objects.requireNonNull(getClass().getResource("/window3.fxml")));
 
         Scene scene = new Scene(root, 600, 500);
         signup.setScene(scene);
@@ -109,7 +109,7 @@ public class LoginController implements Initializable {
         Stage stage = (Stage) textfield.getScene().getWindow();
         if (textfield.getText().equals("user") && passwordField.getText().equals("pass")) {
             Parent root = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/menu.fxml")));
+                    Objects.requireNonNull(getClass().getResource("/menu.fxml")));
 
             stage.setTitle("Go Green");
             Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
@@ -121,7 +121,7 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Gets the data from the hello endpoint and sets the text of the button to the response.
+     * Gets the data from the hello endpoint and sets the text of the goBack to the response.
      */
     public void hello() {
         this.helloWorld.setText(helloWorldService.getHello());
