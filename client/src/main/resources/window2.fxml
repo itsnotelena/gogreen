@@ -8,11 +8,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ForgotController">
-    <children>
         <ImageView fitHeight="100.0" fitWidth="172.0" layoutX="250.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
-            <image>
                 <Image url="@images/logo.png" />
-            </image>
         </ImageView>
         <TextField layoutX="209.0" layoutY="120.0" prefHeight="27.0" prefWidth="200.0" promptText="First Name" />
         <TextField layoutX="209.0" layoutY="173.0" prefHeight="27.0" prefWidth="200.0" promptText="Last Name" />
@@ -22,6 +19,5 @@
         <Button layoutX="266.0" layoutY="353.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="86.0" text="Continue" />
         <TextField layoutX="209.0" layoutY="261.0" prefHeight="27.0" prefWidth="200.0" promptText="E-mail" />
         <TextField layoutX="209.0" layoutY="305.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm E-mail" />
-        <Button fx:id="returnButton" layoutX="266.0" layoutY="400.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="86.0" onAction="#goBack" text="Return" />
-    </children>
+        <Button fx:id="returnButton" layoutX="266.0" layoutY="400.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="86.0" onAction="#goTo" text="Return" />
 </AnchorPane>

@@ -17,11 +17,11 @@ public class AbstractController {
      * @param returnNode takes a fxml node as a reference for the stage
      * @throws IOException when the file does not exist
      */
-    protected void goBack(Node returnNode) throws IOException {
+    protected void goTo(Node returnNode, String fileName) throws IOException {
         //Stage signup = new Stage();
         //difference between Window and Stage
         Stage signup = (Stage) returnNode.getScene().getWindow();
-        Parent root = FXMLLoader.load(getResource("/window1.fxml"));
+        Parent root = FXMLLoader.load(getResource("/" + fileName));
 
         Scene scene = new Scene(root, 600, 500);
         signup.setScene(scene);

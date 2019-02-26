@@ -1,5 +1,7 @@
 package controllers;
 
+import abstractcontrollers.AbstractController;
+
 import client.HelloWorldService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
@@ -17,20 +20,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import javax.swing.text.html.ImageView;
-import java.awt.*;
+import java.awt.Checkbox;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import javax.swing.text.html.ImageView;
+
 
 @Component
 @ComponentScan({"client"})
-public class LoginController implements Initializable {
+public class LoginController extends AbstractController implements Initializable {
 
     @FXML
     private Button signup;
+
+    @FXML
+    private Label validpass;
 
     @FXML
     private Button login;
@@ -72,15 +80,8 @@ public class LoginController implements Initializable {
      */
     @FXML
     public void createAccount() throws IOException {
-        Stage signup = (Stage) textfield.getScene().getWindow();
-//        Stage signup = new Stage();
-        Parent root = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/window2.fxml")));
 
-        Scene scene = new Scene(root, 600, 500);
-        signup.setScene(scene);
-        signup.show();
-        signup.setResizable(false);
+        goTo(textfield, "window2.fxml");
 
     }
 
@@ -91,15 +92,7 @@ public class LoginController implements Initializable {
      */
     @FXML
     public void resetPass() throws IOException {
-        Stage signup = (Stage) textfield.getScene().getWindow();
-//        Stage signup = new Stage();
-        Parent root = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/window3.fxml")));
-
-        Scene scene = new Scene(root, 600, 500);
-        signup.setScene(scene);
-        signup.show();
-        signup.setResizable(false);
+        goTo(textfield, "window3.fxml");
     }
 
     /**
@@ -117,7 +110,7 @@ public class LoginController implements Initializable {
             Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
             stage.setScene(new Scene(root, screenSize.getWidth(), screenSize.getHeight() - 20));
         } else {
-            System.out.println("Login Failed");
+            validpass.setText("Invalid Credentials");
         }
     }
 
@@ -125,7 +118,7 @@ public class LoginController implements Initializable {
      * Gets the data from the hello endpoint and sets the text of the goBack to the response.
      */
     public void hello() {
-       this.helloWorld.setText(helloWorldService.getHello());
+        this.helloWorld.setText(helloWorldService.getHello());
     }
 
     @Override
