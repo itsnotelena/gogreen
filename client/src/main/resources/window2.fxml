@@ -22,6 +22,6 @@
         <Button layoutX="266.0" layoutY="353.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="86.0" text="Continue" />
         <TextField layoutX="209.0" layoutY="261.0" prefHeight="27.0" prefWidth="200.0" promptText="E-mail" />
         <TextField layoutX="209.0" layoutY="305.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm E-mail" />
-        <Button layoutX="266.0" layoutY="400.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="86.0" onAction="#goBack" text="Return" />
+        <Button fx:id="returnButton" layoutX="266.0" layoutY="400.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="86.0" onAction="#goBack" text="Return" />
     </children>
 </AnchorPane>

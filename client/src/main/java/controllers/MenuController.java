@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.sun.javafx.scene.control.skin.Utils.getResource;
+
 @Component
 public class MenuController {
     @FXML
@@ -24,11 +26,8 @@ public class MenuController {
      */
     public void logOut() throws IOException {
         System.out.println("Logout called");
-
         Stage stage = (Stage) menupane.getScene().getWindow();
-        Parent root = FXMLLoader.load(
-            Objects.requireNonNull(getClass().getClassLoader().getResource("window1 .fxml")));
-
+        Parent root = FXMLLoader.load(getResource("/window1.fxml"));
         stage.setTitle("Go Green");
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         stage.setScene(new Scene(root, 600, 500));

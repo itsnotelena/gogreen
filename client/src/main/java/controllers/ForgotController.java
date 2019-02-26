@@ -31,7 +31,7 @@ public class ForgotController extends AbstractController implements Initializabl
     private Button send;
 
     @FXML
-    private Button back;
+    private Button returnButton;
 
     @FXML
     private Label label1;
@@ -48,8 +48,10 @@ public class ForgotController extends AbstractController implements Initializabl
      */
 
     public void goBack() throws IOException {
-        goBack(fileName);
+        goBack(returnButton);
     }
+
+
 
 
     @Override
