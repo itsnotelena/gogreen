@@ -46,7 +46,6 @@ public class ForgotController extends AbstractController implements Initializabl
      * Goes back to login screen.
      * @throws IOException Throws exception when login window cannot be found.
      */
-
     public void goBack() throws IOException {
         goBack(returnButton);
     }
