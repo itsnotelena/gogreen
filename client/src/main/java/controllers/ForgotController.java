@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 @ComponentScan({"client"})
 public class ForgotController extends AbstractController implements Initializable {
 
-    private String fileName = "/window1.fxml";
+    private String fileName = "window1.fxml";
 
     @FXML
     private ImageView imageView;
@@ -47,7 +47,7 @@ public class ForgotController extends AbstractController implements Initializabl
      * @throws IOException Throws exception when login window cannot be found.
      */
     public void goTo() throws IOException {
-        goTo(returnButton, "window1.fxml");
+        goTo(returnButton, fileName);
     }
 
 
