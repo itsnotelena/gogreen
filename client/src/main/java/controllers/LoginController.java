@@ -107,8 +107,10 @@ public class LoginController extends AbstractController implements Initializable
                     Objects.requireNonNull(getClass().getResource("/menu.fxml")));
 
             stage.setTitle("Go Green");
+            stage.setScene(new Scene(root, 900, 600));
             Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-            stage.setScene(new Scene(root, screenSize.getWidth(), screenSize.getHeight() - 20));
+            stage.setX((screenSize.getWidth() - stage.getWidth()) / 2);
+            stage.setY((screenSize.getHeight() - stage.getHeight()) / 2);
         } else {
             validpass.setText("Invalid Credentials");
         }

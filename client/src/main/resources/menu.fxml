@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
+<TabPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
   <tabs>
     <Tab text="Main">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button layoutX="1410.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOut" prefHeight="38.0" prefWidth="106.0" text="Log Out" />
-                  <Label fx:id="label" layoutX="700.0" layoutY="23.0" text="Main Page">
+                  <Button layoutX="779.0" layoutY="32.0" mnemonicParsing="false" onAction="#logOut" prefHeight="38.0" prefWidth="106.0" text="Log Out" />
+                  <Label fx:id="label" layoutX="400.0" layoutY="36.0" text="Main Page">
                      <font>
                         <Font size="21.0" />
                      </font>
