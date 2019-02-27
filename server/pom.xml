@@ -3,6 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>project-server</artifactId>
     <packaging>jar</packaging>
+    <properties>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+    </properties>
     <parent>
         <groupId>group-gogreen</groupId>
         <artifactId>project-root</artifactId>
@@ -44,6 +47,7 @@
     </dependencies>
 
     <build>
+        <finalName>${finalName}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
