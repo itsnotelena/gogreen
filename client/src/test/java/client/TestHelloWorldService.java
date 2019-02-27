@@ -18,7 +18,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withNoContent;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-@ContextConfiguration(locations = {"classpath:/applicationContext-test.xml"})
+@ContextConfiguration(locations = {"classpath:applicationContext-test.xml"})
 public class TestHelloWorldService extends AbstractJUnit4SpringContextTests {
     @Autowired
     private HelloWorldService helloWorldService;
