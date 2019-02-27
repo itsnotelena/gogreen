@@ -1,4 +1,4 @@
-image: maven:latest
+image: maven:jdk-11
 
 variables:
   MAVEN_CLI_OPTS: "--batch-mode"
@@ -20,6 +20,8 @@ build:
 
 test:
   stage: test
+  services:
+    - mariadb
   coverage: '/\d+.\d+ \% covered/'
   script:
     - mvn $MAVEN_CLI_OPTS clean install
