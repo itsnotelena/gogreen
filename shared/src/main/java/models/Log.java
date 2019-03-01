@@ -28,7 +28,8 @@ public class Log implements Serializable {
     @ManyToOne
     private User user;
 
-    //add action class here
+    @ManyToOne
+    private Action action;
 
     @Column
     private Date date;
