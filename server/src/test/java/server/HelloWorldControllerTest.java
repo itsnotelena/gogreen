@@ -47,7 +47,8 @@ public class HelloWorldControllerTest {
         String output = this.mvc.perform(
                 post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\": \"" + username + "\"}"))
+                    .content("{\"username\": \"" + username + "\"}")
+        )
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
