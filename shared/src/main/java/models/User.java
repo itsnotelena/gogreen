@@ -2,7 +2,9 @@ package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -16,6 +18,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
 
@@ -28,11 +32,5 @@ public class User implements Serializable {
     @JsonIgnore
     private String password;
 
-    // For jackson
-    private User() {}
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 }
