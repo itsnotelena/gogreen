@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +25,7 @@ public class Log implements Serializable {
 
     private @Id @GeneratedValue long id;
 
-    @OneToMany
+    @ManyToOne
     private User user;
 
     //add action class here

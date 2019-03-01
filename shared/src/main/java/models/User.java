@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,5 +36,5 @@ public class User implements Serializable {
     private String password;
 
     @ManyToMany
-    private User[] friends;
+    private Set<User> friends;
 }
