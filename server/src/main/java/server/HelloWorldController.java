@@ -1,8 +1,9 @@
 package server;
 
+import lombok.AllArgsConstructor;
 import models.HelloWorld;
 import models.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,15 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
+@AllArgsConstructor
 public class HelloWorldController {
 
     private static final AtomicLong counter = new AtomicLong();
 
     private final UserRepository repository;
 
-    @Autowired
-    public HelloWorldController(UserRepository repository) {
-        this.repository = repository;
+    private static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    private static boolean checkPassword(String candidate, String hashed) {
+        return BCrypt.checkpw(candidate, hashed);
     }
 
     /**
@@ -28,8 +33,9 @@ public class HelloWorldController {
      */
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public User createAndReturnUser(@RequestBody User user) {
-        // User user2 = new User("user", "pass");
-        repository.save(user);
+        user.setPassword(hashPassword(user.getPassword())); // Hash the password
+        repository.save(user); // Save the user to the database
+        user.setPassword(""); // Don't leak the (even the hashed) password
         return user;
     }
 
