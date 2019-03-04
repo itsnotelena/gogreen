@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 import static com.sun.javafx.scene.control.skin.Utils.getResource;
 
 @Component
-public class MenuController extends MainController  {
+public class MenuController extends MainController {
     @FXML
     private TabPane menupane;
 
@@ -53,38 +53,5 @@ public class MenuController extends MainController  {
         /* stage.show(); */
     }
 
-//    @FXML
-//    private void sideBar() throws IOException {
-//        myPane = FXMLLoader.load(getClass().getResource( "/toolbar.fxml" ) );
-//
-//        drawer.setSidePane(myPane);
-//
-//        HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-//        task.setRate( -1 );
-//
-//        hamburger.addEventHandler( MouseEvent.MOUSE_CLICKED, (event) -> {
-//                task.setRate(task.getRate() * -1 );
-//                task.play();
-//
-//              if (drawer.isOpened()) {
-//                   drawer.close();
-//                } else {
-//                    drawer.open();
-//        } });
-//              drawer.setOnDrawerOpened(event -> {
-//                  AnchorPane.setRightAnchor(drawer, 0.0);
-//                  AnchorPane.setLeftAnchor(drawer, 0.0);
-//                  AnchorPane.setTopAnchor(drawer, 0.0);
-//                  AnchorPane.setBottomAnchor(drawer, 0.0);
-//              });
-//
-//              drawer.setOnDrawerClosed(event ->
-//             {
-//                  AnchorPane.clearConstraints(drawer);
-//                  AnchorPane.setLeftAnchor(drawer, -150.0);
-//                  AnchorPane.setTopAnchor(drawer, 0.0);
-//                  AnchorPane.setBottomAnchor(drawer, 0.0);
-//             });
-//    }
 
-    }
+}
