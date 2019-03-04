@@ -91,16 +91,6 @@ public class MainController implements Initializable {
     private JFXHamburger hamburger;
 
 
-//    public void toolBar() throws IOException {
-//        myPane = FXMLLoader.load(getClass().getResource("/toolbar.fxml"));
-//        drawer.setSidePane(myPane);
-//        drawer.open();
-//        drawer.close();
-//
-//
-//
-//    }
-
     @Override
     public void initialize(URL url, ResourceBundle rs) {
         try {
@@ -128,22 +118,6 @@ public class MainController implements Initializable {
         }catch(IOException e) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-        drawer.setOnDrawerOpened(event -> {
-            AnchorPane.setRightAnchor(drawer, 0.0);
-            AnchorPane.setLeftAnchor(drawer, 0.0);
-            AnchorPane.setTopAnchor(drawer, 0.0);
-            AnchorPane.setBottomAnchor(drawer, 0.0);
-        });
-
-        drawer.setOnDrawerClosed(event -> {
-            AnchorPane.clearConstraints(drawer);
-            AnchorPane.setLeftAnchor(drawer, -1000.0);
-            AnchorPane.setTopAnchor(drawer, 0.0);
-            AnchorPane.setBottomAnchor(drawer, 0.0);
-        });
-
 
 
         vegLabel.setVisible(false);
