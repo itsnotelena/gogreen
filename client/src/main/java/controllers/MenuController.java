@@ -48,7 +48,7 @@ public class MenuController extends MainController {
         System.out.println("Logout called");
         Stage stage = (Stage) menupane.getScene().getWindow();
         Parent root = FXMLLoader.load(getResource("/window1.fxml"));
-        stage.setTitle("Go Green");
+        stage.setTitle("Go Green.");
         stage.setScene(new Scene(root, 600, 500));
         /* stage.show(); */
     }
