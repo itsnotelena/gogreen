@@ -1,7 +1,6 @@
 package server;
 
 import lombok.AllArgsConstructor;
-import models.HelloWorld;
 import models.User;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @AllArgsConstructor
-public class HelloWorldController {
+public class UserController {
 
     private static final AtomicLong counter = new AtomicLong();
 
@@ -37,10 +36,5 @@ public class HelloWorldController {
         repository.save(user); // Save the user to the database
         user.setPassword(""); // Don't leak the (even the hashed) password
         return user;
-    }
-
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public HelloWorld hello() {
-        return new HelloWorld(counter.getAndIncrement(), "Hello World!");
     }
 }

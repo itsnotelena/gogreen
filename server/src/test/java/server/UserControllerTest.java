@@ -1,7 +1,6 @@
 package server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.HelloWorld;
 import models.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,24 +19,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class HelloWorldControllerTest {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
-    @Test
-    public void getRequestTest() throws Exception {
-        String json = this.mvc.perform(
-            get("/hello"))
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
-
-        HelloWorld convertJson = new ObjectMapper().readValue(json, HelloWorld.class);
-        Assert.assertEquals(convertJson, new HelloWorld(0, "Hello World!"));
-    }
-
     @Test
     public void createUserTest() throws Exception {
         User testUser = new User();

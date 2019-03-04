@@ -33,6 +33,9 @@ public class User implements Serializable {
     @Column
     private String password;
 
+    @Column
+    private Boolean hasSolarPanels;
+
     @ManyToMany
     private Set<User> friends;
 }

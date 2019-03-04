@@ -1,6 +1,6 @@
 package gui;
 
-import client.HelloWorldService;
+import client.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -52,7 +52,7 @@ public class LoginController implements Initializable {
     @FXML
     private Button helloWorld;
 
-    private HelloWorldService helloWorldService;
+    private UserService userService;
 
 
     public LoginController() {
@@ -60,8 +60,8 @@ public class LoginController implements Initializable {
     }
 
     @Autowired
-    public LoginController(HelloWorldService helloWorldService) {
-        this.helloWorldService = helloWorldService;
+    public LoginController(UserService userService) {
+        this.userService = userService;
     }
 
 
@@ -122,7 +122,7 @@ public class LoginController implements Initializable {
      * Gets the data from the hello endpoint and sets the text of the goBack to the response.
      */
     public void hello() {
-        this.helloWorld.setText(helloWorldService.getHello());
+        this.helloWorld.setText(userService.getHello());
     }
 
     @Override

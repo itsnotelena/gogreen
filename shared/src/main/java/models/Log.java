@@ -5,14 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "log")
@@ -20,7 +23,6 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-
 public class Log implements Serializable {
 
     private @Id @GeneratedValue long id;
@@ -28,10 +30,9 @@ public class Log implements Serializable {
     @ManyToOne
     private User user;
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
     private Action action;
 
     @Column
     private Date date;
-
 }
