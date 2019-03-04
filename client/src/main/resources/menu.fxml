@@ -27,7 +27,7 @@
                               <JFXButton fx:id="transbtn" layoutX="309.0" layoutY="256.0" styleClass="animated-option-button-main" text="Transport" />
                               <JFXButton fx:id="foodbtn" layoutX="418.0" layoutY="140.0" styleClass="animated-option-button-main" text="Food" />
                               <JFXButton fx:id="energybtn" layoutX="532.0" layoutY="256.0" styleClass="animated-option-button-main" text="Energy" />
-                              <JFXButton fx:id="vegbtn" layoutX="418.0" layoutY="108.0" styleClass="animated-option-button-sub" text="Vegetarian&#10;    Meals">
+                              <JFXButton fx:id="vegbtn" layoutX="418.0" layoutY="108.0" styleClass="animated-option-button-sub" text="Vegetarian&#10;    Meal">
                                  <font>
                                     <Font size="10.0" />
                                  </font>
