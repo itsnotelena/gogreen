@@ -13,13 +13,85 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button layoutX="779.0" layoutY="32.0" mnemonicParsing="false" onAction="#logOut" prefHeight="38.0" prefWidth="106.0" text="Log Out" />
                   <Label fx:id="label" layoutX="400.0" layoutY="36.0" text="Main Page">
                      <font>
                         <Font size="21.0" />
                      </font>
                   </Label>
                </children></AnchorPane>
+                <AnchorPane fx:id="mainPane" layoutX="-29.0" prefHeight="478.0" prefWidth="948.0">
+                           <children>
+                              <JFXButton fx:id="transbtn" layoutX="309.0" layoutY="256.0" styleClass="animated-option-button-main" text="Transport" />
+                              <JFXButton fx:id="foodbtn" layoutX="418.0" layoutY="140.0" styleClass="animated-option-button-main" text="Food" />
+                              <JFXButton fx:id="energybtn" layoutX="532.0" layoutY="256.0" styleClass="animated-option-button-main" text="Energy" />
+                              <JFXButton fx:id="vegbtn" layoutX="418.0" layoutY="108.0" styleClass="animated-option-button-sub" text="Vegetarian&#10;    Meal">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="localbtn" layoutX="418.0" layoutY="71.0" styleClass="animated-option-button-sub" text=" Local&#10;Produce">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="bikebtn" layoutX="283.0" layoutY="288.0" styleClass="animated-option-button-sub" text="Bike Ride">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="publicbtn" layoutX="257.0" layoutY="326.0" styleClass="animated-option-button-sub" text="  Public &#10;Transport">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="tempbtn" layoutX="558.0" layoutY="288.0" styleClass="animated-option-button-sub" text="  Lowering &#10;Temperature">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="solarbtn" layoutX="584.0" layoutY="326.0" styleClass="animated-option-button-sub" text="Solar Panels">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXNodesList fx:id="foodList" layoutX="443.0" layoutY="152.0" />
+                              <JFXNodesList fx:id="transList" layoutX="334.0" layoutY="268.0" />
+                              <JFXNodesList fx:id="energyList" layoutX="558.0" layoutY="268.0" />
+                              <Label fx:id="vegLabel" layoutX="525.0" layoutY="105.0" prefHeight="24.0" prefWidth="66.0" text="Click to add a&#10;vegetarian meal!">
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="localLabel" layoutX="524.0" layoutY="62.0" prefHeight="32.0" prefWidth="71.0" text="Click to add buying&#10;local produce!">
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="bikeLabel" layoutX="194.0" layoutY="353.0" prefHeight="37.0" prefWidth="75.0" text="Click to add taking &#10;a bike ride instead&#10;         of car">
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="publicLabel" layoutX="145.0" layoutY="410.0" prefHeight="24.0" prefWidth="66.0" text="Click to add taking&#10;public transport">
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="tempLabel" layoutX="706.0" layoutY="341.0" prefHeight="37.0" prefWidth="75.0" text="Click to add lowering&#10;the temperature of&#10;your house">
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="solarLabel" layoutX="750.0" layoutY="391.0" prefHeight="37.0" prefWidth="75.0" text="Click to add using&#10;solar panels">
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
+                              </Label>
+                              <JFXButton layoutX="833.0" layoutY="7.0" onAction="#logOut" prefHeight="33.0" prefWidth="85.0" style="-fx-background-color: #2196F3;" text="Log Out" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
       </content>
     </Tab>
       <Tab text="Today">
