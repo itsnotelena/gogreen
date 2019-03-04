@@ -1,4 +1,4 @@
-package server;
+package server.security;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,4 +63,11 @@ public class SecurityTest {
         Assert.assertNotNull(login);
         Assert.assertTrue(login.startsWith("Bearer "));
     }
+
+    @Test
+    public void testConstants() {
+        SecurityConstants constants = new SecurityConstants();
+        Assert.assertNotNull(constants);
+    }
+
 }
