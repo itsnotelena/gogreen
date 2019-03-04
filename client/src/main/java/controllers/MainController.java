@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -21,10 +20,7 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
     @FXML
-    private TabPane menupane;
-
-    @FXML
-    private AnchorPane mainPane;
+    private AnchorPane menupane;
 
     @FXML
     private Pane myPane;
@@ -91,22 +87,12 @@ public class MainController implements Initializable {
     private JFXHamburger hamburger;
 
 
-//    public void toolBar() throws IOException {
-//        myPane = FXMLLoader.load(getClass().getResource("/toolbar.fxml"));
-//        drawer.setSidePane(myPane);
-//        drawer.open();
-//        drawer.close();
-//
-//
-//
-//    }
-
     @Override
     public void initialize(URL url, ResourceBundle rs) {
         try {
             myPane = FXMLLoader.load(getClass().getResource("/toolbar.fxml"));
-            drawer.close();
             drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(190);
             //drawer.setOverLayVisible(true);
             drawer.setResizableOnDrag(true);
             HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
@@ -115,34 +101,19 @@ public class MainController implements Initializable {
 
             hamburger.addEventHandler( MouseEvent.MOUSE_CLICKED, event -> {
 
-                    task.setRate(task.getRate() * -1);
-                    task.play();
+                task.setRate(task.getRate() * -1);
+                task.play();
 
-                    if (drawer.isOpened()) {
-                        drawer.close();
-                    } else {
-                        drawer.open();
-                    }
+                if (drawer.isOpened()) {
+                    drawer.close();
+                } else {
+                    drawer.open();
+                }
 
-                });
-        }catch(IOException e) {
+            });
+        } catch (IOException e) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-        drawer.setOnDrawerOpened(event -> {
-            AnchorPane.setRightAnchor(drawer, 0.0);
-            AnchorPane.setLeftAnchor(drawer, 0.0);
-            AnchorPane.setTopAnchor(drawer, 0.0);
-            AnchorPane.setBottomAnchor(drawer, 0.0);
-        });
-
-        drawer.setOnDrawerClosed(event -> {
-            AnchorPane.clearConstraints(drawer);
-            AnchorPane.setLeftAnchor(drawer, -1000.0);
-            AnchorPane.setTopAnchor(drawer, 0.0);
-            AnchorPane.setBottomAnchor(drawer, 0.0);
-        });
 
 
 

@@ -33,8 +33,22 @@ public class ToolBarController extends AbstractController {
      * Goes back to login screen.
      * @throws IOException Throws exception when login window cannot be found.
      */
-    public void goTo() throws IOException {
+    public void goToPersonal() throws IOException {
         goTo(myPane, "personalpage.fxml");
+    }
+
+    /**
+     * Goes back to Main Page.
+     * @throws IOException Throws Exception when main page can't be found.
+     */
+    public void goToMain() throws IOException {
+        Stage newstage = (Stage) myPane.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/menu.fxml"));
+
+        newstage.setScene(new Scene(root, 900, 600));
+        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+        newstage.setX((screenSize.getWidth() - newstage.getWidth()) / 2);
+        newstage.setY((screenSize.getHeight() - newstage.getHeight()) / 2);
     }
 
     /**

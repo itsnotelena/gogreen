@@ -5,26 +5,15 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXNodesList?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
-  <tabs>
-    <Tab text="Main">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@styles/main.css">
-               <children>
-                  <Label fx:id="label1" layoutX="400.0" layoutY="36.0" text="Main Page">
+<AnchorPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@styles/main.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
+                  <Label layoutX="406.0" layoutY="14.0" text="Main Page">
                      <font>
                         <Font size="21.0" />
                      </font>
                   </Label>
-                  <AnchorPane layoutY="67.0" prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <AnchorPane fx:id="mainPane" layoutX="-29.0" prefHeight="478.0" prefWidth="948.0">
-                           <children>
                               <JFXButton fx:id="transbtn" layoutX="309.0" layoutY="256.0" styleClass="animated-option-button-main" text="Transport" />
                               <JFXButton fx:id="foodbtn" layoutX="418.0" layoutY="140.0" styleClass="animated-option-button-main" text="Food" />
                               <JFXButton fx:id="energybtn" layoutX="532.0" layoutY="256.0" styleClass="animated-option-button-main" text="Energy" />
@@ -91,16 +80,7 @@
                                     <Font size="8.0" />
                                  </font>
                               </Label>
-                              <JFXButton layoutX="833.0" layoutY="7.0" onAction="#logOut" prefHeight="33.0" prefWidth="85.0" style="-fx-background-color: #2196F3;" text="Log Out" />
-                              <JFXDrawer fx:id="drawer" layoutX="66.0" layoutY="-71.0"  prefHeight="571.0" prefWidth="210.0" />
+                              <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
 
-                                             </children>
-                        </AnchorPane>
-                     </children>
-                  </AnchorPane>
-                  <JFXHamburger fx:id="hamburger" layoutX="846.0" layoutY="26.0" />
-               </children></AnchorPane>
-      </content>
-    </Tab>
-  </tabs>
-</TabPane>
+    <JFXHamburger fx:id="hamburger" layoutX="844.0" layoutY="20.0" prefHeight="31.0" prefWidth="41.0" />
+</AnchorPane>
