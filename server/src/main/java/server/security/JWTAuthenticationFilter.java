@@ -7,7 +7,6 @@ import static server.security.SecurityConstants.SECRET;
 import static server.security.SecurityConstants.TOKEN_PREFIX;
 
 import com.auth0.jwt.JWT;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
