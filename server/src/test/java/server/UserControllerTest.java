@@ -21,46 +21,46 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
-    @Test
-    public void createUserTest() throws Exception {
-        User testUser = new User();
-        String username = "test";
-        testUser.setUsername(username);
-
-        String output = this.mvc.perform(
-                post("/user/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
-                    .content("{\"username\": \"" + username + "\"}")
-        )
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        User parsedOutput = new ObjectMapper().readValue(output, User.class);
-
-        Assert.assertEquals(parsedOutput.getUsername(), username);
-    }
-
-    /**
-     * Makes sure we don't return any password data
-     */
-    @Test
-    public void emptyPassTest() throws Exception {
-        String output = this.mvc.perform(
-            post("/user/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"password\": \"test\"}")
-        )
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
-
-        User parsedOutput = new ObjectMapper().readValue(output, User.class);
-
-        Assert.assertEquals(parsedOutput.getPassword(), "");
-    }
+//    @Autowired
+//    private MockMvc mvc;
+//    @Test
+//    public void createUserTest() throws Exception {
+//        User testUser = new User();
+//        String username = "test";
+//        testUser.setUsername(username);
+//
+//        String output = this.mvc.perform(
+//                post("/user/signup")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                    .content("{\"username\": \"" + username + "\"}")
+//        )
+//                .andExpect(status().isOk())
+//                .andReturn()
+//                .getResponse()
+//                .getContentAsString();
+//
+//        User parsedOutput = new ObjectMapper().readValue(output, User.class);
+//
+//        Assert.assertEquals(parsedOutput.getUsername(), username);
+//    }
+//
+//    /**
+//     * Makes sure we don't return any password data
+//     */
+//    @Test
+//    public void emptyPassTest() throws Exception {
+//        String output = this.mvc.perform(
+//            post("/user/signup")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{\"password\": \"test\"}")
+//        )
+//            .andExpect(status().isOk())
+//            .andReturn()
+//            .getResponse()
+//            .getContentAsString();
+//
+//        User parsedOutput = new ObjectMapper().readValue(output, User.class);
+//
+//        Assert.assertEquals(parsedOutput.getPassword(), "");
+//    }
 }

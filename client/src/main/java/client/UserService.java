@@ -14,11 +14,11 @@ public class UserService {
         this.restTemplate = restTemplate;
     }
 
-    public void CreateAccount() {
+    public void createAccount() {
         // Create Account
     }
 
-    public void Login() {
+    public void login() {
         // Login
     }
 }

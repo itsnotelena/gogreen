@@ -1,5 +1,11 @@
 package server.security;
 
+import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+import static server.security.SecurityConstants.EXPIRATION_TIME;
+import static server.security.SecurityConstants.HEADER_STRING;
+import static server.security.SecurityConstants.SECRET;
+import static server.security.SecurityConstants.TOKEN_PREFIX;
+
 import com.auth0.jwt.JWT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,12 +25,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-import static server.security.SecurityConstants.EXPIRATION_TIME;
-import static server.security.SecurityConstants.HEADER_STRING;
-import static server.security.SecurityConstants.TOKEN_PREFIX;
-import static server.security.SecurityConstants.SECRET;
-
 @AllArgsConstructor
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
@@ -34,7 +34,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throws AuthenticationException {
 
         try {
-            shared.models.User creds = new ObjectMapper().readValue(req.getInputStream(), shared.models.User.class);
+            shared.models.User creds = new ObjectMapper()
+                    .readValue(req.getInputStream(), shared.models.User.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

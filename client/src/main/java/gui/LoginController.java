@@ -122,7 +122,7 @@ public class LoginController implements Initializable {
      * Gets the data from the hello endpoint and sets the text of the goBack to the response.
      */
     public void hello() {
-        this.helloWorld.setText(userService.getHello());
+        this.helloWorld.setText("Hello World");
     }
 
     @Override

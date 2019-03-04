@@ -1,5 +1,7 @@
 package server.security;
 
+import static server.security.SecurityConstants.SIGN_UP_URL;
+
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,9 +15,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import server.services.UserDetailsServiceImpl;
-
-import static server.security.SecurityConstants.SIGN_UP_URL;
-
 
 @EnableWebSecurity
 @AllArgsConstructor
