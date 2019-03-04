@@ -1,7 +1,5 @@
 package abstractcontrollers;
 
-import static com.sun.javafx.scene.control.skin.Utils.getResource;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -20,12 +18,14 @@ public class AbstractController {
     protected void goTo(Node returnNode, String fileName) throws IOException {
         //Stage signup = new Stage();
         //difference between Window and Stage
-        Stage signup = (Stage) returnNode.getScene().getWindow();
-        Parent root = FXMLLoader.load(getResource("/" + fileName));
+        Stage signup = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/" + fileName));
 
         Scene scene = new Scene(root, 600, 500);
         signup.setScene(scene);
         signup.show();
         signup.setResizable(false);
     }
+
+
 }
