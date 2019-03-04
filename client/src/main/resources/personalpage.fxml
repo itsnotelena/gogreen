@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PersonalPageController">
+    <children>
+        <ImageView fitHeight="66.0" fitWidth="178.0" layoutX="290.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+            <image>
+                <Image url="@images/logo.png" />
+            </image>
+        </ImageView>
+        <JFXButton layoutX="234.0" layoutY="136.0"  prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="#MyGoals" fx:id="mygoals"/>
+        <JFXButton layoutX="234.0" layoutY="210.0"  prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="MyProgress" fx:id="myprogress" />
+        <JFXButton layoutX="234.0" layoutY="287.0"  prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="Connect with Friends" fx:id="connect"/>
+        <JFXButton layoutX="418.0" layoutY="356.0" onAction="#back" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: C7EA46;" text="Return to main menu" fx:id="returnMain" />
+        <JFXHamburger fx:id="cheeseburger" layoutX="535.0" layoutY="23.0" onMouseClicked="#sideBar" onMousePressed="#sideBar" />
+        <JFXDrawer fx:id="drawer" prefHeight="400.0" prefWidth="220.0" />
+    </children>
+</Pane>
