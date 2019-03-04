@@ -1,6 +1,5 @@
-package controllers;
+package gui;
 
-import abstractcontrollers.AbstractController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -18,8 +17,6 @@ import java.util.ResourceBundle;
 @Component
 @ComponentScan({"client"})
 public class ForgotController extends AbstractController implements Initializable {
-
-    private String fileName = "/window1.fxml";
 
     @FXML
     private ImageView imageView;
@@ -48,6 +45,7 @@ public class ForgotController extends AbstractController implements Initializabl
      */
 
     public void goBack() throws IOException {
+        String fileName = "/window1.fxml";
         goBack(fileName);
     }
 

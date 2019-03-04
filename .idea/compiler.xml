@@ -9,7 +9,6 @@
         <module name="project-client" />
         <module name="project-server" />
         <module name="project-shared" />
-        <module name="tests" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -5,11 +5,12 @@ import models.HelloWorld;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,8 +19,9 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withNoContent;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-@ContextConfiguration(locations = {"classpath:/applicationContext-test.xml"})
-public class TestHelloWorldService extends AbstractJUnit4SpringContextTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {AppConfig.class})
+public class TestHelloWorldService {
     @Autowired
     private HelloWorldService helloWorldService;
 
@@ -27,6 +29,8 @@ public class TestHelloWorldService extends AbstractJUnit4SpringContextTests {
     private RestTemplate restTemplate;
 
     private MockRestServiceServer mockServer;
+
+    private String url = AppConfig.getRootUri();
 
     @Before
     public void setUp() {
@@ -39,7 +43,8 @@ public class TestHelloWorldService extends AbstractJUnit4SpringContextTests {
         HelloWorld helloWorld = new HelloWorld(0, "Hello World");
         String json = objectMapper.writeValueAsString(helloWorld);
 
-        mockServer.expect(requestTo("http://localhost:8080/hello")).andExpect(method(HttpMethod.GET))
+        mockServer.expect(requestTo(url + "/hello"))
+            .andExpect(method(HttpMethod.GET))
             .andRespond(withSuccess(json, MediaType.APPLICATION_JSON));
 
         String result = helloWorldService.getHello();
@@ -49,8 +54,9 @@ public class TestHelloWorldService extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testWrongPath() throws Exception{
-        mockServer.expect(requestTo("http://localhost:8080/hello")).andExpect(method(HttpMethod.GET))
+    public void testWrongPath() {
+        mockServer.expect(requestTo(url + "/hello"))
+            .andExpect(method(HttpMethod.GET))
             .andRespond(withNoContent());
 
         String result = helloWorldService.getHello();
