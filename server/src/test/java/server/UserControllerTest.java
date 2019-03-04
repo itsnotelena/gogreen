@@ -1,7 +1,7 @@
 package server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.User;
+import shared.models.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +30,7 @@ public class UserControllerTest {
         testUser.setUsername(username);
 
         String output = this.mvc.perform(
-                post("/user")
+                post("/user/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                     .content("{\"username\": \"" + username + "\"}")
         )
@@ -50,7 +50,7 @@ public class UserControllerTest {
     @Test
     public void emptyPassTest() throws Exception {
         String output = this.mvc.perform(
-            post("/user")
+            post("/user/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"password\": \"test\"}")
         )

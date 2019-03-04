@@ -1,7 +1,6 @@
-package server;
+package server.repositories;
 
-import models.Log;
-import models.User;
+import shared.models.Log;
 import org.springframework.data.repository.CrudRepository;
 
 public interface LogRepository extends CrudRepository<Log, Long> {

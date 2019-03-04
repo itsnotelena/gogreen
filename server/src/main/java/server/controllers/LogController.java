@@ -1,11 +1,13 @@
-package server;
+package server.controllers;
 
 import lombok.AllArgsConstructor;
-import models.Log;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import server.repositories.LogRepository;
+
+import shared.models.Log;
 
 import java.util.Date;
 
