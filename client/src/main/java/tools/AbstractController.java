@@ -34,7 +34,7 @@ public class AbstractController {
 
     /**
      * The method goes back to a provided window (fit to screen version).
-     * @param returnNode fxml node as a reference for the stage.
+     * @param returnNode takes fxml node as a reference for the stage.
      * @param fileName of where to go.
      * @throws IOException when file does not exist.
      */
