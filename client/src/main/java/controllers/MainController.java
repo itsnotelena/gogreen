@@ -1,5 +1,8 @@
 package controllers;
 
+import static tools.SceneNames.DRAWER_SIZE;
+import static tools.SceneNames.TOOLBAR;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
@@ -90,9 +93,9 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rs) {
         try {
-            myPane = FXMLLoader.load(getClass().getResource("/toolbar.fxml"));
+            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
             drawer.setSidePane(myPane);
-            drawer.setDefaultDrawerSize(190);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
             //drawer.setOverLayVisible(true);
             drawer.setResizableOnDrag(true);
             HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);

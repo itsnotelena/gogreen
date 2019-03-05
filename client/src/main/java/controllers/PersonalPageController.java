@@ -1,6 +1,5 @@
 package controllers;
 
-import abstractcontrollers.AbstractController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
@@ -10,6 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+
+import tools.AbstractController;
+import static tools.SceneNames.DRAWER_SIZE;
+import static tools.SceneNames.TOOLBAR;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,7 +43,7 @@ public class PersonalPageController extends AbstractController implements Initia
 
     @FXML
     private void sideBar() throws IOException {
-        myPane = FXMLLoader.load(getClass().getResource( "/toolbar.fxml" ) );
+        myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ) );
         drawer.setSidePane(myPane);
 
 
@@ -63,7 +66,7 @@ public class PersonalPageController extends AbstractController implements Initia
             }
         });
 
-        drawer.setDefaultDrawerSize(190);
+        drawer.setDefaultDrawerSize(DRAWER_SIZE);
     }
 }
 

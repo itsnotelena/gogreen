@@ -5,15 +5,15 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXNodesList?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@styles/main.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
-                  <Label layoutX="406.0" layoutY="14.0" text="Main Page">
-                     <font>
-                        <Font size="21.0" />
-                     </font>
-                  </Label>
+    <ImageView fitHeight="90.0" fitWidth="102.0" layoutX="401.0"  pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+        <Image url="@images/logo.png" />
+    </ImageView>
                               <JFXButton fx:id="transbtn" layoutX="309.0" layoutY="256.0" styleClass="animated-option-button-main" text="Transport" />
                               <JFXButton fx:id="foodbtn" layoutX="418.0" layoutY="140.0" styleClass="animated-option-button-main" text="Food" />
                               <JFXButton fx:id="energybtn" layoutX="532.0" layoutY="256.0" styleClass="animated-option-button-main" text="Energy" />
@@ -47,37 +47,37 @@
                                     <Font size="10.0" />
                                  </font>
                               </JFXButton>
-                              <JFXNodesList fx:id="foodList" layoutX="443.0" layoutY="152.0" />
-                              <JFXNodesList fx:id="transList" layoutX="334.0" layoutY="268.0" />
-                              <JFXNodesList fx:id="energyList" layoutX="558.0" layoutY="268.0" />
-                              <Label fx:id="vegLabel" layoutX="525.0" layoutY="105.0" prefHeight="24.0" prefWidth="66.0" text="Click to add a&#10;vegetarian meal!">
+                              <JFXNodesList fx:id="foodList" layoutX="413.0" layoutY="202.0" />
+                              <JFXNodesList fx:id="transList" layoutX="304.0" layoutY="318.0" />
+                              <JFXNodesList fx:id="energyList" layoutX="522.0" layoutY="318.0" />
+                              <Label fx:id="vegLabel" layoutX="495.0" layoutY="155.0" prefHeight="31.0" prefWidth="100.0" text="Click to add a&#10;vegetarian meal!">
                                  <font>
-                                    <Font size="8.0" />
+                                    <Font size="10.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="localLabel" layoutX="524.0" layoutY="62.0" prefHeight="32.0" prefWidth="71.0" text="Click to add buying&#10;local produce!">
+                              <Label fx:id="localLabel" layoutX="495.0" layoutY="102.0" prefHeight="31.0" prefWidth="100.0" text="Click to add buying&#10;local produce!">
                                  <font>
-                                    <Font size="8.0" />
+                                    <Font size="10.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="bikeLabel" layoutX="194.0" layoutY="353.0" prefHeight="37.0" prefWidth="75.0" text="Click to add taking &#10;a bike ride instead&#10;         of car">
+                              <Label fx:id="bikeLabel" layoutX="131.0" layoutY="391.0" prefHeight="46.0" prefWidth="113.0" text="Click to add taking &#10;a bike ride instead&#10;         of car">
                                  <font>
-                                    <Font size="8.0" />
+                                    <Font size="10.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="publicLabel" layoutX="145.0" layoutY="410.0" prefHeight="24.0" prefWidth="66.0" text="Click to add taking&#10;public transport">
+                              <Label fx:id="publicLabel" layoutX="81.0" layoutY="460.0" prefHeight="46.0" prefWidth="100.0" text="Click to add taking&#10;public transport">
                                  <font>
-                                    <Font size="8.0" />
+                                    <Font size="10.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="tempLabel" layoutX="706.0" layoutY="341.0" prefHeight="37.0" prefWidth="75.0" text="Click to add lowering&#10;the temperature of&#10;your house">
+                              <Label fx:id="tempLabel" layoutX="666.0" layoutY="391.0" prefHeight="46.0" prefWidth="127.0" text="Click to add lowering&#10;the temperature of&#10;your house">
                                  <font>
-                                    <Font size="8.0" />
+                                    <Font size="10.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="solarLabel" layoutX="750.0" layoutY="391.0" prefHeight="37.0" prefWidth="75.0" text="Click to add using&#10;solar panels">
+                              <Label fx:id="solarLabel" layoutX="720.0" layoutY="441.0" prefHeight="46.0" prefWidth="114.0" text="Click to add using&#10;solar panels">
                                  <font>
-                                    <Font size="8.0" />
+                                    <Font size="10.0" />
                                  </font>
                               </Label>
                               <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />

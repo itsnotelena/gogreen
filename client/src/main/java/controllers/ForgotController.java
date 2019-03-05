@@ -1,6 +1,5 @@
 package controllers;
 
-import abstractcontrollers.AbstractController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -11,6 +10,9 @@ import javafx.scene.image.ImageView;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
+import tools.AbstractController;
+import static tools.SceneNames.LOGIN;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,8 +20,6 @@ import java.util.ResourceBundle;
 @Component
 @ComponentScan({"client"})
 public class ForgotController extends AbstractController implements Initializable {
-
-    private String fileName = "window1.fxml";
 
     @FXML
     private ImageView imageView;
@@ -46,11 +46,9 @@ public class ForgotController extends AbstractController implements Initializabl
      * Goes back to login screen.
      * @throws IOException Throws exception when login window cannot be found.
      */
-    public void goTo() throws IOException {
-        goTo(returnButton, fileName);
+    public void goToLogin() throws IOException {
+        goToSmall(returnButton, LOGIN);
     }
-
-
 
 
     @Override

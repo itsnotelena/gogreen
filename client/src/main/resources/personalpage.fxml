@@ -8,12 +8,12 @@
 <?import javafx.scene.layout.Pane?>
 
 <Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PersonalPageController">
-        <ImageView fitHeight="66.0" fitWidth="178.0" layoutX="290.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+        <ImageView fitHeight="90.0" fitWidth="102.0" layoutX="401.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
                 <Image url="@images/logo.png" />
         </ImageView>
-        <JFXButton fx:id="mygoals" layoutX="234.0" layoutY="132.0" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="#MyGoals" />
-        <JFXButton fx:id="myprogress" layoutX="234.0" layoutY="201.0" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="MyProgress" />
-        <JFXButton fx:id="connect" layoutX="234.0" layoutY="266.0" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="Connect with Friends" />
-        <JFXHamburger fx:id="cheeseburger" layoutX="535.0" layoutY="23.0" onMouseClicked="#sideBar" onMousePressed="#sideBar" />
+        <JFXButton fx:id="mygoals" layoutX="350.0" layoutY="132.0" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="#MyGoals" />
+        <JFXButton fx:id="myprogress" layoutX="350.0" layoutY="201.0" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="MyProgress" />
+        <JFXButton fx:id="connect" layoutX="350.0" layoutY="266.0" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="Connect with Friends" />
+        <JFXHamburger fx:id="cheeseburger" layoutX="844.0" layoutY="23.0" onMouseClicked="#sideBar" onMousePressed="#sideBar" />
         <JFXDrawer fx:id="drawer" prefHeight="402.0" prefWidth="178.0" />
 </Pane>
