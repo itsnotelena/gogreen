@@ -17,7 +17,7 @@ public class AbstractController {
     /**
      * The method goes back to a provided window (small version).
      *
-     * @param returnNode takes a fxml node as a reference for the stage
+     * @param returnNode takes fxml node as a reference for the stage
      * @throws IOException when the file does not exist
      */
     protected void goToSmall(Node returnNode, String fileName) throws IOException {
