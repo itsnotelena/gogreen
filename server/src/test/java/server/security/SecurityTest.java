@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import server.repositories.UserRepository;
 import shared.models.User;
 
 
@@ -21,49 +22,6 @@ import shared.models.User;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class SecurityTest {
-
-    @Autowired
-    private MockMvc mvc;
-
-    private User testUser = new User();
-
-    private String UString;
-
-    @Before
-    public void setup() {
-        String username = "test" + (Math.random() * 10);
-        testUser.setUsername(username);
-        testUser.setPassword("test");
-        UString = "{\"username\": \"" + testUser.getUsername() + "\", \"password\": \"" + testUser.getPassword() + "\"}";
-    }
-
-    @Test
-    public void SignUpAndLoginTest() throws Exception {
-        // Creating the account
-        String output = this.mvc.perform(
-                post("/user/signup").contentType(MediaType.APPLICATION_JSON).content(UString))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        User parsedOutput = new ObjectMapper().readValue(output, User.class);
-
-        Assert.assertEquals(parsedOutput.getUsername(), testUser.getUsername());
-        Assert.assertEquals(parsedOutput.getPassword(), "");
-
-
-        // Logging in with the account
-        String login = this.mvc.perform(
-                post("/login").contentType(MediaType.APPLICATION_JSON).content(UString))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse().getHeader("Authorization");
-
-        Assert.assertNotNull(login);
-        Assert.assertTrue(login.startsWith("Bearer "));
-    }
-
     @Test
     public void testConstants() {
         SecurityConstants constants = new SecurityConstants();
