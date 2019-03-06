@@ -38,4 +38,10 @@ public class HelloWorldTest {
         HelloWorld hello = new HelloWorld(12, "Hello World");
         Assert.assertEquals(12, hello.getId());
     }
+
+    @Test
+    public void notEqualsTest() {
+        HelloWorld hello = new HelloWorld(12, "Hello World");
+        Assert.assertNotEquals(hello, new Object());
+    }
 }
