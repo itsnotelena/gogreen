@@ -72,7 +72,6 @@ public class LoginController extends AbstractController implements Initializable
 
     /**
      * Goes to the create account.
-     *
      * @throws IOException Throws exception when create account window cannot be found
      */
     @FXML
