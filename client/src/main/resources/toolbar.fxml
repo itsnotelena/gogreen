@@ -5,7 +5,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="217.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ToolBarController">
+<Pane xmlns:fx="http://javafx.com/fxml/1" fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="217.0"
+      xmlns="http://javafx.com/javafx/10.0.1" fx:controller="client.gui.controllers.ToolBarController">
       <JFXButton layoutX="70.0" layoutY="143.0" onAction="#goToSettings" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #C7EA46;" text="Settings" />
       <ImageView fitHeight="59.0" fitWidth="114.0" layoutX="85.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
          <image>

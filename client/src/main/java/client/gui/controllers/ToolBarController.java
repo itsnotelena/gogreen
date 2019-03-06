@@ -1,15 +1,14 @@
-package controllers;
+package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.LOGIN;
+import static client.gui.tools.SceneNames.MAIN;
+import static client.gui.tools.SceneNames.PERSONAL;
+import static client.gui.tools.SceneNames.SETTINGS;
+
+import client.gui.tools.AbstractController;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
-
-import static tools.SceneNames.LOGIN;
-import static tools.SceneNames.PERSONAL;
-import static tools.SceneNames.MAIN;
-import static tools.SceneNames.SETTINGS;
-
-import tools.AbstractController;
 
 import java.io.IOException;
 

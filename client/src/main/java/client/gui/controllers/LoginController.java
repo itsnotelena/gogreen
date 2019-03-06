@@ -1,6 +1,11 @@
-package controllers;
+package client.gui.controllers;
+
+import static client.gui.tools.SceneNames.FORGOT;
+import static client.gui.tools.SceneNames.MAIN;
+import static client.gui.tools.SceneNames.SIGNUP;
 
 import client.HelloWorldService;
+import client.gui.tools.AbstractController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,18 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import static tools.SceneNames.FORGOT;
-import static tools.SceneNames.MAIN;
-import static tools.SceneNames.SIGNUP;
-
-import tools.AbstractController;
-
-import java.awt.Checkbox;
-
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javax.swing.text.html.ImageView;
 
 

@@ -11,7 +11,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MyGoalsController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="515.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/10.0.1"
+            fx:controller="client.gui.controllers.MyGoalsController">
       <ImageView fitHeight="90.0" fitWidth="102.0" layoutX="401.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
          <Image url="@images/logo.png" />
       </ImageView>

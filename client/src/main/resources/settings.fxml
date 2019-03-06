@@ -9,7 +9,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SettingsController">
+<Pane xmlns:fx="http://javafx.com/fxml/1" fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="750.0"
+      xmlns="http://javafx.com/javafx/10.0.1" fx:controller="client.gui.controllers.SettingsController">
    <children>
       <ImageView fitHeight="90.0" fitWidth="102.0" layoutX="401.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
          <Image url="@images/logo.png" />

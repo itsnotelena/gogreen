@@ -1,7 +1,7 @@
-package controllers;
+package client.gui.controllers;
 
-import static tools.SceneNames.DRAWER_SIZE;
-import static tools.SceneNames.TOOLBAR;
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
+import static client.gui.tools.SceneNames.TOOLBAR;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
@@ -102,6 +102,7 @@ public class MainController implements Initializable {
             task.setRate(task.getRate() * -1 );
 
 
+            // TODO: Extract duplicate code
             hamburger.addEventHandler( MouseEvent.MOUSE_CLICKED, event -> {
 
                 task.setRate(task.getRate() * -1);
@@ -118,8 +119,6 @@ public class MainController implements Initializable {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
-
         vegLabel.setVisible(false);
         localLabel.setVisible(false);
         bikeLabel.setVisible(false);
@@ -131,20 +130,8 @@ public class MainController implements Initializable {
         foodList.addAnimatedNode(vegbtn);
         foodList.addAnimatedNode(localbtn);
 
-        vegbtn.addEventHandler(MouseEvent.MOUSE_ENTERED,e -> vegLabel.setVisible(true));
-        vegbtn.addEventHandler(MouseEvent.MOUSE_EXITED,e -> vegLabel.setVisible(false));
-        localbtn.addEventHandler(MouseEvent.MOUSE_ENTERED,e -> localLabel.setVisible(true));
-        localbtn.addEventHandler(MouseEvent.MOUSE_EXITED,e -> localLabel.setVisible(false));
-
-        bikebtn.addEventHandler(MouseEvent.MOUSE_ENTERED,e -> bikeLabel.setVisible(true));
-        bikebtn.addEventHandler(MouseEvent.MOUSE_EXITED,e -> bikeLabel.setVisible(false));
-        publicbtn.addEventHandler(MouseEvent.MOUSE_ENTERED,e -> publicLabel.setVisible(true));
-        publicbtn.addEventHandler(MouseEvent.MOUSE_EXITED,e -> publicLabel.setVisible(false));
-
-        tempbtn.addEventHandler(MouseEvent.MOUSE_ENTERED,e -> tempLabel.setVisible(true));
-        tempbtn.addEventHandler(MouseEvent.MOUSE_EXITED,e -> tempLabel.setVisible(false));
-        solarbtn.addEventHandler(MouseEvent.MOUSE_ENTERED,e -> solarLabel.setVisible(true));
-        solarbtn.addEventHandler(MouseEvent.MOUSE_EXITED,e -> solarLabel.setVisible(false));
+        addEventHandlers(vegbtn, vegLabel, localbtn, localLabel, bikebtn, bikeLabel);
+        addEventHandlers(publicbtn, publicLabel, tempbtn, tempLabel, solarbtn, solarLabel);
 
         transList.addAnimatedNode(transbtn);
         transList.addAnimatedNode(bikebtn);
@@ -166,5 +153,16 @@ public class MainController implements Initializable {
 
     }
 
+    private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
+                                  JFXButton localbtn, Label localLabel,
+                                  JFXButton bikebtn, Label bikeLabel) {
 
+        vegbtn.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> vegLabel.setVisible(true));
+        vegbtn.addEventHandler(MouseEvent.MOUSE_EXITED, e -> vegLabel.setVisible(false));
+        localbtn.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> localLabel.setVisible(true));
+        localbtn.addEventHandler(MouseEvent.MOUSE_EXITED, e -> localLabel.setVisible(false));
+
+        bikebtn.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> bikeLabel.setVisible(true));
+        bikebtn.addEventHandler(MouseEvent.MOUSE_EXITED, e -> bikeLabel.setVisible(false));
+    }
 }

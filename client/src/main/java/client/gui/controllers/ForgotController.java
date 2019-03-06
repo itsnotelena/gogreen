@@ -1,5 +1,8 @@
-package controllers;
+package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.LOGIN;
+
+import client.gui.tools.AbstractController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -9,9 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-
-import tools.AbstractController;
-import static tools.SceneNames.LOGIN;
 
 import java.io.IOException;
 import java.net.URL;

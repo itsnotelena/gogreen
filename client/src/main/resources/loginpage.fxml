@@ -10,7 +10,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" scaleShape="false" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" scaleShape="false"
+            xmlns="http://javafx.com/javafx/10.0.1" fx:controller="client.gui.controllers.LoginController">
         <Hyperlink layoutX="218.0" layoutY="331.0" onAction="#resetPass" text="Forgot Your Password?" />
         <ImageView fitHeight="101.0" fitWidth="196.0" layoutX="234.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
             <Image url="@images/logo.png" />
@@ -20,6 +22,7 @@
    <JFXButton layoutX="469.0" layoutY="329.0" onAction="#createAccount" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #2196F3;" text="Register" />
    <JFXButton fx:id="helloWorld" buttonType="RAISED" layoutX="51.0" layoutY="175.0" onAction="#hello" prefHeight="27.0" prefWidth="65.0" style="-fx-background-color: #2196F3;" text="Click me!" />
    <CheckBox accessibleRole="CHECK_BOX" layoutX="184.0" layoutY="268.0" text="Remember Me" />
+    <JFXTextField fx:id="textfield" layoutX="182.0" layoutY="136.0" prefHeight="27.0" prefWidth="219.0"
+                  promptText="Username"/>
    <JFXPasswordField fx:id="passwordField" layoutX="182.0" layoutY="200.0" prefHeight="27.0" prefWidth="219.0" promptText="Password" />
-   <JFXTextField fx:id="textfield" layoutX="182.0" layoutY="136.0" prefHeight="27.0" prefWidth="219.0" promptText="Username" />
 </AnchorPane>

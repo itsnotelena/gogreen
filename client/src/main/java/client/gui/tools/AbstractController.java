@@ -1,4 +1,4 @@
-package tools;
+package client.gui.tools;
 
 import static com.sun.javafx.scene.control.skin.Utils.getResource;
 

@@ -1,4 +1,4 @@
-package tools;
+package client.gui.tools;
 
 public class SceneNames {
     public static final String FORGOT = "forgotpage.fxml";

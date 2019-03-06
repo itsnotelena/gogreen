@@ -12,7 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan( {"controllers"})
+@ComponentScan( {"client.gui.controllers"})
 public class Main extends Application {
     private ConfigurableApplicationContext springContext;
     private Parent root;

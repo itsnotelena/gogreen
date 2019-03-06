@@ -1,4 +1,4 @@
-package controllers;
+package client.gui.controllers;
 
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,7 @@
-package controllers;
+package client.gui.controllers;
+
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
+import static client.gui.tools.SceneNames.TOOLBAR;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
@@ -12,9 +15,6 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static tools.SceneNames.DRAWER_SIZE;
-import static tools.SceneNames.TOOLBAR;
 
 public class MyGoalsController implements Initializable {
 
