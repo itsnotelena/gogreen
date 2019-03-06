@@ -17,5 +17,5 @@
         <Hyperlink layoutX="227.0" layoutY="334.0" text="Didn't received an e-mail?" />
    <JFXTextField layoutX="145.0" layoutY="187.0" prefHeight="26.0" prefWidth="300.0" promptText="E-mail" />
    <JFXButton layoutX="270.0" layoutY="253.0" prefHeight="26.0" prefWidth="59.0" style="-fx-background-color: #2196F3;" text="Send" />
-   <JFXButton fx:id="returnButton" layoutX="469.0" layoutY="332.0" onAction="#goTo" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #2196F3;" text="Return" />
+   <JFXButton fx:id="returnButton" layoutX="469.0" layoutY="332.0" onAction="#goToLogin" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #2196F3;" text="Return" />
 </AnchorPane>

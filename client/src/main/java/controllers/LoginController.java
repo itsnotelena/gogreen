@@ -1,30 +1,27 @@
 package controllers;
 
-import abstractcontrollers.AbstractController;
-
 import client.HelloWorldService;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+
+import static tools.SceneNames.FORGOT;
+import static tools.SceneNames.MAIN;
+import static tools.SceneNames.SIGNUP;
+
+import tools.AbstractController;
 
 import java.awt.Checkbox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javax.swing.text.html.ImageView;
@@ -75,13 +72,12 @@ public class LoginController extends AbstractController implements Initializable
 
     /**
      * Goes to the create account.
-     *
      * @throws IOException Throws exception when create account window cannot be found
      */
     @FXML
     public void createAccount() throws IOException {
 
-        goTo(textfield, "window2.fxml");
+        goToSmall(textfield, SIGNUP);
 
     }
 
@@ -92,7 +88,7 @@ public class LoginController extends AbstractController implements Initializable
      */
     @FXML
     public void resetPass() throws IOException {
-        goTo(textfield, "window3.fxml");
+        goToSmall(textfield, FORGOT);
     }
 
     /**
@@ -101,14 +97,8 @@ public class LoginController extends AbstractController implements Initializable
      * @throws IOException throws exception when menu is not found
      */
     public void doLogin() throws IOException {
-        Stage stage = (Stage) textfield.getScene().getWindow();
         if (textfield.getText().equals("user") && passwordField.getText().equals("pass")) {
-            Parent root = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/menu.fxml")));
-
-            stage.setTitle("Go Green");
-            Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-            stage.setScene(new Scene(root, screenSize.getWidth(), screenSize.getHeight() - 20));
+            goToLarge(textfield, MAIN);
         } else {
             validpass.setText("Invalid Credentials");
         }

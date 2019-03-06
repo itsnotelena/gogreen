@@ -1,15 +1,14 @@
 package controllers;
 
-import abstractcontrollers.AbstractController;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
+
+import static tools.SceneNames.LOGIN;
+import static tools.SceneNames.PERSONAL;
+import static tools.SceneNames.MAIN;
+
+import tools.AbstractController;
 
 import java.io.IOException;
 
@@ -33,14 +32,16 @@ public class ToolBarController extends AbstractController {
      * Goes back to login screen.
      * @throws IOException Throws exception when login window cannot be found.
      */
-    public void goTo() throws IOException{
-        Stage newstage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("personalpage.fxml"));
+    public void goToPersonal() throws IOException {
+        goToLarge(myPane, PERSONAL);
+    }
 
-        Scene scene = new Scene(root, 700, 900);
-        newstage.setScene(scene);
-        newstage.show();
-        newstage.setResizable(false);
+    /**
+     * Goes back to Main Page.
+     * @throws IOException Throws Exception when main page can't be found.
+     */
+    public void goToMain() throws IOException {
+        goToLarge(myPane, MAIN);
     }
 
     /**
@@ -48,13 +49,8 @@ public class ToolBarController extends AbstractController {
      * @throws IOException Throws an exception when the main window cannot be found.
      */
     public void logOut() throws IOException {
-        System.out.println("Logout called");
-        Stage stage = (Stage) myPane.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/window1.fxml"));
-        stage.setTitle("Go Green");
-        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-        stage.setScene(new Scene(root, 600, 500));
-        /* stage.show(); */
+        goToSmall(myPane, LOGIN);
     }
 
 }
+

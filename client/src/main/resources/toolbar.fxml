@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="217.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ToolBarController">
+      <JFXButton layoutX="69.0" layoutY="117.0" onAction="#goToMain" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #C7EA46;" text="Settings" />
+      <!--<ImageView fitHeight="59.0" fitWidth="114.0" layoutX="81.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">-->
+         <!--<image>-->
+            <!--<Image url="@images/settings_icon.png" />-->
+         <!--</image></ImageView>-->
+      <JFXButton layoutX="51.0" layoutY="182.0" onAction="#goToMain" prefHeight="47.0" prefWidth="126.0" style="-fx-background-color: #C7EA46;" text="Discover People" />
+      <JFXButton fx:id="logout" layoutX="69.0" layoutY="324.0" onAction="#logOut" prefHeight="39.0" prefWidth="89.0" style="-fx-background-color: C7EA46;" text="Log out" />
+      <!--<ImageView fitHeight="97.0" fitWidth="97.0" layoutX="63.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">-->
+         <!--<image>-->
+            <!--<Image url="@images/network_icon.png" />-->
+         <!--</image>-->
+      <!--</ImageView>-->
+      <!--<ImageView fitHeight="78.0" fitWidth="77.0" layoutX="74.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true">-->
+         <!--<image>-->
+            <!--<Image url="@images/logout_icon.png" />-->
+         <!--</image>-->
+      <!--</ImageView>-->
+      <JFXButton layoutX="65.0" layoutY="251.0" onAction="#goToPersonal" prefHeight="47.0" prefWidth="97.0" style="-fx-background-color: #C7EA46;" text="MyPage" />
+   <JFXButton layoutX="70.0" layoutY="56.0" onAction="#goToMain" prefHeight="39.0" prefWidth="89.0" style="-fx-background-color: C7EA46;" text="Main Page" />
+      <!--<ImageView fitHeight="97.0" fitWidth="97.0" layoutX="64.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true">-->
+         <!--<image>-->
+            <!--<Image url="@images/leaf_icon.png" />-->
+         <!--</image>-->
+      <!--</ImageView>-->
+</Pane>
