@@ -12,7 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan( {"gui"})
+@ComponentScan( {"client.gui.controllers"})
 public class Main extends Application {
     private ConfigurableApplicationContext springContext;
     private Parent root;
@@ -25,7 +25,7 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
         springContext = SpringApplication.run(Main.class);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/window1.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/loginpage.fxml"));
         fxmlLoader.setControllerFactory(springContext::getBean);
         root = fxmlLoader.load();
     }

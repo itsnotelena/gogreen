@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1"
+            fx:controller="client.gui.controllers.ForgotController">
+        <ImageView fitHeight="100.0" fitWidth="172.0" layoutX="250.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+                <Image url="@images/logo.png" />
+        </ImageView>
+   <JFXButton layoutX="196.0" layoutY="349.0" prefHeight="27.0" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Continue" />
+   <JFXButton fx:id="returnButton" layoutX="332.0" layoutY="349.0" onAction="#goToLogin" prefHeight="27.0" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Return" />
+   <JFXTextField layoutX="200.0" layoutY="120.0" prefHeight="27.0" prefWidth="200.0" promptText="First Name" />
+   <JFXTextField layoutX="197.0" layoutY="174.0" prefHeight="26.0" prefWidth="200.0" promptText="Last Name" />
+   <JFXTextField layoutX="197.0" layoutY="252.0" prefHeight="34.0" prefWidth="200.0" promptText="E-mail" />
+   <JFXTextField layoutX="197.0" layoutY="304.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm E-mail" />
+   <JFXRadioButton layoutX="197.0" layoutY="226.0" text="Man" />
+   <JFXRadioButton layoutX="262.0" layoutY="226.0" text="Woman" />
+   <JFXRadioButton layoutX="339.0" layoutY="226.0" text="Other" />
+</AnchorPane>

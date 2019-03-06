@@ -1,23 +1,23 @@
-package gui;
+package client.gui.controllers;
+
+import static client.gui.tools.SceneNames.FORGOT;
+import static client.gui.tools.SceneNames.MAIN;
+import static client.gui.tools.SceneNames.SIGNUP;
 
 import client.HelloWorldService;
+import client.gui.tools.AbstractController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import java.awt.Checkbox;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,10 +26,13 @@ import javax.swing.text.html.ImageView;
 
 @Component
 @ComponentScan({"client"})
-public class LoginController implements Initializable {
+public class LoginController extends AbstractController implements Initializable {
 
     @FXML
     private Button signup;
+
+    @FXML
+    private Label validpass;
 
     @FXML
     private Button login;
@@ -64,21 +67,14 @@ public class LoginController implements Initializable {
         this.helloWorldService = helloWorldService;
     }
 
-
     /**
      * Goes to the create account.
-     *
      * @throws IOException Throws exception when create account window cannot be found
      */
     @FXML
     public void createAccount() throws IOException {
-        Stage signup = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/window2.fxml"));
 
-        Scene scene = new Scene(root, 600, 500);
-        signup.setScene(scene);
-        signup.show();
-        signup.setResizable(false);
+        goToSmall(textfield, SIGNUP);
 
     }
 
@@ -89,13 +85,7 @@ public class LoginController implements Initializable {
      */
     @FXML
     public void resetPass() throws IOException {
-        Stage signup = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/window3.fxml"));
-
-        Scene scene = new Scene(root, 600, 500);
-        signup.setScene(scene);
-        signup.show();
-        signup.setResizable(false);
+        goToSmall(textfield, FORGOT);
     }
 
     /**
@@ -104,17 +94,10 @@ public class LoginController implements Initializable {
      * @throws IOException throws exception when menu is not found
      */
     public void doLogin() throws IOException {
-        Stage stage = (Stage) textfield.getScene().getWindow();
         if (textfield.getText().equals("user") && passwordField.getText().equals("pass")) {
-            Parent root = FXMLLoader.load(getClass().getResource("/menu.fxml"));
-
-            stage.setTitle("Go Green");
-            Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-            stage.setScene(new Scene(root, screenSize.getWidth(), screenSize.getHeight() - 20));
-            stage.setMaximized(true);
-
+            goToLarge(textfield, MAIN);
         } else {
-            System.out.println("Login Failed");
+            validpass.setText("Invalid Credentials");
         }
     }
 
