@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import static tools.SceneNames.LOGIN;
 import static tools.SceneNames.PERSONAL;
 import static tools.SceneNames.MAIN;
+import static tools.SceneNames.SETTINGS;
 
 import tools.AbstractController;
 
@@ -42,6 +43,14 @@ public class ToolBarController extends AbstractController {
      */
     public void goToMain() throws IOException {
         goToLarge(myPane, MAIN);
+    }
+
+    /**
+     * Goes to settings Page.
+     * @throws IOException Throws Exception when main page can't be found.
+     */
+    public void goToSettings() throws IOException {
+        goToLarge(myPane, SETTINGS);
     }
 
     /**
