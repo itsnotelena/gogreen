@@ -3,7 +3,7 @@ package client.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import shared.models.Gender;
+import shared.models.User;
 
 @Service("UserService")
 public class UserService {
@@ -15,8 +15,9 @@ public class UserService {
         this.restTemplate = restTemplate;
     }
 
-    public void createAccount(String username, String password, String email, Gender gender) {
-        // Create Account
+    public boolean createAccount(User user) {
+        User response = restTemplate.postForObject("/user/signup", user, User.class);
+        return response != null;
     }
 
     public void login(String username, String password) {
