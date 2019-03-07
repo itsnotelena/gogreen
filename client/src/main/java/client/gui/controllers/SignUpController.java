@@ -6,10 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import shared.models.Gender;
 import shared.models.User;
 
@@ -21,7 +20,7 @@ import static client.gui.tools.SceneNames.LOGIN;
 
 
 @Component
-@ComponentScan({"services"})
+@Controller
 public class SignUpController extends AbstractController implements Initializable {
 
     @FXML
@@ -48,12 +47,11 @@ public class SignUpController extends AbstractController implements Initializabl
     private UserService userService;
 
     @Autowired
-    public SignUpController(UserService userService) {
+    SignUpController(UserService userService) {
         this.userService = userService;
     }
 
     public SignUpController() {}
-
 
     public void doSignUp() {
         if (!email.getText().equals(confirmemail.getText()) || password.getText().isBlank()
@@ -68,9 +66,7 @@ public class SignUpController extends AbstractController implements Initializabl
         user.setUsername(username.getText());
         user.setPassword(password.getText());
 
-
-        System.out.println(user.getEmail());
-        if(userService.createAccount(user)){
+        if(this.userService.createAccount(user)) {
             System.out.println("Signed up successfully.");
         } else {
             System.err.println("Signed up is incorrect.");
@@ -78,10 +74,10 @@ public class SignUpController extends AbstractController implements Initializabl
 
     }
 
-    private Gender getGender(){
-        if(man.isPressed()){
+    private Gender getGender() {
+        if (man.isPressed()) {
             return Gender.MAN;
-        } else if (woman.isPressed()){
+        } else if (woman.isPressed()) {
             return Gender.WOMAN;
         } else {
             return Gender.OTHER;
