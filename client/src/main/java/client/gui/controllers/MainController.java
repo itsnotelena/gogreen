@@ -3,14 +3,18 @@ package client.gui.controllers;
 import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
+import client.gui.tools.DoughnutChart;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -152,7 +156,7 @@ public class MainController implements Initializable {
 
 
     }
-
+    //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
     private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
                                   JFXButton localbtn, Label localLabel,
                                   JFXButton bikebtn, Label bikeLabel) {
@@ -164,5 +168,13 @@ public class MainController implements Initializable {
 
         bikebtn.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> bikeLabel.setVisible(true));
         bikebtn.addEventHandler(MouseEvent.MOUSE_EXITED, e -> bikeLabel.setVisible(false));
+    }
+
+    private ObservableList<PieChart.Data> createData() {
+        return FXCollections.observableArrayList(
+                new PieChart.Data("Food", 33),
+                new PieChart.Data("Energy", 33),
+                new PieChart.Data("Transport", 33)
+                );
     }
 }
