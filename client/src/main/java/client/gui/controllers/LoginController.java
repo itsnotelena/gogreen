@@ -8,6 +8,7 @@ import client.gui.tools.AbstractController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -16,7 +17,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,7 +44,7 @@ public class LoginController extends AbstractController implements Initializable
     private PasswordField passwordField;
 
     @FXML
-    private Checkbox remenberMe;
+    private CheckBox remenberMe;
 
     @FXML
     private Hyperlink forgotPassword;

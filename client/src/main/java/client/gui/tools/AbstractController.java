@@ -23,7 +23,7 @@ public class AbstractController {
         //Stage stage = new Stage();
         //difference between Window and Stage
         Stage stage = (Stage) returnNode.getScene().getWindow();
-        Parent root = (Parent) loader.load(("/" + fileName));
+        Parent root = (Parent) loader.load("/" + fileName);
 
         Scene scene = new Scene(root, 600, 500);
         stage.setScene(scene);
@@ -40,7 +40,7 @@ public class AbstractController {
     protected void goToLarge(Node returnNode, String fileName) throws IOException {
         Stage stage = (Stage) returnNode.getScene().getWindow();
         // Parent root = FXMLLoader.load(getClass().getResource("/" + fileName));
-        Parent root = (Parent) loader.load(("/" + fileName));
+        Parent root = (Parent) loader.load("/" + fileName);
 
         stage.setScene(new Scene(root, 900, 600));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();

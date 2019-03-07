@@ -1,5 +1,8 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
+import static client.gui.tools.SceneNames.TOOLBAR;
+
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
@@ -12,9 +15,6 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static client.gui.tools.SceneNames.DRAWER_SIZE;
-import static client.gui.tools.SceneNames.TOOLBAR;
 
 public class SettingsController implements Initializable {
 
