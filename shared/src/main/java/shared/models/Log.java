@@ -24,9 +24,7 @@ import javax.persistence.Table;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Log implements Serializable {
 
-    private @Id
-    @GeneratedValue
-    long id;
+    private @Id @GeneratedValue long id;
 
     @ManyToOne
     private User user;

@@ -1,5 +1,7 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.LOGIN;
+
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import javafx.fxml.FXML;
@@ -15,8 +17,6 @@ import shared.models.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static client.gui.tools.SceneNames.LOGIN;
 
 
 @Component
@@ -51,8 +51,12 @@ public class SignUpController extends AbstractController implements Initializabl
         this.userService = userService;
     }
 
-    public SignUpController() {}
+    public SignUpController() {
+    }
 
+    /**
+     * Method which takes the entered details and creates a user.
+     */
     public void doSignUp() {
         if (!email.getText().equals(confirmemail.getText()) || password.getText().isBlank()
                 || email.getText().isBlank() || username.getText().isBlank()) {
@@ -66,7 +70,7 @@ public class SignUpController extends AbstractController implements Initializabl
         user.setUsername(username.getText());
         user.setPassword(password.getText());
 
-        if(this.userService.createAccount(user)) {
+        if (this.userService.createAccount(user)) {
             System.out.println("Signed up successfully.");
         } else {
             System.err.println("Signed up is incorrect.");
@@ -86,6 +90,7 @@ public class SignUpController extends AbstractController implements Initializabl
 
     /**
      * Goes back to login screen.
+     *
      * @throws IOException Throws exception when login window cannot be found.
      */
     public void goToLogin() throws IOException {

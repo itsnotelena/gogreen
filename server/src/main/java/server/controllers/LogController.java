@@ -25,10 +25,8 @@ public class LogController {
     public Log logAction(@RequestBody Log log) {
         log.setDate(new Date());
 
-        // Check auth here
-
         logRepository.save(log); // Save to database
 
-        return log; // And return
+        return log;
     }
 }

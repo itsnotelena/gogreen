@@ -1,8 +1,5 @@
 package client.gui.tools;
 
-import static com.sun.javafx.scene.control.skin.Utils.getResource;
-
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
