@@ -1,5 +1,8 @@
-package gui;
+package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.LOGIN;
+
+import client.gui.tools.AbstractController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -28,7 +31,7 @@ public class ForgotController extends AbstractController implements Initializabl
     private Button send;
 
     @FXML
-    private Button back;
+    private Button returnButton;
 
     @FXML
     private Label label1;
@@ -43,10 +46,8 @@ public class ForgotController extends AbstractController implements Initializabl
      * Goes back to login screen.
      * @throws IOException Throws exception when login window cannot be found.
      */
-
-    public void goBack() throws IOException {
-        String fileName = "/window1.fxml";
-        goBack(fileName);
+    public void goToLogin() throws IOException {
+        goToSmall(returnButton, LOGIN);
     }
 
 

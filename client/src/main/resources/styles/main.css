@@ -1,0 +1,31 @@
+.animated-option-button-sub{
+        -fx-pref-width: 75px;
+        -fx-background-color:#b3f4b2;
+        -fx-background-radius: 0px;
+        -fx-pref-height:45px;
+        -fx-text-fill:#33a531;
+        -fx-border-color:#33a531;
+        -fx-border-radius:0px;
+        -fx-border-width: 2px;
+}
+
+.animated-option-button-main{
+        -fx-pref-width:75px;
+        -fx-background-color:#33a531;
+        -fx-background-radius: 45px;
+        -fx-pref-height:75px;
+        -fx-text-fill: #b3f4b2;
+        -fx-border-color:#33a531;
+        -fx-border-radius:45px;
+        -fx-border-width: 2px;
+}
+
+.animated-option-sub-button{
+        -fx-background-color:#43609C;
+}
+.animated-option-sub-button2{
+        -fx-background-color: rgb(203, 104, 96);
+}
+.animated-option-sub-button3{
+        -fx-background-color: #3a9b4b
+}
