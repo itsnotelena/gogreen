@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -32,7 +34,14 @@ public class User implements Serializable {
     private String password;
 
     @Column
-    private Boolean hasSolarPanels;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @Column
+    private String email;
+
+    @Column
+    private Boolean hasSolarPanels = false;
 
     @ManyToMany
     private Set<User> friends;
