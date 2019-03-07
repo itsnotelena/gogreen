@@ -13,9 +13,10 @@
         <ImageView fitHeight="100.0" fitWidth="172.0" layoutX="250.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
                 <Image url="@images/logo.png" />
         </ImageView>
-   <JFXButton layoutX="196.0" layoutY="349.0" prefHeight="27.0" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Continue" />
+   <JFXButton fx:id="continue" layoutX="196.0" layoutY="349.0" prefHeight="27.0" onAction="#doSignUp" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Continue" />
    <JFXButton fx:id="returnButton" layoutX="332.0" layoutY="349.0" onAction="#goToLogin" prefHeight="27.0" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Return" />
    <JFXTextField fx:id="username" layoutX="200.0" layoutY="120.0" prefHeight="27.0" prefWidth="200.0" promptText="Username" />
+    <JFXTextField fx:id="password" layoutX="200.0" layoutY="185.0" prefHeight="27.0" prefWidth="200.0" promptText="Username" />
    <JFXTextField fx:id="email" layoutX="197.0" layoutY="252.0" prefHeight="34.0" prefWidth="200.0" promptText="E-mail" />
    <JFXTextField fx:id="confirmemail" layoutX="197.0" layoutY="304.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm E-mail" />
    <JFXRadioButton fx:id="man" layoutX="197.0" layoutY="226.0" text="Man" />
