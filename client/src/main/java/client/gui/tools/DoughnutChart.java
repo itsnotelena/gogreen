@@ -14,9 +14,7 @@ public class DoughnutChart extends PieChart {
 
     public DoughnutChart(ObservableList<Data> pieData) {
         super(pieData);
-
         innerCircle = new Circle();
-
         // just styled in code for demo purposes,
         // use a style class instead to style via css.
         innerCircle.setFill(Color.WHITESMOKE);

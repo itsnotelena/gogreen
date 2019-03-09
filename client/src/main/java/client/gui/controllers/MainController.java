@@ -14,11 +14,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,6 +33,14 @@ public class MainController implements Initializable {
     @FXML
     private Pane myPane;
 
+//    @FXML
+//    private DoughnutChart chart;
+
+    @FXML
+    private HBox chartContainer;
+
+    @FXML
+    private VBox nodeListContainer;
 
     @FXML
     private Label vegLabel;
@@ -52,16 +61,10 @@ public class MainController implements Initializable {
     private Label solarLabel;
 
     @FXML
-    private JFXButton foodbtn;
-
-    @FXML
     private JFXButton vegbtn;
 
     @FXML
     private JFXButton localbtn;
-
-    @FXML
-    private JFXButton transbtn;
 
     @FXML
     private JFXButton bikebtn;
@@ -70,22 +73,10 @@ public class MainController implements Initializable {
     private JFXButton publicbtn;
 
     @FXML
-    private JFXButton energybtn;
-
-    @FXML
     private JFXButton tempbtn;
 
     @FXML
     private JFXButton solarbtn;
-
-    @FXML
-    private JFXNodesList foodList;
-
-    @FXML
-    private JFXNodesList energyList;
-
-    @FXML
-    private JFXNodesList transList;
 
     @FXML
     private JFXDrawer drawer;
@@ -103,11 +94,11 @@ public class MainController implements Initializable {
             //drawer.setOverLayVisible(true);
             drawer.setResizableOnDrag(true);
             HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-            task.setRate(task.getRate() * -1 );
+            task.setRate(task.getRate() * -1);
 
 
             // TODO: Extract duplicate code
-            hamburger.addEventHandler( MouseEvent.MOUSE_CLICKED, event -> {
+            hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 
                 task.setRate(task.getRate() * -1);
                 task.play();
@@ -123,6 +114,44 @@ public class MainController implements Initializable {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+
+        ObservableList<PieChart.Data> pieChartData = createData();
+        DoughnutChart chart = new DoughnutChart(pieChartData);
+        chartContainer.getChildren().add(chart);
+
+//        chart.setData(pieChartData);
+        JFXNodesList foodList = new JFXNodesList();
+        JFXNodesList transportList = new JFXNodesList();
+        JFXNodesList energyList = new JFXNodesList();
+
+        nodeListContainer.setSpacing(100);
+        nodeListContainer.getChildren().add(foodList);
+        nodeListContainer.getChildren().add(energyList);
+        nodeListContainer.getChildren().add(transportList);
+
+        foodList.addAnimatedNode(new Region());
+        foodList.addAnimatedNode((Region) vegbtn.getParent());
+        foodList.addAnimatedNode((Region) localbtn.getParent());
+        transportList.addAnimatedNode(new Region());
+        transportList.addAnimatedNode((Region)bikebtn.getParent());
+        transportList.addAnimatedNode((Region)publicbtn.getParent());
+        energyList.addAnimatedNode(new Region());
+        energyList.addAnimatedNode((Region)tempbtn.getParent());
+        energyList.addAnimatedNode((Region)solarbtn.getParent());
+
+        for (PieChart.Data chartData : chart.getData()) {
+            Node chartSlice = chartData.getNode();
+            chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                if (chartData.getName().equals("Food")) {
+                    foodList.animateList();
+                } else if (chartData.getName().equals("Transport")) {
+                    transportList.animateList();
+                } else if (chartData.getName().equals("Energy")) {
+                    energyList.animateList();
+                }
+            });
+        }
+
         vegLabel.setVisible(false);
         localLabel.setVisible(false);
         bikeLabel.setVisible(false);
@@ -130,32 +159,13 @@ public class MainController implements Initializable {
         tempLabel.setVisible(false);
         solarLabel.setVisible(false);
 
-        foodList.addAnimatedNode(foodbtn);
-        foodList.addAnimatedNode(vegbtn);
-        foodList.addAnimatedNode(localbtn);
 
         addEventHandlers(vegbtn, vegLabel, localbtn, localLabel, bikebtn, bikeLabel);
         addEventHandlers(publicbtn, publicLabel, tempbtn, tempLabel, solarbtn, solarLabel);
 
-        transList.addAnimatedNode(transbtn);
-        transList.addAnimatedNode(bikebtn);
-        transList.addAnimatedNode(publicbtn);
-
-        energyList.addAnimatedNode(energybtn);
-        energyList.addAnimatedNode(tempbtn);
-        energyList.addAnimatedNode(solarbtn);
-
-        foodList.setSpacing(5);
-        foodList.setRotate(180);
-
-        transList.setSpacing(25);
-        transList.setRotate(45);
-
-        energyList.setSpacing(25);
-        energyList.setRotate(-45);
-
 
     }
+
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
     private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
                                   JFXButton localbtn, Label localLabel,
@@ -170,11 +180,13 @@ public class MainController implements Initializable {
         bikebtn.addEventHandler(MouseEvent.MOUSE_EXITED, e -> bikeLabel.setVisible(false));
     }
 
+
+    //TODO: Get PieChart.Data from user's history
     private ObservableList<PieChart.Data> createData() {
         return FXCollections.observableArrayList(
                 new PieChart.Data("Food", 33),
                 new PieChart.Data("Energy", 33),
                 new PieChart.Data("Transport", 33)
-                );
+        );
     }
 }
