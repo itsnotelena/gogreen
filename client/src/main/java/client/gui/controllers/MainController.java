@@ -33,9 +33,6 @@ public class MainController implements Initializable {
     @FXML
     private Pane myPane;
 
-//    @FXML
-//    private DoughnutChart chart;
-
     @FXML
     private HBox chartContainer;
 
@@ -124,7 +121,7 @@ public class MainController implements Initializable {
         JFXNodesList transportList = new JFXNodesList();
         JFXNodesList energyList = new JFXNodesList();
 
-        nodeListContainer.setSpacing(100);
+//        nodeListContainer.setSpacing(100);
         nodeListContainer.getChildren().add(foodList);
         nodeListContainer.getChildren().add(energyList);
         nodeListContainer.getChildren().add(transportList);
@@ -133,25 +130,39 @@ public class MainController implements Initializable {
         foodList.addAnimatedNode((Region) vegbtn.getParent());
         foodList.addAnimatedNode((Region) localbtn.getParent());
         transportList.addAnimatedNode(new Region());
-        transportList.addAnimatedNode((Region)bikebtn.getParent());
-        transportList.addAnimatedNode((Region)publicbtn.getParent());
+        transportList.addAnimatedNode((Region) bikebtn.getParent());
+        transportList.addAnimatedNode((Region) publicbtn.getParent());
         energyList.addAnimatedNode(new Region());
-        energyList.addAnimatedNode((Region)tempbtn.getParent());
-        energyList.addAnimatedNode((Region)solarbtn.getParent());
+        energyList.addAnimatedNode((Region) tempbtn.getParent());
+        energyList.addAnimatedNode((Region) solarbtn.getParent());
 
         for (PieChart.Data chartData : chart.getData()) {
             Node chartSlice = chartData.getNode();
             chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 if (chartData.getName().equals("Food")) {
+                    if (energyList.isExpanded())
+                        energyList.animateList();
+                    if (transportList.isExpanded())
+                        transportList.animateList();
                     foodList.animateList();
                 } else if (chartData.getName().equals("Transport")) {
+                    if (foodList.isExpanded())
+                        foodList.animateList();
+                    if (energyList.isExpanded())
+                        energyList.animateList();
                     transportList.animateList();
                 } else if (chartData.getName().equals("Energy")) {
+                    if(foodList.isExpanded())
+                        foodList.animateList();
+                    if(transportList.isExpanded())
+                        transportList.animateList();
                     energyList.animateList();
+
                 }
             });
         }
 
+        //TODO: Decide if labels are needed
         vegLabel.setVisible(false);
         localLabel.setVisible(false);
         bikeLabel.setVisible(false);
