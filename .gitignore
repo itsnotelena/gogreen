@@ -34,7 +34,7 @@ local.properties
 # Java annotation processor (APT)
 .factorypath
 
-# PDT-specific (PHP Development Tools)
+# PDT-specific (PHP Development client.gui.tools)
 .buildpath
 
 # sbteclipse plugin
@@ -64,7 +64,7 @@ local.properties
 # Eclipse Core
 .project
 
-# JDT-specific (Eclipse Java Development Tools)
+# JDT-specific (Eclipse Java Development client.gui.tools)
 .classpath
 
 # Annotation Processing
@@ -161,7 +161,7 @@ fabric.properties
 # BlueJ files
 *.ctxt
 
-# Mobile Tools for Java (J2ME)
+# Mobile client.gui.tools for Java (J2ME)
 .mtj.tmp/
 
 # Package Files #
@@ -208,3 +208,5 @@ tags
 [._]*.un~
 
 # End of https://www.gitignore.io/api/vim,java,maven,eclipse,intellij
+
+*.env
