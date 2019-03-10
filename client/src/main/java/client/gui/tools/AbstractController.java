@@ -1,8 +1,5 @@
 package client.gui.tools;
 
-import static com.sun.javafx.scene.control.skin.Utils.getResource;
-
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -14,6 +11,8 @@ import java.io.IOException;
 
 public class AbstractController {
 
+    private static final SpringFxmlLoader loader = new SpringFxmlLoader();
+
     /**
      * The method goes back to a provided window (small version).
      *
@@ -24,7 +23,7 @@ public class AbstractController {
         //Stage stage = new Stage();
         //difference between Window and Stage
         Stage stage = (Stage) returnNode.getScene().getWindow();
-        Parent root = FXMLLoader.load(getResource("/" + fileName));
+        Parent root = (Parent) loader.load("/" + fileName);
 
         Scene scene = new Scene(root, 600, 500);
         stage.setScene(scene);
@@ -40,7 +39,8 @@ public class AbstractController {
      */
     protected void goToLarge(Node returnNode, String fileName) throws IOException {
         Stage stage = (Stage) returnNode.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/" + fileName));
+        // Parent root = FXMLLoader.load(getClass().getResource("/" + fileName));
+        Parent root = (Parent) loader.load("/" + fileName);
 
         stage.setScene(new Scene(root, 900, 600));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();

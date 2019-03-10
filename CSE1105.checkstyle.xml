@@ -108,7 +108,8 @@ Checkstyle configurartion that checks the Google coding conventions (https://goo
       <property name="arrayInitIndent" value="4"/>
     </module>
     <module name="AbbreviationAsWordInName">
-      <property name="allowedAbbreviationLength" value="1"/>
+      <!-- Increased to 3 as we want to use things like JWT -->
+      <property name="allowedAbbreviationLength" value="3"/>
       <property name="ignoreFinal" value="false"/>
     </module>
     <module name="OverloadMethodsDeclarationOrder"/>

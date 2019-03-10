@@ -4,20 +4,19 @@ import static client.gui.tools.SceneNames.FORGOT;
 import static client.gui.tools.SceneNames.MAIN;
 import static client.gui.tools.SceneNames.SIGNUP;
 
-import client.HelloWorldService;
 import client.gui.tools.AbstractController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,6 +25,7 @@ import javax.swing.text.html.ImageView;
 
 @Component
 @ComponentScan({"client"})
+@NoArgsConstructor
 public class LoginController extends AbstractController implements Initializable {
 
     @FXML
@@ -44,7 +44,7 @@ public class LoginController extends AbstractController implements Initializable
     private PasswordField passwordField;
 
     @FXML
-    private Checkbox remenberMe;
+    private CheckBox remenberMe;
 
     @FXML
     private Hyperlink forgotPassword;
@@ -54,18 +54,6 @@ public class LoginController extends AbstractController implements Initializable
 
     @FXML
     private Button helloWorld;
-
-    private HelloWorldService helloWorldService;
-
-
-    public LoginController() {
-
-    }
-
-    @Autowired
-    public LoginController(HelloWorldService helloWorldService) {
-        this.helloWorldService = helloWorldService;
-    }
 
     /**
      * Goes to the create account.
@@ -105,7 +93,7 @@ public class LoginController extends AbstractController implements Initializable
      * Gets the data from the hello endpoint and sets the text of the goBack to the response.
      */
     public void hello() {
-        this.helloWorld.setText(helloWorldService.getHello());
+        this.helloWorld.setText("hello");
     }
 
     @Override

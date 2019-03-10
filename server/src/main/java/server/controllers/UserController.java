@@ -1,19 +1,20 @@
-package server;
+package server.controllers;
 
 import lombok.AllArgsConstructor;
-import models.HelloWorld;
-import models.User;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import server.exceptions.UserExistsException;
+import server.repositories.UserRepository;
+import shared.models.User;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @AllArgsConstructor
-public class HelloWorldController {
+public class UserController {
 
     private static final AtomicLong counter = new AtomicLong();
 
@@ -31,16 +32,17 @@ public class HelloWorldController {
      * Creates and returns a user with the given username and password.
      * @return the created user
      */
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public User createAndReturnUser(@RequestBody User user) {
+    @PostMapping(value = "/user/signup")
+    public User createUser(@RequestBody User user) throws UserExistsException {
         user.setPassword(hashPassword(user.getPassword())); // Hash the password
-        repository.save(user); // Save the user to the database
+
+        // Catch duplicate exception
+        try {
+            repository.save(user); // Save the user to the database
+        } catch (DataIntegrityViolationException e) {
+            throw new UserExistsException();
+        }
         user.setPassword(""); // Don't leak the (even the hashed) password
         return user;
-    }
-
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public HelloWorld hello() {
-        return new HelloWorld(counter.getAndIncrement(), "Hello World!");
     }
 }
