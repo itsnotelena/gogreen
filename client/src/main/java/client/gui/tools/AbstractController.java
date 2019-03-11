@@ -47,5 +47,4 @@ public class AbstractController {
         stage.setX((screenSize.getWidth() - stage.getWidth()) / 2);
         stage.setY((screenSize.getHeight() - stage.getHeight()) / 2);
     }
-
 }

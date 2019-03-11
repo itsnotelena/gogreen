@@ -36,6 +36,8 @@ public class MyGoalsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rs) {
+        // TODO: These Hamburger transitions stuff should
+        //  probably be in a method as now we have duplicated code.
         HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(cheeseburger);
         task.setRate( -1 );
 
