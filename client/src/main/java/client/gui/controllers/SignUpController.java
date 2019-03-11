@@ -6,6 +6,8 @@ import client.gui.tools.AbstractController;
 import client.services.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import lombok.NoArgsConstructor;
@@ -29,7 +31,10 @@ public class SignUpController extends AbstractController implements Initializabl
     private TextField username;
 
     @FXML
-    private TextField password;
+    private PasswordField password;
+
+    @FXML
+    private PasswordField repeatPassword;
 
     @FXML
     private TextField email;
@@ -44,7 +49,7 @@ public class SignUpController extends AbstractController implements Initializabl
     private RadioButton woman;
 
     @FXML
-    private RadioButton other;
+    private Label validpass;
 
     private UserService userService;
 
@@ -56,11 +61,16 @@ public class SignUpController extends AbstractController implements Initializabl
     /**
      * Method which takes the entered details and creates a user.
      */
-    public void doSignUp() {
+    public void doSignUp() throws IOException {
         if (!email.getText().equals(confirmemail.getText()) || password.getText().isBlank()
                 || email.getText().isBlank() || username.getText().isBlank()) {
+            validpass.setText("Please input correct values.");
             return;
             //show error message in a modal
+        }
+        if (repeatPassword.getText().isEmpty() || !repeatPassword.getText().equals(password.getText())) {
+            validpass.setText("Passwords do not match.");
+            return;
         }
 
         User user = new User();
@@ -70,6 +80,7 @@ public class SignUpController extends AbstractController implements Initializabl
         user.setPassword(password.getText());
 
         if (this.userService.createAccount(user)) {
+            goToSmall(username, LOGIN);
             System.out.println("Signed up successfully.");
         } else {
             System.err.println("Signed up is incorrect.");

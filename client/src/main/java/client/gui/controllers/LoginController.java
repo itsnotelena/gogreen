@@ -55,9 +55,6 @@ public class LoginController extends AbstractController implements Initializable
     @FXML
     private ImageView logo;
 
-    @FXML
-    private Button helloWorld;
-
     private UserService service;
 
     @Autowired
@@ -107,13 +104,6 @@ public class LoginController extends AbstractController implements Initializable
                 validpass.setText("Invalid Credentials");
             }
         }
-    }
-
-    /**
-     * Gets the data from the hello endpoint and sets the text of the goBack to the response.
-     */
-    public void hello() {
-        this.helloWorld.setText("hello");
     }
 
     @Override
