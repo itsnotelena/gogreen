@@ -92,6 +92,7 @@ public class MainController implements Initializable {
             drawer.setSidePane(myPane);
             drawer.setDefaultDrawerSize(DRAWER_SIZE);
             //drawer.setOverLayVisible(true);
+
             drawer.setResizableOnDrag(true);
             HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
             task.setRate(task.getRate() * -1);
@@ -143,28 +144,28 @@ public class MainController implements Initializable {
             Node chartSlice = chartData.getNode();
             chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 if (chartData.getName().equals("Food")) {
+                    foodList.animateList();
                     if (energyList.isExpanded()) {
                         energyList.animateList();
                     }
                     if (transportList.isExpanded()) {
                         transportList.animateList();
-                        foodList.animateList();
                     }
                 } else if (chartData.getName().equals("Transport")) {
+                    transportList.animateList();
                     if (foodList.isExpanded()) {
                         foodList.animateList();
                     }
                     if (energyList.isExpanded()) {
                         energyList.animateList();
-                        transportList.animateList();
                     }
                 } else if (chartData.getName().equals("Energy")) {
+                    energyList.animateList();
                     if (foodList.isExpanded()) {
                         foodList.animateList();
                     }
                     if (transportList.isExpanded()) {
                         transportList.animateList();
-                        energyList.animateList();
                     }
 
                 }
