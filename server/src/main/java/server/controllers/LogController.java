@@ -19,7 +19,7 @@ public class LogController {
     /**
      * The method which saves a new log to the database.
      * @param log The log which is to be saved.
-     * @return Returns the modified log the the request
+     * @return Returns the log the the request for confirmation (Date is modified though)
      */
     @RequestMapping(value = "/log", method = RequestMethod.POST)
     public Log logAction(@RequestBody Log log) {

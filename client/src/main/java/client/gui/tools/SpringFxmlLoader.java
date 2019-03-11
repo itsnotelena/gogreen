@@ -9,7 +9,7 @@ import java.io.IOException;
 
 class SpringFxmlLoader {
 
-    // Not sure about Main.class
+    // Not sure about Main.class. Update: Fairly certain about Main.class
     private static final ApplicationContext applicationContext =
             new AnnotationConfigApplicationContext(Main.class);
 

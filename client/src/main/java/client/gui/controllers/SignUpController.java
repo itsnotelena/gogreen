@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import java.util.ResourceBundle;
 
 @Component
 @Controller
+@NoArgsConstructor
 public class SignUpController extends AbstractController implements Initializable {
 
     @FXML
@@ -51,9 +53,6 @@ public class SignUpController extends AbstractController implements Initializabl
         this.userService = userService;
     }
 
-    public SignUpController() {
-    }
-
     /**
      * Method which takes the entered details and creates a user.
      */
@@ -61,7 +60,7 @@ public class SignUpController extends AbstractController implements Initializabl
         if (!email.getText().equals(confirmemail.getText()) || password.getText().isBlank()
                 || email.getText().isBlank() || username.getText().isBlank()) {
             return;
-            //show error message
+            //show error message in a modal
         }
 
         User user = new User();
@@ -79,13 +78,7 @@ public class SignUpController extends AbstractController implements Initializabl
     }
 
     private Gender getGender() {
-        if (man.isPressed()) {
-            return Gender.MAN;
-        } else if (woman.isPressed()) {
-            return Gender.WOMAN;
-        } else {
-            return Gender.OTHER;
-        }
+        return man.isPressed() ? Gender.MAN : (woman.isPressed() ? Gender.WOMAN : Gender.OTHER);
     }
 
     /**
@@ -101,5 +94,4 @@ public class SignUpController extends AbstractController implements Initializabl
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-
 }
