@@ -3,15 +3,11 @@ package server.controllers;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import server.exceptions.UserExistsException;
 import server.repositories.UserRepository;
-import server.security.JWTAuthenticationFilter;
 import shared.endpoints.UserEndpoints;
 import shared.models.User;
 
