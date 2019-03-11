@@ -5,6 +5,7 @@ import static client.gui.tools.SceneNames.MAIN;
 import static client.gui.tools.SceneNames.SIGNUP;
 
 import client.gui.tools.AbstractController;
+import client.services.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,8 +15,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import shared.models.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,7 +41,7 @@ public class LoginController extends AbstractController implements Initializable
     private Button login;
 
     @FXML
-    private TextField textfield;
+    private TextField username;
 
     @FXML
     private PasswordField passwordField;
@@ -55,6 +58,13 @@ public class LoginController extends AbstractController implements Initializable
     @FXML
     private Button helloWorld;
 
+    private UserService service;
+
+    @Autowired
+    public LoginController(UserService service) {
+        this.service = service;
+    }
+
     /**
      * Goes to the create account.
      * @throws IOException Throws exception when create account window cannot be found
@@ -62,7 +72,7 @@ public class LoginController extends AbstractController implements Initializable
     @FXML
     public void createAccount() throws IOException {
 
-        goToSmall(textfield, SIGNUP);
+        goToSmall(username, SIGNUP);
 
     }
 
@@ -73,7 +83,7 @@ public class LoginController extends AbstractController implements Initializable
      */
     @FXML
     public void resetPass() throws IOException {
-        goToSmall(textfield, FORGOT);
+        goToSmall(username, FORGOT);
     }
 
     /**
@@ -82,10 +92,20 @@ public class LoginController extends AbstractController implements Initializable
      * @throws IOException throws exception when menu is not found
      */
     public void doLogin() throws IOException {
-        if (textfield.getText().equals("user") && passwordField.getText().equals("pass")) {
-            goToLarge(textfield, MAIN);
-        } else {
+
+        User user = new User();
+
+        if (username.getText().isEmpty() || passwordField.getText().isEmpty()) {
             validpass.setText("Invalid Credentials");
+        } else {
+
+            user.setUsername(username.getText());
+            user.setPassword(passwordField.getText());
+            if (service.login(user)) {
+                goToLarge(username, MAIN);
+            } else {
+                validpass.setText("Invalid Credentials");
+            }
         }
     }
 
