@@ -14,12 +14,15 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -116,12 +119,12 @@ public class MainController implements Initializable {
         DoughnutChart chart = new DoughnutChart(pieChartData);
         chartContainer.getChildren().add(chart);
 
-//        chart.setData(pieChartData);
+        //chart.setData(pieChartData);
         JFXNodesList foodList = new JFXNodesList();
         JFXNodesList transportList = new JFXNodesList();
         JFXNodesList energyList = new JFXNodesList();
 
-//        nodeListContainer.setSpacing(100);
+        //nodeListContainer.setSpacing(100);
         nodeListContainer.getChildren().add(foodList);
         nodeListContainer.getChildren().add(energyList);
         nodeListContainer.getChildren().add(transportList);
@@ -140,23 +143,29 @@ public class MainController implements Initializable {
             Node chartSlice = chartData.getNode();
             chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 if (chartData.getName().equals("Food")) {
-                    if (energyList.isExpanded())
+                    if (energyList.isExpanded()) {
                         energyList.animateList();
-                    if (transportList.isExpanded())
+                    }
+                    if (transportList.isExpanded()) {
                         transportList.animateList();
-                    foodList.animateList();
+                        foodList.animateList();
+                    }
                 } else if (chartData.getName().equals("Transport")) {
-                    if (foodList.isExpanded())
+                    if (foodList.isExpanded()) {
                         foodList.animateList();
-                    if (energyList.isExpanded())
+                    }
+                    if (energyList.isExpanded()) {
                         energyList.animateList();
-                    transportList.animateList();
-                } else if (chartData.getName().equals("Energy")) {
-                    if(foodList.isExpanded())
-                        foodList.animateList();
-                    if(transportList.isExpanded())
                         transportList.animateList();
-                    energyList.animateList();
+                    }
+                } else if (chartData.getName().equals("Energy")) {
+                    if (foodList.isExpanded()) {
+                        foodList.animateList();
+                    }
+                    if (transportList.isExpanded()) {
+                        transportList.animateList();
+                        energyList.animateList();
+                    }
 
                 }
             });

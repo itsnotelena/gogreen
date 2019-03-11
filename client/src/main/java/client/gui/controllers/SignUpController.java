@@ -68,7 +68,8 @@ public class SignUpController extends AbstractController implements Initializabl
             return;
             //show error message in a modal
         }
-        if (repeatPassword.getText().isEmpty() || !repeatPassword.getText().equals(password.getText())) {
+        if (repeatPassword.getText().isEmpty()
+                || !repeatPassword.getText().equals(password.getText())) {
             validpass.setText("Passwords do not match.");
             return;
         }

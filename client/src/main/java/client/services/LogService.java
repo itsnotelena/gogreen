@@ -11,9 +11,11 @@ public class LogService {
     private RestTemplate restTemplate;
 
     @Autowired
-    public LogService(RestTemplate restTemplate) {this.restTemplate = restTemplate; }
+    public LogService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
-    public boolean createLog(Log log){
+    public boolean createLog(Log log) {
         Log response = restTemplate.postForObject("/user/log", log, Log.class);
         return response != null;
     }

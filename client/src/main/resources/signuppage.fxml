@@ -15,15 +15,15 @@
         <ImageView fitHeight="100.0" fitWidth="172.0" layoutX="250.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
                 <Image url="@images/logo.png" />
         </ImageView>
-    <Label fx:id="validpass" layoutX="215.0" layoutY="390.0" textFill="#e82121" />
-   <JFXButton fx:id="continue" layoutX="196.0" layoutY="350.0" prefHeight="27.0" onAction="#doSignUp" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Sign up!" />
-   <JFXButton fx:id="returnButton" layoutX="332.0" layoutY="350.0" onAction="#goToLogin" prefHeight="27.0" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Return" />
    <JFXTextField fx:id="username" layoutX="200.0" layoutY="120.0" prefHeight="27.0" prefWidth="200.0" promptText="Username" />
-    <JFXPasswordField fx:id="password" layoutX="200.0" layoutY="160.0" prefHeight="27.0" prefWidth="200.0" promptText="Password" />
-    <JFXPasswordField fx:id="repeatPassword" layoutX="200.0" layoutY="200.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm password" />
-   <JFXTextField fx:id="email" layoutX="197.0" layoutY="265.0" prefHeight="34.0" prefWidth="200.0" promptText="E-mail" />
-   <JFXTextField fx:id="confirmemail" layoutX="197.0" layoutY="305.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm E-mail" />
-   <JFXRadioButton fx:id="man" layoutX="197.0" layoutY="240.0" text="Man" />
-   <JFXRadioButton fx:id="woman" layoutX="262.0" layoutY="240.0" text="Woman" />
-   <JFXRadioButton fx:id="other" layoutX="339.0" layoutY="240.0" text="Other" />
+    <JFXPasswordField fx:id="password" layoutX="200.0" layoutY="170.0" prefHeight="27.0" prefWidth="200.0" promptText="Password" />
+    <JFXPasswordField fx:id="repeatPassword" layoutX="200.0" layoutY="220.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm password" />
+   <JFXTextField fx:id="email" layoutX="200.0" layoutY="290.0" prefHeight="34.0" prefWidth="200.0" promptText="E-mail" />
+   <JFXTextField fx:id="confirmemail" layoutX="200.0" layoutY="340.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm E-mail" />
+   <JFXRadioButton fx:id="man" layoutX="200.0" layoutY="265.0" text="Man" />
+   <JFXRadioButton fx:id="woman" layoutX="262.0" layoutY="265.0" text="Woman" />
+   <JFXRadioButton fx:id="other" layoutX="339.0" layoutY="265.0" text="Other" />
+    <JFXButton fx:id="continue" layoutX="200.0" layoutY="380.0" prefHeight="27.0" onAction="#doSignUp" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Sign up!" />
+    <JFXButton fx:id="returnButton" layoutX="332.0" layoutY="380.0" onAction="#goToLogin" prefHeight="27.0" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Return" />
+    <Label fx:id="validpass" layoutX="215.0" layoutY="410.0" textFill="#e82121" />
 </AnchorPane>
