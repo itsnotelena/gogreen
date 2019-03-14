@@ -1,5 +1,7 @@
 package client.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -27,10 +29,6 @@ public class UserService {
         this.restTemplate = restTemplate;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     public boolean createAccount(User user) {
         User response = restTemplate.postForObject(UserEndpoints.SIGNUP, user, User.class);
         return response != null;
@@ -50,6 +48,7 @@ public class UserService {
                 response.getHeaders().get("Authorization"));
         String token = auth.get(0);
         this.user = user;
+        user.setPassword("");
         restTemplate.getInterceptors().add((request, body, execution) -> {
             request.getHeaders().set("Authorization", token);
             return execution.execute(request, body);
@@ -64,9 +63,15 @@ public class UserService {
      * Methods logs to the database that the user has eaten a vegetarian meal
      */
     public void ateVegMeal() {
+        User userKey = restTemplate.postForObject("/search/user", this.user.getUsername(), User.class);
+        try {
+            System.out.println(new ObjectMapper().writeValueAsString(userKey));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         Log req = new Log();
         //TODO: set respective user so that we can keep track of points.
-        req.setUser(null);
+        req.setUser(userKey);
         req.setAction(Action.VegetarianMeal);
         req.setDate(new Date());
         Log response = restTemplate.postForObject("/log", req, Log.class);
