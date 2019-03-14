@@ -152,31 +152,35 @@ public class MainController implements Initializable {
         for (PieChart.Data chartData : chart.getData()) {
             Node chartSlice = chartData.getNode();
             chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                if (chartData.getName().equals("Food")) {
-                    foodList.animateList();
-                    if (energyList.isExpanded()) {
-                        energyList.animateList();
-                    }
-                    if (transportList.isExpanded()) {
-                        transportList.animateList();
-                    }
-                } else if (chartData.getName().equals("Transport")) {
-                    transportList.animateList();
-                    if (foodList.isExpanded()) {
+                switch (chartData.getName()) {
+                    case "Food":
                         foodList.animateList();
-                    }
-                    if (energyList.isExpanded()) {
-                        energyList.animateList();
-                    }
-                } else if (chartData.getName().equals("Energy")) {
-                    energyList.animateList();
-                    if (foodList.isExpanded()) {
-                        foodList.animateList();
-                    }
-                    if (transportList.isExpanded()) {
+                        if (energyList.isExpanded()) {
+                            energyList.animateList();
+                        }
+                        if (transportList.isExpanded()) {
+                            transportList.animateList();
+                        }
+                        break;
+                    case "Transport":
                         transportList.animateList();
-                    }
+                        if (foodList.isExpanded()) {
+                            foodList.animateList();
+                        }
+                        if (energyList.isExpanded()) {
+                            energyList.animateList();
+                        }
+                        break;
+                    case "Energy":
+                        energyList.animateList();
+                        if (foodList.isExpanded()) {
+                            foodList.animateList();
+                        }
+                        if (transportList.isExpanded()) {
+                            transportList.animateList();
+                        }
 
+                        break;
                 }
             });
         }

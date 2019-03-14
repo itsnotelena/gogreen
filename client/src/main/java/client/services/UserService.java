@@ -7,6 +7,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
@@ -42,8 +43,12 @@ public class UserService {
      */
     public boolean login(User user) {
         HttpEntity<User> req = new HttpEntity<>(user);
-        ResponseEntity<User> response =
-                restTemplate.exchange(UserEndpoints.LOGIN, HttpMethod.POST, req, User.class);
+        ResponseEntity<User> response;
+        try {
+            response = restTemplate.exchange(UserEndpoints.LOGIN, HttpMethod.POST, req, User.class);
+        } catch (HttpClientErrorException e) {
+            return false;
+        }
         List<String> auth = Objects.requireNonNull(
                 response.getHeaders().get("Authorization"));
         String token = auth.get(0);
