@@ -20,9 +20,15 @@ public class UserService {
 
     private final RestTemplate restTemplate;
 
+    private User user;
+
     @Autowired
     public UserService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public boolean createAccount(User user) {
@@ -43,13 +49,13 @@ public class UserService {
         List<String> auth = Objects.requireNonNull(
                 response.getHeaders().get("Authorization"));
         String token = auth.get(0);
+        this.user = user;
         restTemplate.getInterceptors().add((request, body, execution) -> {
             request.getHeaders().set("Authorization", token);
             return execution.execute(request, body);
         });
 
-        boolean code = response.getStatusCodeValue() / 100 == 2;
-        return code;
+        return response.getStatusCodeValue() / 100 == 2;
         // TODO: Login to the backend
         // Make sure to globally set the authentication header for further communications
     }
@@ -59,6 +65,7 @@ public class UserService {
      */
     public void ateVegMeal() {
         Log req = new Log();
+        //TODO: set respective user so that we can keep track of points.
         req.setUser(null);
         req.setAction(Action.VegetarianMeal);
         req.setDate(new Date());

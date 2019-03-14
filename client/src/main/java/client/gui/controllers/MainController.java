@@ -99,6 +99,8 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rs) {
+        System.out.println(this.service);
+        System.out.println(this.service.getUser().getUsername());
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
             drawer.setSidePane(myPane);
