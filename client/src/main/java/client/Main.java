@@ -3,7 +3,6 @@ package client;
 import client.gui.tools.SceneNames;
 import client.gui.tools.SpringFxmlLoader;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

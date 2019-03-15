@@ -14,7 +14,7 @@ public class SpringFxmlLoader {
             new AnnotationConfigApplicationContext(Main.class);
 
     /**
-     * Loads the specified fxml file and also keeps track of the spring annotations
+     * Loads the specified fxml file and also keeps track of the spring annotations.
      * @param url The path to the fxml file to load
      * @return The parent object returned by the loader
      */

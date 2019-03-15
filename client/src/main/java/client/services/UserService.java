@@ -65,22 +65,24 @@ public class UserService {
     }
 
     /**
-     * Methods logs to the database that the user has eaten a vegetarian meal
+     * Methods logs to the database that the user has eaten a vegetarian meal.
      */
-    public void ateVegMeal() {
-        User userKey = restTemplate.postForObject("/search/user", this.user.getUsername(), User.class);
+    public long ateVegMeal() {
+        User userKey = restTemplate.postForObject("/search/user",
+                this.user.getUsername(), User.class);
         try {
             System.out.println(new ObjectMapper().writeValueAsString(userKey));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         Log req = new Log();
-        //TODO: set respective user so that we can keep track of points.
         req.setUser(userKey);
         req.setAction(Action.VegetarianMeal);
         req.setDate(new Date());
         Log response = restTemplate.postForObject("/log", req, Log.class);
+        Long newPoints = restTemplate.postForObject("/action", Action.VegetarianMeal, Long.class);
         System.out.println("Succesfully added a log to the table");
+        return newPoints;
     }
 }
 
