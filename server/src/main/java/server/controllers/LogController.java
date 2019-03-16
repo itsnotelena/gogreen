@@ -29,6 +29,7 @@ public class LogController {
     public Log logAction(@RequestBody Log log, Authentication authentication) {
         log.setDate(new Date());
         User user = userRepository.findUserByUsername(authentication.getName());
+        user.setPassword("");
         log.setUser(user);
         logRepository.save(log); // Save to database
 
