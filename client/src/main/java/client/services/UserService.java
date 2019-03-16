@@ -84,6 +84,11 @@ public class UserService {
         System.out.println("Succesfully added a log to the table");
         return newPoints;
     }
+
+    public long getPoints() {
+        Long points = restTemplate.getForObject("/points", Long.class);
+        return points;
+    }
 }
 
 

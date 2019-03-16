@@ -24,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,12 @@ public class MainController implements Initializable {
 
     @FXML
     private Pane myPane;
+
+    @FXML
+    private HBox profileInfo;
+
+    @FXML
+    private Text pointsContainer;
 
     @FXML
     private HBox chartContainer;
@@ -131,6 +138,8 @@ public class MainController implements Initializable {
         DoughnutChart chart = new DoughnutChart(pieChartData);
         chartContainer.getChildren().add(chart);
 
+        pointsContainer.setText(service.getPoints() + "");
+
         JFXNodesList foodList = new JFXNodesList();
         JFXNodesList transportList = new JFXNodesList();
         JFXNodesList energyList = new JFXNodesList();
@@ -198,7 +207,7 @@ public class MainController implements Initializable {
         addEventHandlers(publicbtn, publicLabel, tempbtn, tempLabel, solarbtn, solarLabel);
 
         vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            this.service.ateVegMeal();
+            this.pointsContainer.setText(this.service.ateVegMeal() + "");
         });
     }
 

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,7 +69,8 @@ public class UserController {
 
     /**
      * Updates the user points based on the action and returns the new amount of points.
-     * @param action The action for which the user gets the points
+     *
+     * @param action         The action for which the user gets the points
      * @param authentication Details to identify the user
      * @return The new amount of points
      */
@@ -76,8 +78,16 @@ public class UserController {
     public long updatePoints(@RequestBody Action action,
                              Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
-        user.setFoodPoints(user.getFoodPoints() + 100);
-        repository.save(user);
+        if (action.equals(Action.VegetarianMeal)) {
+            user.setFoodPoints(user.getFoodPoints() + 100);
+            repository.save(user);
+        }
+        return user.getFoodPoints();
+    }
+
+    @GetMapping(value = "/points")
+    public long getPoints(Authentication authentication) {
+        User user = repository.findUserByUsername(authentication.getName());
         return user.getFoodPoints();
     }
 
