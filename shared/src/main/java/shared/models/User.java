@@ -45,4 +45,7 @@ public class User implements Serializable {
 
     @ManyToMany
     private Set<User> friends;
+
+    @Column
+    private long foodPoints;
 }

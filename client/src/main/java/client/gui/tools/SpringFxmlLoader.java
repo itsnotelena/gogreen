@@ -7,13 +7,18 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.io.IOException;
 
-class SpringFxmlLoader {
+public class SpringFxmlLoader {
 
     // Not sure about Main.class. Update: Fairly certain about Main.class
     private static final ApplicationContext applicationContext =
             new AnnotationConfigApplicationContext(Main.class);
 
-    Object load(String url) {
+    /**
+     * Loads the specified fxml file and also keeps track of the spring annotations.
+     * @param url The path to the fxml file to load
+     * @return The parent object returned by the loader
+     */
+    public Object load(String url) {
         FXMLLoader loader = new FXMLLoader();
         loader.setControllerFactory(applicationContext::getBean);
         loader.setLocation(getClass().getResource(url));
