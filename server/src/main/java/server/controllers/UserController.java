@@ -58,13 +58,6 @@ public class UserController {
         return user;
     }
 
-    @PostMapping(value = "/search/user")
-    public User getUserByName(@RequestBody String userName) {
-        User ret = repository.findUserByUsername(userName);
-        ret.setPassword("");
-        return ret;
-    }
-
     //TODO: Give different points based on the action
 
     /**

@@ -1,7 +1,5 @@
 package client.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -22,8 +20,6 @@ import java.util.Objects;
 public class UserService {
 
     private final RestTemplate restTemplate;
-
-    private User user;
 
     @Autowired
     public UserService(RestTemplate restTemplate) {
@@ -52,8 +48,6 @@ public class UserService {
         List<String> auth = Objects.requireNonNull(
                 response.getHeaders().get("Authorization"));
         String token = auth.get(0);
-        this.user = user;
-        user.setPassword("");
         restTemplate.getInterceptors().add((request, body, execution) -> {
             request.getHeaders().set("Authorization", token);
             return execution.execute(request, body);
@@ -68,18 +62,10 @@ public class UserService {
      * Methods logs to the database that the user has eaten a vegetarian meal.
      */
     public long ateVegMeal() {
-        User userKey = restTemplate.postForObject("/search/user",
-                this.user.getUsername(), User.class);
-        try {
-            System.out.println(new ObjectMapper().writeValueAsString(userKey));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
         Log req = new Log();
-        req.setUser(userKey);
         req.setAction(Action.VegetarianMeal);
         req.setDate(new Date());
-        Log response = restTemplate.postForObject("/log", req, Log.class);
+        restTemplate.postForObject("/log", req, Log.class);
         Long newPoints = restTemplate.postForObject("/action", Action.VegetarianMeal, Long.class);
         System.out.println("Succesfully added a log to the table");
         return newPoints;
