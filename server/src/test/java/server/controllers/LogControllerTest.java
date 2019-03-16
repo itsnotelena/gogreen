@@ -75,5 +75,7 @@ public class LogControllerTest {
 
         Assert.assertEquals(log.getAction(), req.getAction());
         Assert.assertEquals(log.getUser().getUsername(), testUser.getUsername());
+
+        logRepository.delete(log);
     }
 }
