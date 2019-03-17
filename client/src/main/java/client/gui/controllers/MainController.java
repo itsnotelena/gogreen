@@ -145,7 +145,7 @@ public class MainController implements Initializable {
         DoughnutChart chart = new DoughnutChart(pieChartData);
         chartContainer.getChildren().add(chart);
 
-        pointsContainer.setText(service.getPoints() + "");
+        pointsContainer.setText("Points: " + service.getPoints());
 
         JFXNodesList foodList = new JFXNodesList();
         JFXNodesList transportList = new JFXNodesList();
@@ -214,7 +214,7 @@ public class MainController implements Initializable {
         addEventHandlers(publicbtn, publicLabel, tempbtn, tempLabel, solarbtn, solarLabel);
 
         vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            this.pointsContainer.setText(this.service.ateVegMeal() + "");
+            this.pointsContainer.setText("Points: " + this.service.ateVegMeal());
             this.logs = this.service.getLog();
             this.loglist.getItems().clear();
             this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getId() + " " + e.getAction() + " " + e.getDate())));
