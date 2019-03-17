@@ -1,6 +1,7 @@
 package client.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -77,6 +78,22 @@ public class UserService {
         Long response = restTemplate.getForObject("/points", Long.class);
         return response != null ? response : 0L;
     }
+
+    public List<Log> getLog(){
+        ResponseEntity<List<Log>> response =
+                restTemplate.exchange(
+                        "/logs",
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<Log>>(){});
+
+        List<Log> loglist = response.getBody();
+
+
+        return loglist;
+
+    }
+
 }
 
 

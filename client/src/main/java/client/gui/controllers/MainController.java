@@ -5,10 +5,7 @@ import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXNodesList;
+import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -27,9 +25,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import shared.models.Log;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -95,7 +95,12 @@ public class MainController implements Initializable {
     @FXML
     private JFXHamburger hamburger;
 
+    @FXML
+    private ListView loglist;
+
     private UserService service;
+
+    private List<Log> logs;
 
 
     //TODO: find why the service is different after client restarts app.
@@ -130,6 +135,8 @@ public class MainController implements Initializable {
                 }
 
             });
+            this.logs = this.service.getLog();
+            this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getId()+" "+e.getAction()+" "+e.getDate())));
         } catch (IOException e) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -208,7 +215,13 @@ public class MainController implements Initializable {
 
         vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             this.pointsContainer.setText(this.service.ateVegMeal() + "");
+            this.logs = this.service.getLog();
+            this.loglist.getItems().clear();
+            this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getId() + " " + e.getAction() + " " + e.getDate())));
         });
+
+
+
     }
 
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
@@ -234,4 +247,5 @@ public class MainController implements Initializable {
                 new PieChart.Data("Transport", 33)
         );
     }
+
 }

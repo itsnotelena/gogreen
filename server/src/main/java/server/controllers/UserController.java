@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import server.exceptions.UserExistsException;
+import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.User;
+import shared.models.Log;
 
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -25,6 +28,7 @@ public class UserController {
     private static final AtomicLong counter = new AtomicLong();
 
     private final UserRepository repository;
+    private final LogRepository logRepository;
 
     private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
@@ -82,6 +86,13 @@ public class UserController {
     public long getPoints(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         return user.getFoodPoints();
+    }
+
+    @GetMapping(value="/logs")
+    public List<Log> getLogs(Authentication authentication)
+    {
+        User user = repository.findUserByUsername(authentication.getName());
+        return logRepository.findByUser(user);
     }
 
 }
