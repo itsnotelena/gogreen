@@ -1,7 +1,8 @@
 package client;
 
+import client.gui.tools.SceneNames;
+import client.gui.tools.SpringFxmlLoader;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,9 +26,8 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
         springContext = SpringApplication.run(Main.class);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/loginpage.fxml"));
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        root = fxmlLoader.load();
+        SpringFxmlLoader loader = new SpringFxmlLoader();
+        root = (Parent) loader.load("/" + SceneNames.LOGIN);
     }
 
     @Override
