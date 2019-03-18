@@ -5,6 +5,7 @@ import static client.gui.tools.SceneNames.MY_GOALS;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
+import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
@@ -12,12 +13,16 @@ import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import org.springframework.stereotype.Component;
+import shared.models.Log;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -45,6 +50,13 @@ public class PersonalPageController extends AbstractController implements Initia
     private JFXDrawer drawer;
 
     @FXML
+    private static ListView loglist;
+
+    private static UserService service;
+
+    private static List<Log> logs;
+
+    @FXML
     private void sideBar() throws IOException {
         myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ) );
         drawer.setSidePane(myPane);
@@ -62,7 +74,7 @@ public class PersonalPageController extends AbstractController implements Initia
 
 
     @Override
-    public void initialize(URL url, ResourceBundle rs) {
+    public void initialize(URL url, ResourceBundle rs){
         HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(cheeseburger);
         task.setRate( -1 );
 
@@ -76,8 +88,10 @@ public class PersonalPageController extends AbstractController implements Initia
                 drawer.open();
             }
         });
+    }
 
-        drawer.setDefaultDrawerSize(DRAWER_SIZE);
+    public static void updateLog(ListView logs){
+        loglist = logs;
     }
 }
 
