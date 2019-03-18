@@ -9,9 +9,11 @@ import client.gui.tools.AbstractController;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Component
 public class ToolBarController extends AbstractController {
 
     @FXML

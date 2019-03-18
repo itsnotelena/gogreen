@@ -1,13 +1,19 @@
 package server.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import server.exceptions.UserExistsException;
 import server.repositories.UserRepository;
+import shared.endpoints.UserEndpoints;
+import shared.models.Action;
 import shared.models.User;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -30,9 +36,10 @@ public class UserController {
 
     /**
      * Creates and returns a user with the given username and password.
+     *
      * @return the created user
      */
-    @PostMapping(value = "/user/signup")
+    @PostMapping(value = UserEndpoints.SIGNUP)
     public User createUser(@RequestBody User user) throws UserExistsException {
         user.setPassword(hashPassword(user.getPassword())); // Hash the password
 
@@ -43,6 +50,38 @@ public class UserController {
             throw new UserExistsException();
         }
         user.setPassword(""); // Don't leak the (even the hashed) password
+        try {
+            System.out.println(new ObjectMapper().writeValueAsString(user));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         return user;
     }
+
+    //TODO: Give different points based on the action
+
+    /**
+     * Updates the user points based on the action and returns the new amount of points.
+     *
+     * @param action         The action for which the user gets the points
+     * @param authentication Details to identify the user
+     * @return The new amount of points
+     */
+    @PostMapping(value = "/action")
+    public long updatePoints(@RequestBody Action action,
+                             Authentication authentication) {
+        User user = repository.findUserByUsername(authentication.getName());
+        if (action.equals(Action.VegetarianMeal)) {
+            user.setFoodPoints(user.getFoodPoints() + 100);
+            repository.save(user);
+        }
+        return user.getFoodPoints();
+    }
+
+    @GetMapping(value = "/points")
+    public long getPoints(Authentication authentication) {
+        User user = repository.findUserByUsername(authentication.getName());
+        return user.getFoodPoints();
+    }
+
 }
