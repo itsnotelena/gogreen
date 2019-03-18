@@ -16,16 +16,11 @@ build:
   script:
     - mvn $MAVEN_CLI_OPTS clean compile
 
-#test:
-#  stage: test
-#  script:
-#    - mvn $MAVEN_CLI_OPTS clean test
-
 test:
   stage: test
   services:
     - mariadb
-  coverage: '/\d+.\d+ \% covered/'
+  coverage: '/\d+(.\d+)? \% covered/'
   script:
     - mvn $MAVEN_CLI_OPTS clean install
     - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, "instructions covered"; print 100*covered/instructions, "% covered" }' coverage/target/site/jacoco-aggregate/jacoco.csv
@@ -66,6 +61,6 @@ deploy_xirion:
   before_script:
     - docker info
   script:
-    - echo $XIRION_PASS | docker login -u $XIRION_USER --password-stdin $XIRION_REGISTRY
+    - docker login -u $XIRION_USER -p $XIRION_PASS $XIRION_REGISTRY
     - docker build . -t $XIRION_REGISTRY:$CI_COMMIT_REF_NAME
     - docker push $XIRION_REGISTRY:$CI_COMMIT_REF_NAME
