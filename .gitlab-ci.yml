@@ -66,6 +66,6 @@ deploy_xirion:
   before_script:
     - docker info
   script:
-    - echo $XIRION_PASS | docker login -u $XIRION_USER --password-stdin
-    - docker build . -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    - echo $XIRION_PASS | docker login -u $XIRION_USER --password-stdin $XIRION_REGISTRY
+    - docker build . -t $XIRION_REGISTRY:$CI_COMMIT_REF_NAME
+    - docker push $XIRION_REGISTRY:$CI_COMMIT_REF_NAME
