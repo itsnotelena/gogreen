@@ -7,6 +7,12 @@ variables:
   MYSQL_ROOT_PASSWORD: "root"
   XIRION_REGISTRY: "registry.xirion.net/vroest/oopp"
 
+stages:
+  - build
+  - test
+  - staging
+  - production
+
 cache:
   paths:
     - .m2/repository
@@ -30,14 +36,16 @@ test:
 
 site:
   stage: test
+  allow_failure: true
   script:
     - mvn site
   artifacts:
     paths:
       - target/site/
 
-deploy:
-  stage: deploy
+# Nomally this would deploy to the staging env
+stage-deploy:
+  stage: staging
   image: docker:stable
   except:
     - merge_requests
@@ -51,9 +59,11 @@ deploy:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-deploy_xirion:
-  stage: deploy
+deploy-to-prod:
+  stage: production
   image: docker:stable
+  only:
+    - master
   except:
     - merge_requests
   services:
@@ -61,6 +71,6 @@ deploy_xirion:
   before_script:
     - docker info
   script:
-    - docker login -u $XIRION_USER -p $XIRION_PASS registry.xirion.net
+    - echo $XIRION_PASS | docker login -u $XIRION_USER --pasword-stdin registry.xirion.net
     - docker build . -t $XIRION_REGISTRY:$CI_COMMIT_REF_NAME
     - docker push $XIRION_REGISTRY:$CI_COMMIT_REF_NAME
