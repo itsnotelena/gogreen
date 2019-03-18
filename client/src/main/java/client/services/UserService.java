@@ -45,8 +45,10 @@ public class UserService {
         } catch (HttpClientErrorException e) {
             return false;
         }
-        List<String> auth = Objects.requireNonNull(
-                response.getHeaders().get("Authorization"));
+
+        if (response.getHeaders().get("Authorization") == null) return false;
+
+        List<String> auth = response.getHeaders().get("Authorization");
         String token = auth.get(0);
         restTemplate.getInterceptors().add((request, body, execution) -> {
             request.getHeaders().set("Authorization", token);
@@ -67,13 +69,13 @@ public class UserService {
         req.setDate(new Date());
         restTemplate.postForObject("/log", req, Log.class);
         Long newPoints = restTemplate.postForObject("/action", Action.VegetarianMeal, Long.class);
-        System.out.println("Succesfully added a log to the table");
+        System.out.println("Successfully added a log to the table");
         return newPoints;
     }
 
     public long getPoints() {
-        Long points = restTemplate.getForObject("/points", Long.class);
-        return points;
+        Long response = restTemplate.getForObject("/points", Long.class);
+        return response != null ? response : 0L;
     }
 }
 
