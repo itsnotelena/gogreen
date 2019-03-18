@@ -5,6 +5,7 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   MYSQL_DATABASE: "gogreen"
   MYSQL_ROOT_PASSWORD: "root"
+  XIRION_REGISTRY: "registry.xirion.net/vroest/oopp"
 
 cache:
   paths:
@@ -54,3 +55,17 @@ deploy:
     - docker build . -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+deploy_xirion:
+  stage: deploy
+  image: docker:stable
+  except:
+    - merge_requests
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+  script:
+    - echo $XIRION_PASS | docker login -u $XIRION_USER --password-stdin
+    - docker build . -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
