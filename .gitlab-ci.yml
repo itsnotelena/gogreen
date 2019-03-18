@@ -26,7 +26,7 @@ test:
   stage: test
   services:
     - mariadb
-  coverage: '/\d+(.\d+)? \% covered/'
+  coverage: '/\d+.\d+ \% covered/'
   script:
     - mvn $MAVEN_CLI_OPTS clean install
     - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, "instructions covered"; print 100*covered/instructions, "% covered" }' coverage/target/site/jacoco-aggregate/jacoco.csv
