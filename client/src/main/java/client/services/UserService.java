@@ -94,6 +94,18 @@ public class UserService {
 
     }
 
+    public List<User> getLeaderBoard(){
+        ResponseEntity<List<User>> response =
+                restTemplate.exchange(
+                        "/leaderboard",
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<User>>(){});
+
+        List<User> leaderlist = response.getBody();
+        return leaderlist;
+    }
+
 }
 
 

@@ -15,6 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import org.springframework.stereotype.Component;
@@ -90,9 +92,6 @@ public class PersonalPageController extends AbstractController implements Initia
         });
     }
 
-    public static void updateLog(ListView logs){
-        loglist = logs;
-    }
 }
 
 

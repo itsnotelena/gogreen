@@ -137,7 +137,6 @@ public class MainController implements Initializable {
             });
             this.logs = this.service.getLog();
             this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getId()+" "+e.getAction()+" "+e.getDate())));
-            PersonalPageController.updateLog(this.loglist);
         } catch (IOException e) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -219,7 +218,6 @@ public class MainController implements Initializable {
             this.logs = this.service.getLog();
             this.loglist.getItems().clear();
             this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getId() + " " + e.getAction() + " " + e.getDate())));
-            PersonalPageController.updateLog(this.loglist);
         });
 
 

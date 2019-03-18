@@ -55,6 +55,14 @@ public class ToolBarController extends AbstractController {
      * Logs the user out and shows them the login screen.
      * @throws IOException Throws an exception when the main window cannot be found.
      */
+    public void goToFollowers() throws IOException {
+        goToLarge(myPane, FOLLOWERS);
+    }
+
+    /**
+     * Logs the user out and shows them the login screen.
+     * @throws IOException Throws an exception when the main window cannot be found.
+     */
     public void logOut() throws IOException {
         goToSmall(myPane, LOGIN);
     }

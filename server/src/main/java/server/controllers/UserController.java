@@ -95,4 +95,9 @@ public class UserController {
         return logRepository.findByUser(user);
     }
 
+    @GetMapping(value = "/leaderboard")
+    public List<User> getLeaderBoard(){
+        return repository.findByOrderByFoodPointsDesc();
+    }
+
 }

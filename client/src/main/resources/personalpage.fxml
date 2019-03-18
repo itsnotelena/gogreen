@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
-<?import com.jfoenix.controls.JFXListView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -19,5 +18,4 @@
         <JFXButton fx:id="connect" layoutX="350.0" layoutY="266.0" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="Connect with Friends" />
         <JFXHamburger fx:id="cheeseburger" layoutX="844.0" layoutY="23.0" onMouseClicked="#sideBar" onMousePressed="#sideBar" />
         <JFXDrawer fx:id="drawer" prefHeight="402.0" prefWidth="178.0" />
-        <JFXListView fx:id="loglist" layoutX="645.0" layoutY="350.0" prefHeight="250.0" prefWidth="250.0" />
 </Pane>
