@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,6 +17,9 @@
     <JFXHamburger fx:id="cheeseburger" layoutX="844.0" layoutY="23.0" onMouseClicked="#sideBar" onMousePressed="#sideBar" />
     <JFXDrawer fx:id="drawer" prefHeight="402.0" prefWidth="178.0" />
     <JFXListView fx:id="leaderboard" layoutX="209.0" layoutY="146.0" prefHeight="474.0" prefWidth="507.0" />
-   <JFXButton fx:id="leaderbtn" layoutX="732.0" layoutY="146.0" onAction="#getLeaderBoard" text="Leaderboard" />
-   <Label layoutX="209.0" layoutY="118.0" prefHeight="25.0" prefWidth="122.0" text="Global Leaderboard" />
+   <JFXButton fx:id="leaderbtn" layoutX="791.0" layoutY="215.0" onAction="#getLeaderBoard" text="Leaderboard" />
+   <Label fx:id="infolabel" layoutX="209.0" layoutY="118.0" prefHeight="25.0" prefWidth="122.0" text="Global Leaderboard" />
+   <JFXButton fx:id="searchbtn" layoutX="818.0" layoutY="182.0" onAction="#search" text="Search" />
+   <JFXTextField fx:id="searchfield" layoutX="735.0" layoutY="146.0" promptText="Enter Username" />
+   <Label fx:id="errorlabel" layoutX="735.0" layoutY="118.0" prefHeight="25.0" prefWidth="135.0" text="please enter username" textFill="#ea0101" />
 </Pane>

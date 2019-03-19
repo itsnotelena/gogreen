@@ -106,6 +106,12 @@ public class UserService {
         return leaderlist;
     }
 
+    public User search(String username){
+        User response = restTemplate.postForObject("/search", username, User.class);
+        System.out.println(response);
+        return response;
+    }
+
 }
 
 

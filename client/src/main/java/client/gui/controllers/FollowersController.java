@@ -4,6 +4,7 @@ import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,11 +48,25 @@ public class FollowersController implements Initializable{
     private JFXButton leaderbtn;
 
     @FXML
+    private JFXButton searchbtn;
+
+    @FXML
+    private Label infolabel;
+
+    @FXML
+    private Label errorlabel;
+
+    @FXML
+    private JFXTextField searchfield;
+
+    @FXML
     private ListView leaderboard;
 
     private UserService service;
 
     private List<User> leaderlist;
+
+    private User result;
 
     @FXML
     private void sideBar() throws IOException {
@@ -63,6 +78,7 @@ public class FollowersController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rs){
+             errorlabel.setVisible(false);
 
             drawer.setDefaultDrawerSize(DRAWER_SIZE);
             //drawer.setOverLayVisible(true);
@@ -85,17 +101,30 @@ public class FollowersController implements Initializable{
                 }
 
             });
+            infolabel.setText("Global Leaderboard");
             this.leaderlist = this.service.getLeaderBoard();
             this.leaderlist.forEach(e -> this.leaderboard.getItems().add(new Label("Username: "+e.getUsername()+" Email: "+e.getEmail()+" Points: "+e.getFoodPoints())));
 
     }
 
     @FXML
-    private void getLeaderBoard() throws IOException{
-        System.out.println("called");
+    private void getLeaderBoard(){
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
-        this.leaderlist.forEach(e -> this.leaderboard.getItems().add(new Label("Username: "+e.getUsername()+" Email: "+e.getEmail())));
+        infolabel.setText("Global Leaderboard");
+        this.leaderlist.forEach(e -> this.leaderboard.getItems().add(new Label("Username: "+e.getUsername()+" Email: "+e.getEmail()+" Points: "+e.getFoodPoints())));
+    }
+
+    @FXML
+    private void search(){
+        if(!this.searchfield.getText().isBlank()) {
+            this.result = this.service.search(this.searchfield.getText());
+            this.leaderboard.getItems().clear();
+            infolabel.setText("Search Results");
+            this.leaderboard.getItems().add(new Label("Username: " + this.result.getUsername() + " Email: " + this.result.getEmail() + " Points: " + this.result.getFoodPoints()));
+        }else{
+            errorlabel.setVisible(true);
+        }
     }
 
 }
