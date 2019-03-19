@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import server.exceptions.UserExistsException;
 import server.repositories.LogRepository;
@@ -67,30 +69,19 @@ public class UserController {
 
     @GetMapping(value = UserEndpoints.ACTIONLIST)
     public int actionList(Authentication authentication) {
-        ArrayList<Action> list = new ArrayList<>();
         User user = repository.findUserByUsername(authentication.getName());
         user.setPassword("");
         int points = 0;
-        long key = user.getId();
-        System.out.println(key);
-
-        Iterable<Log> findAll = logRepository.findAll();
-        Iterator<Log> iter = findAll.iterator();
-
-        while (iter.hasNext()) {
-            Log log = iter.next();
-            if (log.getUser().getId() == key) {
-                list.add(log.getAction());
-            }
-        }
+        List<Log> list = logRepository.findByUser(user);
 
         if (list == null){
             return 0;
         }
 
-        for (int i = 0; i < list.size(); i++) {
-            points = calcPoints(list.get(i));
+        for (Log log : list){
+            points = points + calcPoints(log.getAction());
         }
+
         return points;
     }
 
@@ -102,23 +93,29 @@ public class UserController {
     }
 
     public int calcPoints(Action action){
-        int points = 0;
         if (action.equals(Action.VEGETARIAN)){
-            points =+ Points.VEGETARIAN;
+            return Points.VEGETARIAN;
         }
         if (action.equals(Action.TEMP)){
-            points =+ Points.TEMP;
+            return Points.TEMP;
         }
         if (action.equals(Action.BIKE)){
-            points =+ Points.BIKE;
+            return Points.BIKE;
         }
         if (action.equals(Action.LOCAL)){
-            points =+ Points.LOCAL;
+            return Points.LOCAL;
         }
         if (action.equals(Action.PUBLIC)){
-            points =+ Points.PUBLIC;
+            return Points.PUBLIC;
         }
-        return points;
+        if (action.equals(Action.SOLAR)) {
+            return Points.SOLAR;
+        }
+        if (action == null){
+            return 0;
+        } else {
+            return 0;
+        }
     }
 
 }

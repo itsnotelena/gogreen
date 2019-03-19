@@ -104,6 +104,9 @@ public class MainController implements Initializable {
     private List<Log> logs;
 
 
+    int points = 0;
+
+
     //TODO: find why the service is different after client restarts app.
     @Autowired
     public MainController(UserService service) {
@@ -137,7 +140,7 @@ public class MainController implements Initializable {
 
             });
             this.logs = this.service.getLog();
-            this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getId()+" "+e.getAction()+" "+e.getDate())));
+            this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getAction()+" "+e.getDate())));
         } catch (IOException e) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -146,7 +149,8 @@ public class MainController implements Initializable {
         DoughnutChart chart = new DoughnutChart(pieChartData);
         chartContainer.getChildren().add(chart);
 
-        pointsContainer.setText("Points: " + service.getPoints());
+        int point = service.getPoints();
+        pointsContainer.setText("P:" + point);
 
         JFXNodesList foodList = new JFXNodesList();
         JFXNodesList transportList = new JFXNodesList();
@@ -214,30 +218,35 @@ public class MainController implements Initializable {
         addEventHandlers(vegbtn, vegLabel, localbtn, localLabel, bikebtn, bikeLabel);
         addEventHandlers(publicbtn, publicLabel, tempbtn, tempLabel, solarbtn, solarLabel);
 
-        Action action = getAction();
 
-        buttonPressed().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            this.pointsContainer.setText("Points: " + this.service.madeAction(action));
-            this.logs = this.service.getLog();
-            this.loglist.getItems().clear();
-            this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getId() + " " + e.getAction() + " " + e.getDate())));
+        solarbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.SOLAR);
+        });
+        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.VEGETARIAN);
+        });
+        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.BIKE);
+        });
+        tempbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.TEMP);
+        });
+        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.PUBLIC);
+        });
+        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.LOCAL);
         });
     }
 
-    private JFXButton buttonPressed() {
-        if (vegbtn.isArmed()) {
-            return vegbtn;
-        } else if (localbtn.isArmed()) {
-            return localbtn;
-        } else if (bikebtn.isArmed()) {
-            return bikebtn;
-        } else if (tempbtn.isArmed()) {
-            return tempbtn;
-        } else if (publicbtn.isArmed()) {
-            return publicbtn;
-        } else {
-            return solarbtn;
-        }
+
+    private void buttonPressed(Action action) {
+        int b = this.service.madeAction(action);
+        System.out.println(b);
+        this.pointsContainer.setText("P:" + b);
+        this.logs = this.service.getLog();
+        this.loglist.getItems().clear();
+        this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getAction() + " " + e.getDate())));
     }
 
 
@@ -263,24 +272,6 @@ public class MainController implements Initializable {
                 new PieChart.Data("Energy", 33),
                 new PieChart.Data("Transport", 33)
         );
-    }
-
-    private Action getAction(){
-        Action action;
-        if (vegbtn.isArmed()){
-            action = Action.VEGETARIAN;
-        } else if (localbtn.isArmed()) {
-            action = Action.LOCAL;
-        } else if (bikebtn.isArmed()) {
-            action = Action.BIKE;
-        } else if (publicbtn.isArmed()) {
-            action = Action.PUBLIC;
-        } else if (tempbtn.isArmed()) {
-            action = Action.TEMP;
-        } else {
-            action = Action.SOLAR;
-        }
-        return action;
     }
 
 }

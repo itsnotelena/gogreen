@@ -67,8 +67,9 @@ public class UserService {
     public int madeAction(Action action) {
         Log req = new Log();
         req.setAction(action);
+        req.setDate(new Date());
         restTemplate.postForObject(UserEndpoints.POSTLOG, req, Log.class);
-        int newPoints = restTemplate.getForObject(UserEndpoints.ACTIONLIST, int.class);
+        int  newPoints = restTemplate.getForObject(UserEndpoints.ACTIONLIST, int.class);
         System.out.println("Successfully added a log to the table");
         return newPoints;
     }
