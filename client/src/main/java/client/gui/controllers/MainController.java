@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import shared.models.Action;
 import shared.models.Log;
 
 import java.io.IOException;
@@ -213,16 +214,32 @@ public class MainController implements Initializable {
         addEventHandlers(vegbtn, vegLabel, localbtn, localLabel, bikebtn, bikeLabel);
         addEventHandlers(publicbtn, publicLabel, tempbtn, tempLabel, solarbtn, solarLabel);
 
-        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            this.pointsContainer.setText("Points: " + this.service.ateVegMeal());
+        Action action = getAction();
+
+        buttonPressed().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            this.pointsContainer.setText("Points: " + this.service.madeAction(action));
             this.logs = this.service.getLog();
             this.loglist.getItems().clear();
             this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getId() + " " + e.getAction() + " " + e.getDate())));
         });
-
-
-
     }
+
+    private JFXButton buttonPressed() {
+        if (vegbtn.isArmed()) {
+            return vegbtn;
+        } else if (localbtn.isArmed()) {
+            return localbtn;
+        } else if (bikebtn.isArmed()) {
+            return bikebtn;
+        } else if (tempbtn.isArmed()) {
+            return tempbtn;
+        } else if (publicbtn.isArmed()) {
+            return publicbtn;
+        } else {
+            return solarbtn;
+        }
+    }
+
 
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
     private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
@@ -246,6 +263,24 @@ public class MainController implements Initializable {
                 new PieChart.Data("Energy", 33),
                 new PieChart.Data("Transport", 33)
         );
+    }
+
+    private Action getAction(){
+        Action action;
+        if (vegbtn.isArmed()){
+            action = Action.VEGETARIAN;
+        } else if (localbtn.isArmed()) {
+            action = Action.LOCAL;
+        } else if (bikebtn.isArmed()) {
+            action = Action.BIKE;
+        } else if (publicbtn.isArmed()) {
+            action = Action.PUBLIC;
+        } else if (tempbtn.isArmed()) {
+            action = Action.TEMP;
+        } else {
+            action = Action.SOLAR;
+        }
+        return action;
     }
 
 }

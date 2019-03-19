@@ -64,34 +64,25 @@ public class UserService {
     /**
      * Methods logs to the database that the user has eaten a vegetarian meal.
      */
-    public long ateVegMeal() {
+    public int madeAction(Action action) {
         Log req = new Log();
-        req.setAction(Action.VegetarianMeal);
-        req.setDate(new Date());
-        restTemplate.postForObject("/log", req, Log.class);
-        Long newPoints = restTemplate.postForObject("/action", Action.VegetarianMeal, Long.class);
+        req.setAction(action);
+        restTemplate.postForObject(UserEndpoints.POSTLOG, req, Log.class);
+        int newPoints = restTemplate.getForObject(UserEndpoints.ACTIONLIST, int.class);
         System.out.println("Successfully added a log to the table");
         return newPoints;
     }
 
-    public long getPoints() {
-        Long response = restTemplate.getForObject("/points", Long.class);
-        return response != null ? response : 0L;
+    public int getPoints() {
+        int response = restTemplate.getForObject(UserEndpoints.ACTIONLIST, int.class);
+        return response;
     }
 
     public List<Log> getLog(){
-        ResponseEntity<List<Log>> response =
-                restTemplate.exchange(
-                        "/logs",
-                        HttpMethod.GET,
-                        null,
-                        new ParameterizedTypeReference<List<Log>>(){});
-
+        ResponseEntity<List<Log>> response = restTemplate.exchange(UserEndpoints.LOGS,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Log>>(){});
         List<Log> loglist = response.getBody();
-
-
         return loglist;
-
     }
 
 }

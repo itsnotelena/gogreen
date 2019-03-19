@@ -15,9 +15,12 @@ import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
+import shared.models.Points;
 import shared.models.User;
 import shared.models.Log;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.List;
 
@@ -62,37 +65,60 @@ public class UserController {
         return user;
     }
 
-    //TODO: Give different points based on the action
-
-    /**
-     * Updates the user points based on the action and returns the new amount of points.
-     *
-     * @param action         The action for which the user gets the points
-     * @param authentication Details to identify the user
-     * @return The new amount of points
-     */
-    @PostMapping(value = "/action")
-    public long updatePoints(@RequestBody Action action,
-                             Authentication authentication) {
+    @GetMapping(value = UserEndpoints.ACTIONLIST)
+    public int actionList(Authentication authentication) {
+        ArrayList<Action> list = new ArrayList<>();
         User user = repository.findUserByUsername(authentication.getName());
-        if (action.equals(Action.VegetarianMeal)) {
-            user.setFoodPoints(user.getFoodPoints() + 100);
-            repository.save(user);
+        user.setPassword("");
+        int points = 0;
+        long key = user.getId();
+        System.out.println(key);
+
+        Iterable<Log> findAll = logRepository.findAll();
+        Iterator<Log> iter = findAll.iterator();
+
+        while (iter.hasNext()) {
+            Log log = iter.next();
+            if (log.getUser().getId() == key) {
+                list.add(log.getAction());
+            }
         }
-        return user.getFoodPoints();
+
+        if (list == null){
+            return 0;
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            points = calcPoints(list.get(i));
+        }
+        return points;
     }
 
-    @GetMapping(value = "/points")
-    public long getPoints(Authentication authentication) {
-        User user = repository.findUserByUsername(authentication.getName());
-        return user.getFoodPoints();
-    }
-
-    @GetMapping(value="/logs")
+    @GetMapping(value = UserEndpoints.LOGS)
     public List<Log> getLogs(Authentication authentication)
     {
         User user = repository.findUserByUsername(authentication.getName());
         return logRepository.findByUser(user);
+    }
+
+    public int calcPoints(Action action){
+        int points = 0;
+        if (action.equals(Action.VEGETARIAN)){
+            points =+ Points.VEGETARIAN;
+        }
+        if (action.equals(Action.TEMP)){
+            points =+ Points.TEMP;
+        }
+        if (action.equals(Action.BIKE)){
+            points =+ Points.BIKE;
+        }
+        if (action.equals(Action.LOCAL)){
+            points =+ Points.LOCAL;
+        }
+        if (action.equals(Action.PUBLIC)){
+            points =+ Points.PUBLIC;
+        }
+        return points;
     }
 
 }

@@ -64,7 +64,7 @@ public class LogControllerTest {
     @Test
     public void sendActionLogTest() throws Exception{
         Log req = new Log();
-        req.setAction(Action.VegetarianMeal);
+        req.setAction(Action.VEGETARIAN);
         String postContent = new ObjectMapper().writeValueAsString(req);
         String response = this.mvc.perform(post("/log")
                 .header(HttpHeaders.AUTHORIZATION, authorization)

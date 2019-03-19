@@ -61,7 +61,7 @@ public class UserControllerAfterLoginTest {
 
     @Test
     public void sendActionTest() throws Exception {
-        String postContent = new ObjectMapper().writeValueAsString(Action.VegetarianMeal);
+        String postContent = new ObjectMapper().writeValueAsString(Action.VEGETARIAN);
         String result = this.mvc.perform(post("/action").header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())
@@ -83,7 +83,7 @@ public class UserControllerAfterLoginTest {
 
     @Test
     public void getPointsAfterActionTest() throws Exception {
-        String postContent = new ObjectMapper().writeValueAsString(Action.VegetarianMeal);
+        String postContent = new ObjectMapper().writeValueAsString(Action.VEGETARIAN);
         this.mvc.perform(post("/action").header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())

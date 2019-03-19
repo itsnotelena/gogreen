@@ -1,5 +1,10 @@
 package shared.models;
 
 public enum Action {
-    VegetarianMeal
+    VEGETARIAN,
+    LOCAL,
+    TEMP,
+    BIKE,
+    PUBLIC,
+    SOLAR
 }
