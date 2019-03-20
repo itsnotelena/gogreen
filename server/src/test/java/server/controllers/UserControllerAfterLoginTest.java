@@ -16,9 +16,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
+import shared.models.Log;
 import shared.models.Points;
 import shared.models.User;
 
@@ -30,6 +32,8 @@ public class UserControllerAfterLoginTest {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    LogRepository logRepository;
     @Autowired
     private MockMvc mvc;
     private User testUser = new User();
@@ -62,18 +66,6 @@ public class UserControllerAfterLoginTest {
     }
 
     @Test
-    public void sendActionTest() throws Exception {
-        String postContent = new ObjectMapper().writeValueAsString(Action.VEGETARIAN);
-        String result = this.mvc.perform(post(UserEndpoints.ACTIONLIST).header(HttpHeaders.AUTHORIZATION, authorization)
-                .contentType(MediaType.APPLICATION_JSON).content(postContent))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse().getContentAsString();
-
-        Assert.assertEquals(100, Integer.parseInt(result));
-    }
-
-    @Test
     public void getPointsNoActionTest() throws Exception {
         String result = this.mvc.perform(get(UserEndpoints.ACTIONLIST).header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
@@ -85,8 +77,10 @@ public class UserControllerAfterLoginTest {
 
     @Test
     public void getPointsAfterActionTest() throws Exception {
-        String postContent = new ObjectMapper().writeValueAsString(Action.VEGETARIAN);
-        this.mvc.perform(post(UserEndpoints.POSTLOG).header(HttpHeaders.AUTHORIZATION, authorization)
+        Log req = new Log();
+        req.setAction(Action.VEGETARIAN);
+        String postContent = new ObjectMapper().writeValueAsString(req);
+        String toDelete = this.mvc.perform(post(UserEndpoints.POSTLOG).header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -95,6 +89,8 @@ public class UserControllerAfterLoginTest {
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
+
         Assert.assertEquals(Points.VEGETARIAN, Integer.parseInt(result));
+        logRepository.delete(new ObjectMapper().readValue(toDelete, Log.class));
     }
 }

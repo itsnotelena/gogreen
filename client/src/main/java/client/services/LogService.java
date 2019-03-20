@@ -3,6 +3,7 @@ package client.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import shared.endpoints.UserEndpoints;
 import shared.models.Log;
 
 @Service("LogService")
@@ -16,7 +17,7 @@ public class LogService {
     }
 
     public boolean createLog(Log log) {
-        Log response = restTemplate.postForObject("/user/log", log, Log.class);
+        Log response = restTemplate.postForObject(UserEndpoints.POSTLOG, log, Log.class);
         return response != null;
     }
 }

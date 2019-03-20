@@ -20,8 +20,10 @@ import org.springframework.web.client.RestTemplate;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
+import shared.models.Points;
 import shared.models.User;
 
+import java.awt.*;
 import java.util.Date;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
@@ -109,23 +111,23 @@ public class TestUserService {
         req.setAction(Action.VEGETARIAN);
         req.setDate(new Date());
         String response = new ObjectMapper().writeValueAsString(req);
-        mockServer.expect(ExpectedCount.once(), requestTo(url + "/log"))
+        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.POSTLOG))
                 .andExpect(method(HttpMethod.POST))
-                .andExpect(jsonPath("$.action").value("VegetarianMeal"))
+                .andExpect(jsonPath("$.action").value(Action.VEGETARIAN.toString()))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(response));
 
-        //TODO: remove this once we refactor the method
-        mockServer.expect(ExpectedCount.once(), requestTo(url + "/action"))
-                .andExpect(method(HttpMethod.POST))
+        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.ACTIONLIST))
+                .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(Long.toString(100)));
+                        .body(Integer.toString(Points.VEGETARIAN)));
 
         int toTest = userService.madeAction(Action.VEGETARIAN);
+
         mockServer.verify();
-//        Assert.assertEquals(toTest, Long.valueOf(100));
+        Assert.assertEquals(toTest, Points.VEGETARIAN);
     }
 
 
@@ -137,7 +139,9 @@ public class TestUserService {
 
         mockServer.expect(requestTo(url + UserEndpoints.ACTIONLIST))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withNoContent());
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Integer.toString(0)));
 
         long response = userService.getPoints();
 
