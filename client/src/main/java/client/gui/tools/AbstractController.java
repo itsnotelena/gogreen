@@ -1,9 +1,13 @@
 package client.gui.tools;
 
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -33,8 +37,9 @@ public class AbstractController {
 
     /**
      * The method goes back to a provided window (fit to screen version).
+     *
      * @param returnNode takes fxml node as a reference for the stage.
-     * @param fileName of where to go.
+     * @param fileName   of where to go.
      * @throws IOException when file does not exist.
      */
     protected void goToLarge(Node returnNode, String fileName) throws IOException {
@@ -46,5 +51,20 @@ public class AbstractController {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         stage.setX((screenSize.getWidth() - stage.getWidth()) / 2);
         stage.setY((screenSize.getHeight() - stage.getHeight()) / 2);
+    }
+
+    protected void initializeHamburger(HamburgerSlideCloseTransition task,
+                                       JFXHamburger hamburger, JFXDrawer drawer) {
+        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+
+            task.setRate(task.getRate() * -1);
+            task.play();
+
+            if (drawer.isOpened()) {
+                drawer.close();
+            } else {
+                drawer.open();
+            }
+        });
     }
 }
