@@ -21,7 +21,6 @@ import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
-import shared.models.Points;
 import shared.models.User;
 
 import java.util.List;
@@ -103,7 +102,7 @@ public class UserControllerAfterLoginTest {
                 .andReturn()
                 .getResponse().getContentAsString();
 
-        Assert.assertEquals(Points.VEGETARIAN, Integer.parseInt(result));
+        Assert.assertEquals(Action.VEGETARIAN.getPoints(), Integer.parseInt(result));
         logRepository.delete(new ObjectMapper().readValue(toDelete, Log.class));
     }
 }

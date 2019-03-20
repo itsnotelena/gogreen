@@ -1,7 +1,6 @@
 package client.services;
 
 import client.AppConfig;
-import client.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,10 +19,8 @@ import org.springframework.web.client.RestTemplate;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
-import shared.models.Points;
 import shared.models.User;
 
-import java.awt.*;
 import java.util.Date;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
@@ -122,12 +119,12 @@ public class TestUserService {
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(Integer.toString(Points.VEGETARIAN)));
+                        .body(Integer.toString(Action.VEGETARIAN.getPoints())));
 
         int toTest = userService.madeAction(Action.VEGETARIAN);
 
         mockServer.verify();
-        Assert.assertEquals(toTest, Points.VEGETARIAN);
+        Assert.assertEquals(toTest, Action.VEGETARIAN.getPoints());
     }
 
 
