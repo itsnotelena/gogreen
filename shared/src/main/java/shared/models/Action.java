@@ -1,10 +1,20 @@
 package shared.models;
 
 public enum Action {
-    VEGETARIAN,
-    LOCAL,
-    TEMP,
-    BIKE,
-    PUBLIC,
-    SOLAR
+    VEGETARIAN(465),
+    LOCAL(33),
+    TEMP(325),
+    BIKE(120),
+    PUBLIC(50),
+    SOLAR(215);
+
+    private int points;
+
+    public int getPoints() {
+        return this.points;
+    }
+
+    private Action(int points) {
+        this.points = points;
+    }
 }

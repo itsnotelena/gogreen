@@ -16,7 +16,6 @@ import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
-import shared.models.Points;
 import shared.models.User;
 
 import java.util.List;
@@ -79,7 +78,7 @@ public class UserController {
             return 0;
         }
         for (Log log : list) {
-            points = points + calcPoints(log.getAction());
+            points = points + log.getAction().getPoints();
         }
         return points;
     }
@@ -93,37 +92,6 @@ public class UserController {
     public List<Log> getLogs(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         return logRepository.findByUser(user);
-    }
-
-    /**
-     * The method calculates user points according to the action taken.
-     * @param action the action user made.
-     * @return calculated user points.
-     */
-    public int calcPoints(Action action) {
-        if (action.equals(Action.VEGETARIAN)) {
-            return Points.VEGETARIAN;
-        }
-        if (action.equals(Action.TEMP)) {
-            return Points.TEMP;
-        }
-        if (action.equals(Action.BIKE)) {
-            return Points.BIKE;
-        }
-        if (action.equals(Action.LOCAL)) {
-            return Points.LOCAL;
-        }
-        if (action.equals(Action.PUBLIC)) {
-            return Points.PUBLIC;
-        }
-        if (action.equals(Action.SOLAR)) {
-            return Points.SOLAR;
-        }
-        if (action == null) {
-            return 0;
-        } else {
-            return 0;
-        }
     }
 
 }
