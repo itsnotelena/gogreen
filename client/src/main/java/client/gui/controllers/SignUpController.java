@@ -6,7 +6,11 @@ import client.gui.tools.AbstractController;
 import client.services.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +21,6 @@ import shared.models.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 
 @Component
 @Controller
@@ -108,6 +111,5 @@ public class SignUpController extends AbstractController implements Initializabl
         ToggleGroup toggleGroup = new ToggleGroup();
         man.setToggleGroup(toggleGroup);
         woman.setToggleGroup(toggleGroup);
-        other.setToggleGroup(toggleGroup);
     }
 }

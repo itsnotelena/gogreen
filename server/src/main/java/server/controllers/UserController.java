@@ -14,7 +14,6 @@ import server.exceptions.UserExistsException;
 import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
-import shared.models.Action;
 import shared.models.Log;
 import shared.models.User;
 

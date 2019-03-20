@@ -10,11 +10,13 @@ public enum Action {
 
     private int points;
 
+    private Action(int points) {
+        this.points = points;
+    }
+    
     public int getPoints() {
         return this.points;
     }
 
-    private Action(int points) {
-        this.points = points;
-    }
+
 }
