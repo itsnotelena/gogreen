@@ -80,7 +80,7 @@ public class TestUserService {
         testUser.setPassword("test");
         testUser.setUsername("test");
 
-        mockServer.expect(requestTo(url + "/points"))
+        mockServer.expect(requestTo(url + UserEndpoints.ACTIONLIST))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withNoContent());
 

@@ -15,7 +15,6 @@ import shared.models.User;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Service("UserService")
 public class UserService {
@@ -47,7 +46,9 @@ public class UserService {
             return false;
         }
 
-        if (response.getHeaders().get("Authorization") == null) return false;
+        if (response.getHeaders().get("Authorization") == null) {
+            return false;
+        }
 
         List<String> auth = response.getHeaders().get("Authorization");
         String token = auth.get(0);
@@ -79,7 +80,11 @@ public class UserService {
         return response;
     }
 
-    public List<Log> getLog(){
+    /**
+     * This method requests a log list from the server.
+     * @return the log list.
+     */
+    public List<Log> getLog() {
         ResponseEntity<List<Log>> response = restTemplate.exchange(UserEndpoints.LOGS,
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<Log>>(){});
         List<Log> loglist = response.getBody();

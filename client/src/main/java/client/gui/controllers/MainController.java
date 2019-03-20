@@ -5,7 +5,10 @@ import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,6 +38,10 @@ import java.util.ResourceBundle;
 
 @Component
 public class MainController implements Initializable {
+
+    private UserService service;
+
+    private List<Log> logs;
 
     @FXML
     private AnchorPane menupane;
@@ -99,13 +106,6 @@ public class MainController implements Initializable {
     @FXML
     private ListView loglist;
 
-    private UserService service;
-
-    private List<Log> logs;
-
-
-    int points = 0;
-
 
     //TODO: find why the service is different after client restarts app.
     @Autowired
@@ -128,19 +128,17 @@ public class MainController implements Initializable {
 
             // TODO: Extract duplicate code
             hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-
                 task.setRate(task.getRate() * -1);
                 task.play();
-
                 if (drawer.isOpened()) {
                     drawer.close();
                 } else {
                     drawer.open();
                 }
-
             });
             this.logs = this.service.getLog();
-            this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getAction()+" "+e.getDate())));
+            this.logs.forEach(e -> this.loglist.getItems().add(
+                    new Label(e.getAction() + " " + e.getDate())));
         } catch (IOException e) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -176,31 +174,20 @@ public class MainController implements Initializable {
                 switch (chartData.getName()) {
                     case "Food":
                         foodList.animateList();
-                        if (energyList.isExpanded()) {
-                            energyList.animateList();
-                        }
-                        if (transportList.isExpanded()) {
-                            transportList.animateList();
-                        }
+                        expand(energyList);
+                        expand(transportList);
                         break;
                     case "Transport":
                         transportList.animateList();
-                        if (foodList.isExpanded()) {
-                            foodList.animateList();
-                        }
-                        if (energyList.isExpanded()) {
-                            energyList.animateList();
-                        }
+                        expand(foodList);
+                        expand(energyList);
                         break;
                     case "Energy":
                         energyList.animateList();
-                        if (foodList.isExpanded()) {
-                            foodList.animateList();
-                        }
-                        if (transportList.isExpanded()) {
-                            transportList.animateList();
-                        }
-
+                        expand(foodList);
+                        expand(transportList);
+                        break;
+                    default:
                         break;
                 }
             });
@@ -239,14 +226,24 @@ public class MainController implements Initializable {
         });
     }
 
+    /**
+     * Method animates the dognught chart objects.
+     * @param list takes a list which should be animated when expanded.
+     */
+    public void expand(JFXNodesList list) {
+        if (list.isExpanded()) {
+            list.animateList();
+        }
+    }
 
     private void buttonPressed(Action action) {
-        int b = this.service.madeAction(action);
-        System.out.println(b);
-        this.pointsContainer.setText("P:" + b);
+        int points = this.service.madeAction(action);
+        System.out.println(points);
+        this.pointsContainer.setText("P:" + points);
         this.logs = this.service.getLog();
         this.loglist.getItems().clear();
-        this.logs.forEach(e -> this.loglist.getItems().add(new Label(e.getAction() + " " + e.getDate())));
+        this.logs.forEach(e -> this.loglist.getItems().add(new
+                Label(e.getAction() + " " + e.getDate())));
     }
 
 
