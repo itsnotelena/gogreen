@@ -6,10 +6,7 @@ import client.gui.tools.AbstractController;
 import client.services.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,6 +48,9 @@ public class SignUpController extends AbstractController implements Initializabl
     @FXML
     private Label validpass;
 
+    @FXML
+    private RadioButton other;
+
     private UserService userService;
 
     @Autowired
@@ -91,7 +91,7 @@ public class SignUpController extends AbstractController implements Initializabl
     }
 
     private Gender getGender() {
-        return man.isPressed() ? Gender.MAN : (woman.isPressed() ? Gender.WOMAN : Gender.OTHER);
+        return man.isSelected() ? Gender.MAN : (woman.isSelected() ? Gender.WOMAN : Gender.OTHER);
     }
 
     /**
@@ -105,6 +105,9 @@ public class SignUpController extends AbstractController implements Initializabl
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        ToggleGroup toggleGroup = new ToggleGroup();
+        man.setToggleGroup(toggleGroup);
+        woman.setToggleGroup(toggleGroup);
+        other.setToggleGroup(toggleGroup);
     }
 }
