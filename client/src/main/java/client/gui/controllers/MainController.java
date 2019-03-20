@@ -242,7 +242,7 @@ public class MainController implements Initializable {
         this.pointsContainer.setText("P:" + points);
         this.logs = this.service.getLog();
         this.loglist.getItems().clear();
-        this.logs.forEach(e -> this.loglist.getItems().add(new
+        this.logs.forEach(e -> this.loglist.getItems().add(0, new
                 Label(e.getAction() + " " + e.getDate())));
     }
 

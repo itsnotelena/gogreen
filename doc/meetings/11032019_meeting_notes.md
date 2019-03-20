@@ -54,8 +54,3 @@ with fun facts
  - 29 consecutive days;
 
 
-levels:
-
-
-
-
