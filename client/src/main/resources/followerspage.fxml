@@ -22,4 +22,5 @@
    <JFXButton fx:id="searchbtn" layoutX="818.0" layoutY="182.0" onAction="#search" text="Search" />
    <JFXTextField fx:id="searchfield" layoutX="735.0" layoutY="146.0" promptText="Enter Username" />
    <Label fx:id="errorlabel" layoutX="735.0" layoutY="118.0" prefHeight="25.0" prefWidth="135.0" text="please enter username" textFill="#ea0101" />
+   <JFXButton fx:id="friendsbtn" layoutX="798.0" layoutY="249.0" onAction="#getFollowList" text="Following" />
 </Pane>

@@ -20,12 +20,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
-import client.gui.tools.AbstractController;
 import shared.models.User;
 
 import static client.gui.tools.SceneNames.DRAWER_SIZE;
-import static client.gui.tools.SceneNames.MY_GOALS;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
 @Component
@@ -66,6 +65,8 @@ public class FollowersController implements Initializable{
 
     private List<User> leaderlist;
 
+    private Set<User> followlist;
+
     private User result;
 
     @FXML
@@ -104,6 +105,7 @@ public class FollowersController implements Initializable{
             infolabel.setText("Global Leaderboard");
             this.leaderlist = this.service.getLeaderBoard();
             this.leaderlist.forEach(e -> this.leaderboard.getItems().add(new Label("Username: "+e.getUsername()+" Email: "+e.getEmail()+" Points: "+e.getFoodPoints())));
+            this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> this.service.addFollow(this.leaderlist.get(this.leaderboard.getSelectionModel().getSelectedIndex())));
 
     }
 
@@ -126,5 +128,15 @@ public class FollowersController implements Initializable{
             errorlabel.setVisible(true);
         }
     }
+
+    @FXML
+    private void getFollowList(){
+        this.followlist = this.service.viewFollowList();
+        this.infolabel.setText("Following");
+        this.leaderboard.getItems().clear();
+        this.followlist.forEach(e -> this.leaderboard.getItems().add(new Label("Username: " + e.getUsername() + " Email: " + e.getEmail() + " Points: " + e.getFoodPoints())));
+    }
+
+
 
 }

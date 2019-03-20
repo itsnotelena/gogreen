@@ -15,7 +15,7 @@ import shared.models.User;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 @Service("UserService")
 public class UserService {
@@ -89,7 +89,6 @@ public class UserService {
 
         List<Log> loglist = response.getBody();
 
-
         return loglist;
 
     }
@@ -97,7 +96,7 @@ public class UserService {
     public List<User> getLeaderBoard(){
         ResponseEntity<List<User>> response =
                 restTemplate.exchange(
-                        "/leaderboard",
+                        UserEndpoints.LEADERBOARD,
                         HttpMethod.GET,
                         null,
                         new ParameterizedTypeReference<List<User>>(){});
@@ -107,10 +106,33 @@ public class UserService {
     }
 
     public User search(String username){
-        User response = restTemplate.postForObject("/search", username, User.class);
+        User response = restTemplate.postForObject(UserEndpoints.SEARCH, username, User.class);
         System.out.println(response);
         return response;
     }
+
+    public User addFollow(User user){
+        User response = restTemplate.postForObject(UserEndpoints.FOLLOW, user, User.class);
+
+        //response.getFollowing().forEach(e -> System.out.println(e));
+
+        System.out.println(response);
+        return response;
+    }
+
+    public Set<User> viewFollowList(){
+        ResponseEntity<Set<User>> response =
+                restTemplate.exchange(
+                        UserEndpoints.FOLLOWLIST,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<Set<User>>(){});
+
+        Set<User> followlist = response.getBody();
+        followlist.forEach(e -> System.out.println(e));
+        return followlist;
+    }
+
 
 }
 

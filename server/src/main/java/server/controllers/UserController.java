@@ -15,6 +15,7 @@ import shared.models.Action;
 import shared.models.User;
 import shared.models.Log;
 
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class UserController {
      * @param authentication Details to identify the user
      * @return The new amount of points
      */
-    @PostMapping(value = "/action")
+    @PostMapping(value = UserEndpoints.ACTION)
     public long updatePoints(@RequestBody Action action,
                              Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
@@ -79,7 +80,7 @@ public class UserController {
         return user.getFoodPoints();
     }
 
-    @GetMapping(value = "/points")
+    @GetMapping(value = UserEndpoints.POINTS)
     public long getPoints(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         return user.getFoodPoints();
@@ -92,13 +93,33 @@ public class UserController {
         return logRepository.findByUser(user);
     }
 
-    @GetMapping(value = "/leaderboard")
+    @GetMapping(value = UserEndpoints.LEADERBOARD)
     public List<User> getLeaderBoard(){
         return repository.findByOrderByFoodPointsDesc();
     }
 
-    @RequestMapping(value = "/search")
+    @RequestMapping(value = UserEndpoints.SEARCH)
     public User search(@RequestBody String username){
         return repository.findUserByUsername(username);
     }
+
+    @PostMapping(value = UserEndpoints.FOLLOW)
+    public User addFollow(@RequestBody User user, Authentication authentication){
+        User current = repository.findUserByUsername(authentication.getName());
+
+        if(!current.getUsername().equals(user.getUsername()) && !current.getFollowing().contains(user)) {
+
+            current.getFollowing().add(user);
+            repository.save(current);
+        }
+        return current;
+    }
+
+    @GetMapping(value = UserEndpoints.FOLLOWLIST)
+    public Set<User> viewFollowList(Authentication authentication){
+        User user = repository.findUserByUsername(authentication.getName());
+        Set<User> friends = user.getFollowing();
+        return friends;
+    }
+
 }
