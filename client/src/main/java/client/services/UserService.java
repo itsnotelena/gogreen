@@ -26,8 +26,18 @@ public class UserService {
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * Method that makes a post request to the database to register the new user.
+     * @param user The user to be registered
+     * @return true if the user was successfully registered; false otherwise
+     */
     public boolean createAccount(User user) {
-        User response = restTemplate.postForObject(UserEndpoints.SIGNUP, user, User.class);
+        User response;
+        try {
+            response = restTemplate.postForObject(UserEndpoints.SIGNUP, user, User.class);
+        } catch (HttpClientErrorException e) {
+            return false;
+        }
         return response != null;
     }
 
