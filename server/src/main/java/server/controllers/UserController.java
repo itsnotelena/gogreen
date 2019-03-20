@@ -9,22 +9,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import server.exceptions.UserExistsException;
 import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
+import shared.models.Log;
 import shared.models.Points;
 import shared.models.User;
-import shared.models.Log;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @AllArgsConstructor
@@ -33,6 +29,7 @@ public class UserController {
     private static final AtomicLong counter = new AtomicLong();
 
     private final UserRepository repository;
+
     private final LogRepository logRepository;
 
     private static String hashPassword(String password) {
@@ -67,51 +64,62 @@ public class UserController {
         return user;
     }
 
+    /**
+     * The method returns how many points a user has according to the logs.
+     * @param authentication takes a user by which the log repository is sorted.
+     * @return user points.
+     */
     @GetMapping(value = UserEndpoints.ACTIONLIST)
     public int actionList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         user.setPassword("");
         int points = 0;
         List<Log> list = logRepository.findByUser(user);
-
-        if (list == null){
+        if (list == null) {
             return 0;
         }
-
-        for (Log log : list){
+        for (Log log : list) {
             points = points + calcPoints(log.getAction());
         }
-
         return points;
     }
 
+    /**
+     * The method returns a list of logs of a user to be displayed on the main screen.
+     * @param authentication to identify user.
+     * @return the list of user logs.
+     */
     @GetMapping(value = UserEndpoints.LOGS)
-    public List<Log> getLogs(Authentication authentication)
-    {
+    public List<Log> getLogs(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         return logRepository.findByUser(user);
     }
 
-    public int calcPoints(Action action){
-        if (action.equals(Action.VEGETARIAN)){
+    /**
+     * The method calculates user points according to the action taken.
+     * @param action the action user made.
+     * @return calculated user points.
+     */
+    public int calcPoints(Action action) {
+        if (action.equals(Action.VEGETARIAN)) {
             return Points.VEGETARIAN;
         }
-        if (action.equals(Action.TEMP)){
+        if (action.equals(Action.TEMP)) {
             return Points.TEMP;
         }
-        if (action.equals(Action.BIKE)){
+        if (action.equals(Action.BIKE)) {
             return Points.BIKE;
         }
-        if (action.equals(Action.LOCAL)){
+        if (action.equals(Action.LOCAL)) {
             return Points.LOCAL;
         }
-        if (action.equals(Action.PUBLIC)){
+        if (action.equals(Action.PUBLIC)) {
             return Points.PUBLIC;
         }
         if (action.equals(Action.SOLAR)) {
             return Points.SOLAR;
         }
-        if (action == null){
+        if (action == null) {
             return 0;
         } else {
             return 0;

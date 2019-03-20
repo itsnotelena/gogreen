@@ -7,7 +7,7 @@ import shared.models.User;
 import java.util.List;
 
 public interface LogRepository extends CrudRepository<Log, Long> {
-    //
     List<Log> findAll();
+
     List<Log> findByUser(User user);
 }
