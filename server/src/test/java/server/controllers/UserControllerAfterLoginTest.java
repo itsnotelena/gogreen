@@ -24,6 +24,8 @@ import shared.models.Log;
 import shared.models.Points;
 import shared.models.User;
 
+import java.util.List;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -63,6 +65,17 @@ public class UserControllerAfterLoginTest {
                 .andReturn()
                 .getResponse().getHeader("Authorization");
 
+    }
+
+
+    @Test
+    public void noLogUserTest() throws Exception {
+        String response = this.mvc.perform(get(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+
+        Assert.assertTrue(new ObjectMapper().readValue(response, List.class).isEmpty());
     }
 
     @Test
