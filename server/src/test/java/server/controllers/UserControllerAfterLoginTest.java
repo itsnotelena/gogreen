@@ -16,9 +16,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import server.repositories.LogRepository;
 import server.repositories.UserRepository;
+import shared.endpoints.UserEndpoints;
 import shared.models.Action;
+import shared.models.Log;
 import shared.models.User;
+
+import java.util.List;
 
 
 @RunWith(SpringRunner.class)
@@ -28,6 +33,8 @@ public class UserControllerAfterLoginTest {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    LogRepository logRepository;
     @Autowired
     private MockMvc mvc;
     private User testUser = new User();
@@ -50,30 +57,29 @@ public class UserControllerAfterLoginTest {
         }
 
         this.mvc.perform(
-                post("/user/signup").contentType(MediaType.APPLICATION_JSON).content(UString));
+                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(UString));
         authorization = this.mvc.perform(
-                post("/login").contentType(MediaType.APPLICATION_JSON).content(UString))
+                post(UserEndpoints.LOGIN).contentType(MediaType.APPLICATION_JSON).content(UString))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getHeader("Authorization");
 
     }
 
+
     @Test
-    public void sendActionTest() throws Exception {
-        String postContent = new ObjectMapper().writeValueAsString(Action.VegetarianMeal);
-        String result = this.mvc.perform(post("/action").header(HttpHeaders.AUTHORIZATION, authorization)
-                .contentType(MediaType.APPLICATION_JSON).content(postContent))
+    public void noLogUserTest() throws Exception {
+        String response = this.mvc.perform(get(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
 
-        Assert.assertEquals(100, Integer.parseInt(result));
+        Assert.assertTrue(new ObjectMapper().readValue(response, List.class).isEmpty());
     }
 
     @Test
     public void getPointsNoActionTest() throws Exception {
-        String result = this.mvc.perform(get("/points").header(HttpHeaders.AUTHORIZATION, authorization))
+        String result = this.mvc.perform(get(UserEndpoints.ACTIONLIST).header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
@@ -83,16 +89,20 @@ public class UserControllerAfterLoginTest {
 
     @Test
     public void getPointsAfterActionTest() throws Exception {
-        String postContent = new ObjectMapper().writeValueAsString(Action.VegetarianMeal);
-        this.mvc.perform(post("/action").header(HttpHeaders.AUTHORIZATION, authorization)
+        Log req = new Log();
+        req.setAction(Action.VEGETARIAN);
+        String postContent = new ObjectMapper().writeValueAsString(req);
+        String toDelete = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
-        String result = this.mvc.perform(get("/points").header(HttpHeaders.AUTHORIZATION, authorization))
+        String result = this.mvc.perform(get(UserEndpoints.ACTIONLIST).header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
-        Assert.assertEquals(100, Integer.parseInt(result));
+
+        Assert.assertEquals(Action.VEGETARIAN.getPoints(), Integer.parseInt(result));
+        logRepository.delete(new ObjectMapper().readValue(toDelete, Log.class));
     }
 }

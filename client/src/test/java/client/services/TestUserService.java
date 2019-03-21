@@ -1,24 +1,30 @@
 package client.services;
 
 import client.AppConfig;
-import client.services.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import shared.endpoints.UserEndpoints;
+import shared.models.Action;
+import shared.models.Log;
 import shared.models.User;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withNoContent;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import java.util.Date;
+
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {AppConfig.class})
@@ -33,44 +39,92 @@ public class TestUserService {
 
     private String url = AppConfig.getRootUri();
 
+    private User testUser;
+
     @Before
     public void setUp() {
         mockServer = MockRestServiceServer.createServer(restTemplate);
-    }
-
-    @Test
-    public void testSignUp() {
-        User testUser = new User();
+        testUser = new User();
         testUser.setPassword("test");
         testUser.setUsername("test");
-
-        mockServer.expect(requestTo(url + UserEndpoints.SIGNUP))
-                .andExpect(method(HttpMethod.POST))
-                .andRespond(withNoContent());
-
-        userService.createAccount(testUser);
-
-        mockServer.verify();
     }
 
     @Test
-    public void testLogin() {
-        User testUser = new User();
-        testUser.setPassword("test");
-        testUser.setUsername("test");
+    public void testSignUp() throws Exception{
+        User response = new User();
+        response.setPassword("");
+        response.setUsername("test");
 
-        mockServer.expect(requestTo(url + UserEndpoints.LOGIN))
+        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.SIGNUP))
                 .andExpect(method(HttpMethod.POST))
-                .andRespond(withNoContent());
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ObjectMapper().writeValueAsString(response)));
 
-        userService.login(testUser);
+        boolean toTest = userService.createAccount(testUser);
 
         mockServer.verify();
+
+        Assert.assertTrue(toTest);
     }
 
     @Test
-    public void testVegMeal() {
-        // TODO: Implement
+    public void testLoginOK() throws Exception{
+        String request = new ObjectMapper().writeValueAsString(testUser);
+        HttpHeaders responseHeader = new HttpHeaders();
+        responseHeader.set(HttpHeaders.AUTHORIZATION, "Bearer: test");
+        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.LOGIN))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(content().json(request))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(responseHeader));
+
+        boolean toTest = userService.login(testUser);
+
+        mockServer.verify();
+
+        Assert.assertTrue(toTest);
+    }
+
+    @Test
+    public void testLoginWrongPassword() throws Exception {
+        User wrongUser = new User();
+        wrongUser.setPassword("wrong");
+        wrongUser.setUsername("test");
+        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.LOGIN))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.FORBIDDEN));
+
+        boolean toTest = userService.login(wrongUser);
+
+        mockServer.verify();
+        Assert.assertFalse(toTest);
+    }
+
+    @Test
+    public void testVegMeal() throws Exception {
+        Log req = new Log();
+        req.setAction(Action.VEGETARIAN);
+        req.setDate(new Date());
+        String response = new ObjectMapper().writeValueAsString(req);
+        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.LOGS))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(jsonPath("$.action").value(Action.VEGETARIAN.toString()))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(response));
+
+        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.ACTIONLIST))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Integer.toString(Action.VEGETARIAN.getPoints())));
+
+        int toTest = userService.madeAction(Action.VEGETARIAN);
+
+        mockServer.verify();
+        Assert.assertEquals(toTest, Action.VEGETARIAN.getPoints());
     }
 
 
@@ -80,12 +134,16 @@ public class TestUserService {
         testUser.setPassword("test");
         testUser.setUsername("test");
 
-        mockServer.expect(requestTo(url + "/points"))
+        mockServer.expect(requestTo(url + UserEndpoints.ACTIONLIST))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withNoContent());
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Integer.toString(0)));
 
-        userService.getPoints();
+        long response = userService.getPoints();
 
         mockServer.verify();
+
+        Assert.assertEquals(0L, response);
     }
 }

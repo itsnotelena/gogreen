@@ -3,6 +3,7 @@ package client.gui.controllers;
 import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
+import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
@@ -18,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -27,13 +29,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import shared.models.Action;
+import shared.models.Log;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class MainController implements Initializable {
+public class MainController extends AbstractController implements Initializable {
+
+    private UserService service;
+
+    private List<Log> logs;
 
     @FXML
     private AnchorPane menupane;
@@ -95,10 +104,10 @@ public class MainController implements Initializable {
     @FXML
     private JFXHamburger hamburger;
 
-    private UserService service;
+    @FXML
+    private ListView loglist;
 
 
-    //TODO: find why the service is different after client restarts app.
     @Autowired
     public MainController(UserService service) {
         this.service = service;
@@ -116,20 +125,8 @@ public class MainController implements Initializable {
             HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
             task.setRate(task.getRate() * -1);
 
+            this.initializeHamburger(task, hamburger, drawer);
 
-            // TODO: Extract duplicate code
-            hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-
-                task.setRate(task.getRate() * -1);
-                task.play();
-
-                if (drawer.isOpened()) {
-                    drawer.close();
-                } else {
-                    drawer.open();
-                }
-
-            });
         } catch (IOException e) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -138,58 +135,27 @@ public class MainController implements Initializable {
         DoughnutChart chart = new DoughnutChart(pieChartData);
         chartContainer.getChildren().add(chart);
 
-        pointsContainer.setText(service.getPoints() + "");
+        int point = service.getPoints();
+        pointsContainer.setText("P:" + point);
 
-        JFXNodesList foodList = new JFXNodesList();
-        JFXNodesList transportList = new JFXNodesList();
-        JFXNodesList energyList = new JFXNodesList();
-
-        nodeListContainer.getChildren().add(foodList);
-        nodeListContainer.getChildren().add(energyList);
-        nodeListContainer.getChildren().add(transportList);
-
-        foodList.addAnimatedNode(new Region());
-        foodList.addAnimatedNode((Region) vegbtn.getParent());
-        foodList.addAnimatedNode((Region) localbtn.getParent());
-        transportList.addAnimatedNode(new Region());
-        transportList.addAnimatedNode((Region) bikebtn.getParent());
-        transportList.addAnimatedNode((Region) publicbtn.getParent());
-        energyList.addAnimatedNode(new Region());
-        energyList.addAnimatedNode((Region) tempbtn.getParent());
-        energyList.addAnimatedNode((Region) solarbtn.getParent());
+        JFXNodesList foodList = createFoodList();
+        JFXNodesList transportList = createTransportList();
+        JFXNodesList energyList = createEnergyList();
 
         for (PieChart.Data chartData : chart.getData()) {
             Node chartSlice = chartData.getNode();
             chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 switch (chartData.getName()) {
                     case "Food":
-                        foodList.animateList();
-                        if (energyList.isExpanded()) {
-                            energyList.animateList();
-                        }
-                        if (transportList.isExpanded()) {
-                            transportList.animateList();
-                        }
+                        clickOnSlice(foodList, energyList, transportList);
                         break;
                     case "Transport":
-                        transportList.animateList();
-                        if (foodList.isExpanded()) {
-                            foodList.animateList();
-                        }
-                        if (energyList.isExpanded()) {
-                            energyList.animateList();
-                        }
+                        clickOnSlice(transportList, energyList, foodList);
                         break;
                     case "Energy":
-                        energyList.animateList();
-                        if (foodList.isExpanded()) {
-                            foodList.animateList();
-                        }
-                        if (transportList.isExpanded()) {
-                            transportList.animateList();
-                        }
-
+                        clickOnSlice(energyList, transportList, foodList);
                         break;
+                    default:
                 }
             });
         }
@@ -202,14 +168,40 @@ public class MainController implements Initializable {
         tempLabel.setVisible(false);
         solarLabel.setVisible(false);
 
-
         addEventHandlers(vegbtn, vegLabel, localbtn, localLabel, bikebtn, bikeLabel);
         addEventHandlers(publicbtn, publicLabel, tempbtn, tempLabel, solarbtn, solarLabel);
 
+
+        solarbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.SOLAR);
+        });
         vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            this.pointsContainer.setText(this.service.ateVegMeal() + "");
+            buttonPressed(Action.VEGETARIAN);
+        });
+        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.BIKE);
+        });
+        tempbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.TEMP);
+        });
+        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.PUBLIC);
+        });
+        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.LOCAL);
         });
     }
+
+    private void buttonPressed(Action action) {
+        int points = this.service.madeAction(action);
+        System.out.println(points);
+        this.pointsContainer.setText("P:" + points);
+        this.logs = this.service.getLog();
+        this.loglist.getItems().clear();
+        this.logs.forEach(e -> this.loglist.getItems().add(0, new
+                Label(e.getAction() + " " + e.getDate())));
+    }
+
 
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
     private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
@@ -225,6 +217,36 @@ public class MainController implements Initializable {
         bikebtn.addEventHandler(MouseEvent.MOUSE_EXITED, e -> bikeLabel.setVisible(false));
     }
 
+    private JFXNodesList createFoodList() {
+        return createList(vegbtn, localbtn);
+    }
+
+    private JFXNodesList createTransportList() {
+        return createList(bikebtn, publicbtn);
+    }
+
+    private JFXNodesList createEnergyList() {
+        return createList(tempbtn, solarbtn);
+    }
+
+    private JFXNodesList createList(JFXButton button1, JFXButton button2) {
+        JFXNodesList list = new JFXNodesList();
+        nodeListContainer.getChildren().add(list);
+        list.addAnimatedNode(new Region());
+        list.addAnimatedNode((Region) button1.getParent());
+        list.addAnimatedNode((Region) button2.getParent());
+        return list;
+    }
+
+    private void clickOnSlice(JFXNodesList clickedOn, JFXNodesList other1, JFXNodesList other2) {
+        clickedOn.animateList();
+        if (other1.isExpanded()) {
+            other1.animateList();
+        }
+        if (other2.isExpanded()) {
+            other2.animateList();
+        }
+    }
 
     //TODO: Get PieChart.Data from user's history
     private ObservableList<PieChart.Data> createData() {
@@ -234,4 +256,5 @@ public class MainController implements Initializable {
                 new PieChart.Data("Transport", 33)
         );
     }
+
 }

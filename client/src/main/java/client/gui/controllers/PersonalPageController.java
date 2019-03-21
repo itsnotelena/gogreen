@@ -12,7 +12,6 @@ import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +48,6 @@ public class PersonalPageController extends AbstractController implements Initia
         myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ) );
         drawer.setSidePane(myPane);
 
-
     }
 
     /**
@@ -66,16 +64,7 @@ public class PersonalPageController extends AbstractController implements Initia
         HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(cheeseburger);
         task.setRate( -1 );
 
-        cheeseburger.addEventHandler( MouseEvent.MOUSE_CLICKED,e -> {
-            task.setRate(task.getRate() * -1 );
-            task.play();
-
-            if (drawer.isOpened()) {
-                drawer.close();
-            } else {
-                drawer.open();
-            }
-        });
+        this.initializeHamburger(task,cheeseburger,drawer);
 
         drawer.setDefaultDrawerSize(DRAWER_SIZE);
     }

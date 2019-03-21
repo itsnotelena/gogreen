@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import server.repositories.LogRepository;
 
 import server.repositories.UserRepository;
+import shared.endpoints.UserEndpoints;
 import shared.models.Log;
 import shared.models.User;
 
@@ -17,6 +18,7 @@ import java.util.Date;
 @RestController
 @AllArgsConstructor
 public class LogController {
+
     LogRepository logRepository;
     UserRepository userRepository;
 
@@ -25,13 +27,14 @@ public class LogController {
      * @param log The log which is to be saved.
      * @return Returns the log the the request for confirmation (Date is modified though)
      */
-    @RequestMapping(value = "/log", method = RequestMethod.POST)
+    @RequestMapping(value = UserEndpoints.LOGS, method = RequestMethod.POST)
     public Log logAction(@RequestBody Log log, Authentication authentication) {
         log.setDate(new Date());
         User user = userRepository.findUserByUsername(authentication.getName());
         log.setUser(user);
         logRepository.save(log); // Save to database
-
         return log;
     }
+
+
 }

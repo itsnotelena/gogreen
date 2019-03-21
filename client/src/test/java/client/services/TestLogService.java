@@ -43,7 +43,7 @@ public class TestLogService {
     public void testCreateLog() {
         Log log = new Log();
 
-        mockServer.expect(requestTo(url + "/user/log"))
+        mockServer.expect(requestTo(url + UserEndpoints.LOGS))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withNoContent());
 

@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import server.exceptions.UserExistsException;
+import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
-import shared.models.Action;
+import shared.models.Log;
 import shared.models.User;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -25,6 +27,8 @@ public class UserController {
     private static final AtomicLong counter = new AtomicLong();
 
     private final UserRepository repository;
+
+    private final LogRepository logRepository;
 
     private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
@@ -58,30 +62,35 @@ public class UserController {
         return user;
     }
 
-    //TODO: Give different points based on the action
-
     /**
-     * Updates the user points based on the action and returns the new amount of points.
-     *
-     * @param action         The action for which the user gets the points
-     * @param authentication Details to identify the user
-     * @return The new amount of points
+     * The method returns how many points a user has according to the logs.
+     * @param authentication takes a user by which the log repository is sorted.
+     * @return user points.
      */
-    @PostMapping(value = "/action")
-    public long updatePoints(@RequestBody Action action,
-                             Authentication authentication) {
+    @GetMapping(value = UserEndpoints.ACTIONLIST)
+    public int actionList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
-        if (action.equals(Action.VegetarianMeal)) {
-            user.setFoodPoints(user.getFoodPoints() + 100);
-            repository.save(user);
+        user.setPassword("");
+        int points = 0;
+        List<Log> list = logRepository.findByUser(user);
+        if (list == null) {
+            return 0;
         }
-        return user.getFoodPoints();
+        for (Log log : list) {
+            points = points + log.getAction().getPoints();
+        }
+        return points;
     }
 
-    @GetMapping(value = "/points")
-    public long getPoints(Authentication authentication) {
+    /**
+     * The method returns a list of logs of a user to be displayed on the main screen.
+     * @param authentication to identify user.
+     * @return the list of user logs.
+     */
+    @GetMapping(value = UserEndpoints.LOGS)
+    public List<Log> getLogs(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
-        return user.getFoodPoints();
+        return logRepository.findByUser(user);
     }
 
 }
