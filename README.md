@@ -1,4 +1,4 @@
-# CSE1105 Template Repository
+# CSE1105 Template Repository ![](https://gitlab.ewi.tudelft.nl/cse1105/2018-2019/oopp-group-63/gogreen/badges/dev/coverage.svg)
 
 This a template repository to help you get started on making the best project possible!
 
