@@ -92,7 +92,7 @@ public class UserControllerAfterLoginTest {
         Log req = new Log();
         req.setAction(Action.VEGETARIAN);
         String postContent = new ObjectMapper().writeValueAsString(req);
-        String toDelete = this.mvc.perform(post(UserEndpoints.POSTLOG).header(HttpHeaders.AUTHORIZATION, authorization)
+        String toDelete = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())
                 .andReturn()

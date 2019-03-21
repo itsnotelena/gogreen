@@ -27,7 +27,7 @@ public class LogController {
      * @param log The log which is to be saved.
      * @return Returns the log the the request for confirmation (Date is modified though)
      */
-    @RequestMapping(value = UserEndpoints.POSTLOG, method = RequestMethod.POST)
+    @RequestMapping(value = UserEndpoints.LOGS, method = RequestMethod.POST)
     public Log logAction(@RequestBody Log log, Authentication authentication) {
         log.setDate(new Date());
         User user = userRepository.findUserByUsername(authentication.getName());

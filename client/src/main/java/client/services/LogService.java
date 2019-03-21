@@ -17,7 +17,7 @@ public class LogService {
     }
 
     public boolean createLog(Log log) {
-        Log response = restTemplate.postForObject(UserEndpoints.POSTLOG, log, Log.class);
+        Log response = restTemplate.postForObject(UserEndpoints.LOGS, log, Log.class);
         return response != null;
     }
 }

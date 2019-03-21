@@ -108,7 +108,7 @@ public class TestUserService {
         req.setAction(Action.VEGETARIAN);
         req.setDate(new Date());
         String response = new ObjectMapper().writeValueAsString(req);
-        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.POSTLOG))
+        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.LOGS))
                 .andExpect(method(HttpMethod.POST))
                 .andExpect(jsonPath("$.action").value(Action.VEGETARIAN.toString()))
                 .andRespond(withStatus(HttpStatus.OK)

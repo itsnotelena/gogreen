@@ -79,7 +79,7 @@ public class UserService {
         Log req = new Log();
         req.setAction(action);
         req.setDate(new Date());
-        restTemplate.postForObject(UserEndpoints.POSTLOG, req, Log.class);
+        restTemplate.postForObject(UserEndpoints.LOGS, req, Log.class);
         int  newPoints = restTemplate.getForObject(UserEndpoints.ACTIONLIST, int.class);
         System.out.println("Successfully added a log to the table");
         return newPoints;

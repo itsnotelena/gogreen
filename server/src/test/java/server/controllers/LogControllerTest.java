@@ -67,7 +67,7 @@ public class LogControllerTest {
         Log req = new Log();
         req.setAction(Action.VEGETARIAN);
         String postContent = new ObjectMapper().writeValueAsString(req);
-        String response = this.mvc.perform(post(UserEndpoints.POSTLOG)
+        String response = this.mvc.perform(post(UserEndpoints.LOGS)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())
