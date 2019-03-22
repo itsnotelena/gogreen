@@ -111,5 +111,6 @@ public class SignUpController extends AbstractController implements Initializabl
         ToggleGroup toggleGroup = new ToggleGroup();
         man.setToggleGroup(toggleGroup);
         woman.setToggleGroup(toggleGroup);
+        other.setToggleGroup(toggleGroup);
     }
 }
