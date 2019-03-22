@@ -1,5 +1,6 @@
 package client.services;
 
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -13,6 +14,9 @@ import shared.models.Action;
 import shared.models.Log;
 import shared.models.User;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +32,7 @@ public class UserService {
 
     /**
      * Method that makes a post request to the database to register the new user.
+     *
      * @param user The user to be registered
      * @return true if the user was successfully registered; false otherwise
      */
@@ -91,7 +96,35 @@ public class UserService {
     }
 
     /**
+     * Gets the state of the solar button (clicked or not)
+     * and the amounts of points gathered by the solar panels.
+     * @return A pair composed of the state (clicked or not) and the points
+     */
+    public Pair<Boolean, Integer> getStateSolar() {
+        int points = 0;
+        int total = 0;
+        Log lastLog = null;
+        for (Log log : getLog()) {
+            if (log.getAction().equals(Action.SOLAR)) {
+                if (total % 2 == 0) {
+                    lastLog = log;
+                } else {
+                    LocalDate dateLatest = LocalDate.ofInstant(log.getDate().toInstant(),
+                            ZoneId.systemDefault());
+                    LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
+                            ZoneId.systemDefault());
+                    points += Action.SOLAR.getPoints()
+                            * Period.between(datePrevious, dateLatest).getDays();
+                }
+                total++;
+            }
+        }
+        return new Pair<>(total % 2 == 1, points);
+    }
+
+    /**
      * This method requests a log list from the server.
+     *
      * @return the log list.
      */
     public List<Log> getLog() {

@@ -14,6 +14,7 @@ import server.exceptions.UserExistsException;
 import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
+import shared.models.Action;
 import shared.models.Log;
 import shared.models.User;
 
@@ -77,7 +78,9 @@ public class UserController {
             return 0;
         }
         for (Log log : list) {
-            points = points + log.getAction().getPoints();
+            if (!log.getAction().equals(Action.SOLAR)) {
+                points = points + log.getAction().getPoints();
+            }
         }
         return points;
     }

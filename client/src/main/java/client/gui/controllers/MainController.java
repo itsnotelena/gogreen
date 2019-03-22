@@ -147,7 +147,12 @@ public class MainController extends AbstractController implements Initializable 
         this.chartContainer.getChildren().add(chart);
 
         int point = service.getPoints();
+        point += service.getStateSolar().getValue();
         pointsContainer.setText("P:" + point);
+
+        if (service.getStateSolar().getKey()) {
+            toggleButton(solarbtn);
+        }
 
         this.foodList = createFoodList();
         this.transportList = createTransportList();
@@ -264,13 +269,13 @@ public class MainController extends AbstractController implements Initializable 
                     values.put("Transport", values.get("Transport") + log.getAction().getPoints());
                     break;
                 case TEMP:
-                case SOLAR:
                     values.put("Energy", values.get("Energy") + log.getAction().getPoints());
                     break;
                 default:
             }
         }
 
+        values.put("Energy", values.get("Energy") + service.getStateSolar().getValue());
         int totalPoints = 3;
         for (String key : values.keySet()) {
             totalPoints += values.get(key);
@@ -326,5 +331,4 @@ public class MainController extends AbstractController implements Initializable 
             button.getStyleClass().add("toggle-button-off");
         }
     }
-
 }
