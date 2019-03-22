@@ -169,6 +169,7 @@ public class MainController extends AbstractController implements Initializable 
 
         solarbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             buttonPressed(Action.SOLAR);
+            toggleButton(solarbtn);
         });
         vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             buttonPressed(Action.VEGETARIAN);
@@ -314,6 +315,16 @@ public class MainController extends AbstractController implements Initializable 
             this.chartContainer.getChildren().add(chart);
         }
         addListenerChart();
+    }
+
+    private void toggleButton(JFXButton button) {
+        if (button.getStyleClass().contains("toggle-button-off")) {
+            button.getStyleClass().remove("toggle-button-off");
+            button.getStyleClass().add("animated-option-button-sub");
+        } else {
+            button.getStyleClass().remove("animated-option-button-sub");
+            button.getStyleClass().add("toggle-button-off");
+        }
     }
 
 }
