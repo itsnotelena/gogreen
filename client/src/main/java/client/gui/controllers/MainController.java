@@ -147,10 +147,10 @@ public class MainController extends AbstractController implements Initializable 
         this.chartContainer.getChildren().add(chart);
 
         int point = service.getPoints();
-        point += service.getStateSolar().getValue();
+        point += (int)service.getStateSolar()[0];
         pointsContainer.setText("P:" + point);
 
-        if (service.getStateSolar().getKey()) {
+        if ((boolean)service.getStateSolar()[1]) {
             toggleButton(solarbtn);
         }
 
@@ -194,8 +194,8 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void buttonPressed(Action action) {
-        int points = this.service.madeAction(action);
-        System.out.println(points);
+        this.service.madeAction(action);
+        int points = this.service.getPoints();
         this.pointsContainer.setText("P:" + points);
         this.logs = this.service.getLog();
         this.loglist.getItems().clear();
@@ -275,7 +275,7 @@ public class MainController extends AbstractController implements Initializable 
             }
         }
 
-        values.put("Energy", values.get("Energy") + service.getStateSolar().getValue());
+        values.put("Energy", values.get("Energy") + (int)service.getStateSolar()[0]);
         int totalPoints = 3;
         for (String key : values.keySet()) {
             totalPoints += values.get(key);

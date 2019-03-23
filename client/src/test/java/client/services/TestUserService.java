@@ -21,7 +21,9 @@ import shared.models.Action;
 import shared.models.Log;
 import shared.models.User;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
@@ -115,16 +117,9 @@ public class TestUserService {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(response));
 
-        mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.ACTIONLIST))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(Integer.toString(Action.VEGETARIAN.getPoints())));
-
-        int toTest = userService.madeAction(Action.VEGETARIAN);
+        userService.madeAction(Action.VEGETARIAN);
 
         mockServer.verify();
-        Assert.assertEquals(toTest, Action.VEGETARIAN.getPoints());
     }
 
 

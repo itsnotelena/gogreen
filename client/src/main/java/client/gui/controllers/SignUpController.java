@@ -4,6 +4,7 @@ import static client.gui.tools.SceneNames.LOGIN;
 
 import client.gui.tools.AbstractController;
 import client.services.UserService;
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -53,6 +54,9 @@ public class SignUpController extends AbstractController implements Initializabl
 
     @FXML
     private RadioButton other;
+
+    @FXML
+    private JFXButton signUpButton;
 
     private UserService userService;
 
@@ -112,5 +116,6 @@ public class SignUpController extends AbstractController implements Initializabl
         man.setToggleGroup(toggleGroup);
         woman.setToggleGroup(toggleGroup);
         other.setToggleGroup(toggleGroup);
+        signUpButton.setDefaultButton(true);
     }
 }
