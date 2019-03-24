@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
+import shared.models.SolarState;
 import shared.models.User;
 
 import java.util.Date;
@@ -99,8 +100,8 @@ public class UserService {
      * and the amounts of points gathered by the solar panels.
      * @return A pair composed of the state (clicked or not) and the points
      */
-    public Object[] getStateSolar() {
-        return restTemplate.getForObject("/solar", Object[].class);
+    public SolarState getStateSolar() {
+        return restTemplate.getForObject("/solar", SolarState.class);
     }
 
     /**

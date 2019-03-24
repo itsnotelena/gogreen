@@ -21,6 +21,7 @@ import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
+import shared.models.SolarState;
 import shared.models.User;
 
 import java.time.LocalDate;
@@ -132,9 +133,9 @@ public class UserControllerAfterLoginTest {
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
-        Object[] values = mapper.readValue(response, Object[].class);
-        Assert.assertEquals(2 * Action.SOLAR.getPoints(), (int)values[0]);
-        Assert.assertTrue((boolean)values[1]);
+        SolarState state = mapper.readValue(response, SolarState.class);
+        Assert.assertEquals(2 * Action.SOLAR.getPoints(), state.getPoints());
+        Assert.assertTrue(state.isEnabled());
         logRepository.delete(test);
     }
 
@@ -161,9 +162,9 @@ public class UserControllerAfterLoginTest {
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
-        Object[] values = mapper.readValue(response, Object[].class);
-        Assert.assertEquals(0, (int)values[0]);
-        Assert.assertFalse((boolean)values[1]);
+        SolarState state = mapper.readValue(response, SolarState.class);
+        Assert.assertEquals(0, state.getPoints());
+        Assert.assertFalse(state.isEnabled());
         logRepository.delete(mapper.readValue(toDelete1, Log.class));
         logRepository.delete(mapper.readValue(toDelete2, Log.class));
     }

@@ -16,6 +16,7 @@ import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
+import shared.models.SolarState;
 import shared.models.User;
 
 import java.time.LocalDate;
@@ -86,7 +87,7 @@ public class UserController {
                 points = points + log.getAction().getPoints();
             }
         }
-        return points + (int) getStateSolar(authentication)[0];
+        return points + getStateSolar(authentication).getPoints();
     }
 
     /**
@@ -109,7 +110,7 @@ public class UserController {
      *          and the amount of points gathered by the solar panels
      */
     @GetMapping(value = "/solar")
-    public Object[] getStateSolar(Authentication authentication) {
+    public SolarState getStateSolar(Authentication authentication) {
         int points = 0;
         int total = 0;
         Log lastLog = null;
@@ -134,7 +135,7 @@ public class UserController {
             points += Action.SOLAR.getPoints()
                     * Period.between(datePrevious, LocalDate.now()).getDays();
         }
-        return new Object[]{points, total % 2 == 1};
+        return new SolarState(points, total % 2 == 1);
     }
 
 }
