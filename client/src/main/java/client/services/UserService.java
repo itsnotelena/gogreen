@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
+import shared.models.SolarState;
 import shared.models.User;
 
 import java.util.Date;
@@ -28,6 +29,7 @@ public class UserService {
 
     /**
      * Method that makes a post request to the database to register the new user.
+     *
      * @param user The user to be registered
      * @return true if the user was successfully registered; false otherwise
      */
@@ -75,23 +77,36 @@ public class UserService {
     /**
      * Methods logs to the database that the user has eaten a vegetarian meal.
      */
-    public int madeAction(Action action) {
+    public void madeAction(Action action) {
         Log req = new Log();
         req.setAction(action);
         req.setDate(new Date());
         restTemplate.postForObject(UserEndpoints.LOGS, req, Log.class);
-        int  newPoints = restTemplate.getForObject(UserEndpoints.ACTIONLIST, int.class);
         System.out.println("Successfully added a log to the table");
-        return newPoints;
     }
 
+
+    /**
+     * Method that makes a request to the database and returns the total amount of points.
+     * @return the amounts of points a user has
+     */
     public int getPoints() {
         int response = restTemplate.getForObject(UserEndpoints.ACTIONLIST, int.class);
         return response;
     }
 
     /**
+     * Gets the state of the solar button (clicked or not)
+     * and the amounts of points gathered by the solar panels.
+     * @return A pair composed of the state (clicked or not) and the points
+     */
+    public SolarState getStateSolar() {
+        return restTemplate.getForObject("/solar", SolarState.class);
+    }
+
+    /**
      * This method requests a log list from the server.
+     *
      * @return the log list.
      */
     public List<Log> getLog() {

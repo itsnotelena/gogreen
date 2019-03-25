@@ -3,25 +3,22 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" scaleShape="false"
-            xmlns="http://javafx.com/javafx/10.0.1" fx:controller="client.gui.controllers.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" scaleShape="false" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.LoginController">
         <Hyperlink layoutX="218.0" layoutY="331.0" onAction="#resetPass" text="Forgot Your Password?" />
         <ImageView fitHeight="101.0" fitWidth="196.0" layoutX="234.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
             <Image url="@images/logo.png" />
         </ImageView>
       <Label fx:id="validpass" layoutX="230.0" layoutY="231.0" textFill="#e82121" />
-   <JFXButton layoutX="342.0" layoutY="263.0" onAction="#doLogin" prefHeight="27.0" prefWidth="63.0" style="-fx-background-color: #2196F3;" text="Login" />
+   <JFXButton fx:id="login" layoutX="342.0" layoutY="263.0" onAction="#doLogin" prefHeight="27.0" prefWidth="63.0" style="-fx-background-color: #2196F3;" text="Login" />
    <JFXButton layoutX="469.0" layoutY="329.0" onAction="#createAccount" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #2196F3;" text="Register" />
    <CheckBox accessibleRole="CHECK_BOX" layoutX="184.0" layoutY="268.0" text="Remember Me" />
-    <JFXTextField fx:id="username" layoutX="182.0" layoutY="136.0" prefHeight="27.0" prefWidth="219.0"
-                  promptText="Username"/>
+    <JFXTextField fx:id="username" layoutX="182.0" layoutY="136.0" prefHeight="27.0" prefWidth="219.0" promptText="Username" />
    <JFXPasswordField fx:id="passwordField" layoutX="182.0" layoutY="200.0" prefHeight="27.0" prefWidth="219.0" promptText="Password" />
 </AnchorPane>

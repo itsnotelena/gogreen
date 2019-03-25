@@ -9,6 +9,18 @@
         -fx-border-width: 2px;
 }
 
+
+.toggle-button-off{
+        -fx-pref-width: 75px;
+        -fx-background-color: #6d9e6d;
+        -fx-background-radius: 0px;
+        -fx-pref-height:45px;
+        -fx-text-fill:#b3f4b2;
+        -fx-border-color:#33a531;
+        -fx-border-radius:0px;
+        -fx-border-width: 2px;
+}
+
 .animated-option-button-main{
         -fx-pref-width:75px;
         -fx-background-color:#33a531;
