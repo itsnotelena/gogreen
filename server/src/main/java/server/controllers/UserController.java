@@ -106,7 +106,6 @@ public class UserController {
     @PostMapping(value = UserEndpoints.FOLLOW)
     public User addFollow(@RequestBody User user, Authentication authentication){
         User current = repository.findUserByUsername(authentication.getName());
-        System.out.println(current.getFollowing());
         if(!current.getUsername().equals(user.getUsername())) {
 
             current.getFollowing().add(user);
