@@ -6,6 +6,7 @@ import static client.gui.tools.SceneNames.SIGNUP;
 
 import client.gui.tools.AbstractController;
 import client.services.UserService;
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -38,7 +39,7 @@ public class LoginController extends AbstractController implements Initializable
     private Label validpass;
 
     @FXML
-    private Button login;
+    private JFXButton login;
 
     @FXML
     private TextField username;
@@ -64,6 +65,7 @@ public class LoginController extends AbstractController implements Initializable
 
     /**
      * Goes to the create account.
+     *
      * @throws IOException Throws exception when create account window cannot be found
      */
     @FXML
@@ -108,7 +110,7 @@ public class LoginController extends AbstractController implements Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        login.setDefaultButton(true);
     }
 }
 

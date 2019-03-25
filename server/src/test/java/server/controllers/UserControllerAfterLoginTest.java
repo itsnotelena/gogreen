@@ -21,8 +21,14 @@ import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
+import shared.models.SolarState;
 import shared.models.User;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAmount;
+import java.util.Date;
 import java.util.List;
 
 
@@ -104,5 +110,62 @@ public class UserControllerAfterLoginTest {
 
         Assert.assertEquals(Action.VEGETARIAN.getPoints(), Integer.parseInt(result));
         logRepository.delete(new ObjectMapper().readValue(toDelete, Log.class));
+    }
+
+    @Test
+    public void getSolarPoints_OnlyOneToggle_Test() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        Date datePrevious = Date.from(LocalDate.now().minus(Period.ofDays(2))
+                .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Log solar = new Log();
+        solar.setDate(datePrevious);
+        solar.setAction(Action.SOLAR);
+        solar.setUser(testUser);
+        String log = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(solar)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        Log test = mapper.readValue(log, Log.class);
+        test.setDate(datePrevious);
+        logRepository.save(test);
+        String response = this.mvc.perform(get("/solar").header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        SolarState state = mapper.readValue(response, SolarState.class);
+        Assert.assertEquals(2 * Action.SOLAR.getPoints(), state.getPoints());
+        Assert.assertTrue(state.isEnabled());
+        logRepository.delete(test);
+    }
+
+    @Test
+    public void getSolarPoints_afterOnOff_Test() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        Log firstLog = new Log();
+        Log secondLog = new Log();
+        firstLog.setUser(testUser);
+        secondLog.setUser(testUser);
+        firstLog.setAction(Action.SOLAR);
+        secondLog.setAction(Action.SOLAR);
+        String toDelete1 = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(firstLog)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        String toDelete2 = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(secondLog)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        String response = this.mvc.perform(get("/solar").header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        SolarState state = mapper.readValue(response, SolarState.class);
+        Assert.assertEquals(0, state.getPoints());
+        Assert.assertFalse(state.isEnabled());
+        logRepository.delete(mapper.readValue(toDelete1, Log.class));
+        logRepository.delete(mapper.readValue(toDelete2, Log.class));
     }
 }

@@ -34,11 +34,15 @@ import shared.models.Log;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 @Component
 public class MainController extends AbstractController implements Initializable {
+
+    public static final int minChartSlice = 5;
 
     private UserService service;
 
@@ -107,6 +111,13 @@ public class MainController extends AbstractController implements Initializable 
     @FXML
     private ListView loglist;
 
+    private JFXNodesList foodList;
+
+    private JFXNodesList transportList;
+
+    private JFXNodesList energyList;
+
+    private DoughnutChart chart;
 
     @Autowired
     public MainController(UserService service) {
@@ -132,33 +143,22 @@ public class MainController extends AbstractController implements Initializable 
         }
 
         ObservableList<PieChart.Data> pieChartData = createData();
-        DoughnutChart chart = new DoughnutChart(pieChartData);
-        chartContainer.getChildren().add(chart);
+        this.chart = new DoughnutChart(pieChartData);
+        this.chartContainer.getChildren().add(chart);
 
         int point = service.getPoints();
+        point += service.getStateSolar().getPoints();
         pointsContainer.setText("P:" + point);
 
-        JFXNodesList foodList = createFoodList();
-        JFXNodesList transportList = createTransportList();
-        JFXNodesList energyList = createEnergyList();
-
-        for (PieChart.Data chartData : chart.getData()) {
-            Node chartSlice = chartData.getNode();
-            chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                switch (chartData.getName()) {
-                    case "Food":
-                        clickOnSlice(foodList, energyList, transportList);
-                        break;
-                    case "Transport":
-                        clickOnSlice(transportList, energyList, foodList);
-                        break;
-                    case "Energy":
-                        clickOnSlice(energyList, transportList, foodList);
-                        break;
-                    default:
-                }
-            });
+        if (service.getStateSolar().isEnabled()) {
+            toggleButton(solarbtn);
         }
+
+        this.foodList = createFoodList();
+        this.transportList = createTransportList();
+        this.energyList = createEnergyList();
+
+        addListenerChart();
 
         //TODO: Decide if labels are needed
         vegLabel.setVisible(false);
@@ -174,6 +174,7 @@ public class MainController extends AbstractController implements Initializable 
 
         solarbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             buttonPressed(Action.SOLAR);
+            toggleButton(solarbtn);
         });
         vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             buttonPressed(Action.VEGETARIAN);
@@ -193,13 +194,14 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void buttonPressed(Action action) {
-        int points = this.service.madeAction(action);
-        System.out.println(points);
+        this.service.madeAction(action);
+        int points = this.service.getPoints();
         this.pointsContainer.setText("P:" + points);
         this.logs = this.service.getLog();
         this.loglist.getItems().clear();
         this.logs.forEach(e -> this.loglist.getItems().add(0, new
                 Label(e.getAction() + " " + e.getDate())));
+        this.updateChart();
     }
 
 
@@ -248,13 +250,85 @@ public class MainController extends AbstractController implements Initializable 
         }
     }
 
-    //TODO: Get PieChart.Data from user's history
+    //TODO: Move this to another class
     private ObservableList<PieChart.Data> createData() {
+
+        Map<String, Integer> values = new HashMap<>();
+        values.putIfAbsent("Food", 1);
+        values.putIfAbsent("Energy", 1);
+        values.putIfAbsent("Transport", 1);
+        List<Log> logs = service.getLog();
+        for (Log log : logs) {
+            switch (log.getAction()) {
+                case LOCAL:
+                case VEGETARIAN:
+                    values.put("Food", values.get("Food") + log.getAction().getPoints());
+                    break;
+                case BIKE:
+                case PUBLIC:
+                    values.put("Transport", values.get("Transport") + log.getAction().getPoints());
+                    break;
+                case TEMP:
+                    values.put("Energy", values.get("Energy") + log.getAction().getPoints());
+                    break;
+                default:
+            }
+        }
+
+        values.put("Energy", values.get("Energy") + service.getStateSolar().getPoints());
+        int totalPoints = 3;
+        for (String key : values.keySet()) {
+            totalPoints += values.get(key);
+        }
+
+        double scale = 100.0 - 3 * minChartSlice;
+
+        double foodPercentage = (double) values.get("Food") / totalPoints * scale;
+        double transportPercentage = (double) values.get("Transport") / totalPoints * scale;
+        double energyPercentage = (double) values.get("Energy") / totalPoints * scale;
+
         return FXCollections.observableArrayList(
-                new PieChart.Data("Food", 33),
-                new PieChart.Data("Energy", 33),
-                new PieChart.Data("Transport", 33)
+                new PieChart.Data("Food", minChartSlice + foodPercentage),
+                new PieChart.Data("Energy", minChartSlice + energyPercentage),
+                new PieChart.Data("Transport", minChartSlice + transportPercentage)
         );
     }
 
+    private void addListenerChart() {
+        for (PieChart.Data chartData : this.chart.getData()) {
+            Node chartSlice = chartData.getNode();
+            chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                switch (chartData.getName()) {
+                    case "Food":
+                        clickOnSlice(foodList, energyList, transportList);
+                        break;
+                    case "Transport":
+                        clickOnSlice(transportList, energyList, foodList);
+                        break;
+                    case "Energy":
+                        clickOnSlice(energyList, transportList, foodList);
+                        break;
+                    default:
+                }
+            });
+        }
+    }
+
+    private void updateChart() {
+        if (this.chartContainer.getChildren().remove(this.chart)) {
+            this.chart = new DoughnutChart(createData());
+            this.chartContainer.getChildren().add(chart);
+        }
+        addListenerChart();
+    }
+
+    private void toggleButton(JFXButton button) {
+        if (button.getStyleClass().contains("toggle-button-off")) {
+            button.getStyleClass().remove("toggle-button-off");
+            button.getStyleClass().add("animated-option-button-sub");
+        } else {
+            button.getStyleClass().remove("animated-option-button-sub");
+            button.getStyleClass().add("toggle-button-off");
+        }
+    }
 }
