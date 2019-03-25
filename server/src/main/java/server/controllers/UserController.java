@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -136,6 +137,34 @@ public class UserController {
                     * Period.between(datePrevious, LocalDate.now()).getDays();
         }
         return new SolarState(points, total % 2 == 1);
+    }
+
+    @GetMapping(value = UserEndpoints.LEADERBOARD)
+    public List<User> getLeaderBoard() {
+        return repository.findByOrderByFoodPointsDesc();
+    }
+
+    @GetMapping(value = UserEndpoints.SEARCH)
+    public User search(@RequestBody String username) {
+        return repository.findUserByUsername(username);
+    }
+
+    @PostMapping(value = UserEndpoints.FOLLOW)
+    public User addFollow(@RequestBody User user, Authentication authentication) {
+        User current = repository.findUserByUsername(authentication.getName());
+        if (!current.getUsername().equals(user.getUsername())) {
+
+            current.getFollowing().add(user);
+            repository.save(current);
+        }
+        return current;
+    }
+
+    @GetMapping(value = UserEndpoints.FOLLOWLIST)
+    public Set<User> viewFollowList(Authentication authentication) {
+        User user = repository.findUserByUsername(authentication.getName());
+        Set<User> friends = user.getFollowing();
+        return friends;
     }
 
 }

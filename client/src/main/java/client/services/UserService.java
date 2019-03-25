@@ -16,6 +16,7 @@ import shared.models.User;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service("UserService")
 public class UserService {
@@ -88,6 +89,7 @@ public class UserService {
 
     /**
      * Method that makes a request to the database and returns the total amount of points.
+     *
      * @return the amounts of points a user has
      */
     public int getPoints() {
@@ -98,6 +100,7 @@ public class UserService {
     /**
      * Gets the state of the solar button (clicked or not)
      * and the amounts of points gathered by the solar panels.
+     *
      * @return A pair composed of the state (clicked or not) and the points
      */
     public SolarState getStateSolar() {
@@ -111,10 +114,54 @@ public class UserService {
      */
     public List<Log> getLog() {
         ResponseEntity<List<Log>> response = restTemplate.exchange(UserEndpoints.LOGS,
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Log>>(){});
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Log>>() {
+                });
         List<Log> loglist = response.getBody();
         return loglist;
     }
+
+    public List<User> getLeaderBoard() {
+        ResponseEntity<List<User>> response =
+                restTemplate.exchange(
+                        UserEndpoints.LEADERBOARD,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<User>>() {
+                        });
+
+        List<User> leaderlist = response.getBody();
+        return leaderlist;
+    }
+
+    public User search(String username) {
+        User response = restTemplate.postForObject(UserEndpoints.SEARCH, username, User.class);
+        System.out.println(response);
+        return response;
+    }
+
+    public User addFollow(User user) {
+        User response = restTemplate.postForObject(UserEndpoints.FOLLOW, user, User.class);
+
+        //response.getFollowing().forEach(e -> System.out.println(e));
+
+        System.out.println(response);
+        return response;
+    }
+
+    public Set<User> viewFollowList() {
+        ResponseEntity<Set<User>> response =
+                restTemplate.exchange(
+                        UserEndpoints.FOLLOWLIST,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<Set<User>>() {
+                        });
+
+        Set<User> followlist = response.getBody();
+        followlist.forEach(e -> System.out.println(e));
+        return followlist;
+    }
+
 
 }
 

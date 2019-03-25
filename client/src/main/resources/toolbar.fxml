@@ -10,26 +10,19 @@
       xmlns="http://javafx.com/javafx/10.0.1" fx:controller="client.gui.controllers.ToolBarController">
       <JFXButton layoutX="70.0" layoutY="143.0" onAction="#goToSettings" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #C7EA46;" text="Settings" />
       <ImageView fitHeight="59.0" fitWidth="114.0" layoutX="85.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
-         <image>
             <Image url="@images/settings_icon.png" />
-         </image></ImageView>
-      <JFXButton layoutX="52.0" layoutY="266.0" onAction="#goToMain" prefHeight="47.0" prefWidth="126.0" style="-fx-background-color: #C7EA46;" text="Discover People" />
+      </ImageView>
+      <JFXButton layoutX="52.0" layoutY="266.0" onAction="#goToFollowers" prefHeight="47.0" prefWidth="126.0" style="-fx-background-color: #C7EA46;" text="Discover People" />
       <JFXButton fx:id="logout" layoutX="64.0" layoutY="523.0" onAction="#logOut" prefHeight="39.0" prefWidth="89.0" style="-fx-background-color: C7EA46;" text="Log out" />
       <ImageView fitHeight="76.0" fitWidth="76.0" layoutX="77.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true">
-         <image>
             <Image url="@images/network_icon.png" />
-         </image>
       </ImageView>
       <ImageView fitHeight="59.0" fitWidth="59.0" layoutX="85.0" layoutY="455.0" pickOnBounds="true" preserveRatio="true">
-         <image>
             <Image url="@images/logout_icon.png" />
-         </image>
       </ImageView>
       <JFXButton layoutX="67.0" layoutY="395.0" onAction="#goToPersonal" prefHeight="47.0" prefWidth="97.0" style="-fx-background-color: #C7EA46;" text="MyPage" />
    <JFXButton layoutX="70.0" layoutY="24.0" onAction="#goToMain" prefHeight="39.0" prefWidth="89.0" style="-fx-background-color: C7EA46;" text="Main Page" />
       <ImageView fitHeight="79.0" fitWidth="76.0" layoutX="77.0" layoutY="319.0" pickOnBounds="true" preserveRatio="true">
-         <image>
             <Image url="@images/leaf_icon.png" />
-         </image>
       </ImageView>
 </Pane>
