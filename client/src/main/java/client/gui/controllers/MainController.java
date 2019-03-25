@@ -3,6 +3,7 @@ package client.gui.controllers;
 import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
+import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
@@ -18,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -27,13 +29,24 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import shared.models.Action;
+import shared.models.Log;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 @Component
-public class MainController implements Initializable {
+public class MainController extends AbstractController implements Initializable {
+
+    public static final int minChartSlice = 5;
+
+    private UserService service;
+
+    private List<Log> logs;
 
     @FXML
     private AnchorPane menupane;
@@ -95,10 +108,17 @@ public class MainController implements Initializable {
     @FXML
     private JFXHamburger hamburger;
 
-    private UserService service;
+    @FXML
+    private ListView loglist;
 
+    private JFXNodesList foodList;
 
-    //TODO: find why the service is different after client restarts app.
+    private JFXNodesList transportList;
+
+    private JFXNodesList energyList;
+
+    private DoughnutChart chart;
+
     @Autowired
     public MainController(UserService service) {
         this.service = service;
@@ -116,83 +136,29 @@ public class MainController implements Initializable {
             HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
             task.setRate(task.getRate() * -1);
 
+            this.initializeHamburger(task, hamburger, drawer);
 
-            // TODO: Extract duplicate code
-            hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-
-                task.setRate(task.getRate() * -1);
-                task.play();
-
-                if (drawer.isOpened()) {
-                    drawer.close();
-                } else {
-                    drawer.open();
-                }
-
-            });
         } catch (IOException e) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         ObservableList<PieChart.Data> pieChartData = createData();
-        DoughnutChart chart = new DoughnutChart(pieChartData);
-        chartContainer.getChildren().add(chart);
+        this.chart = new DoughnutChart(pieChartData);
+        this.chartContainer.getChildren().add(chart);
 
-        pointsContainer.setText(service.getPoints() + "");
+        int point = service.getPoints();
+        point += service.getStateSolar().getPoints();
+        pointsContainer.setText("P:" + point);
 
-        JFXNodesList foodList = new JFXNodesList();
-        JFXNodesList transportList = new JFXNodesList();
-        JFXNodesList energyList = new JFXNodesList();
-
-        nodeListContainer.getChildren().add(foodList);
-        nodeListContainer.getChildren().add(energyList);
-        nodeListContainer.getChildren().add(transportList);
-
-        foodList.addAnimatedNode(new Region());
-        foodList.addAnimatedNode((Region) vegbtn.getParent());
-        foodList.addAnimatedNode((Region) localbtn.getParent());
-        transportList.addAnimatedNode(new Region());
-        transportList.addAnimatedNode((Region) bikebtn.getParent());
-        transportList.addAnimatedNode((Region) publicbtn.getParent());
-        energyList.addAnimatedNode(new Region());
-        energyList.addAnimatedNode((Region) tempbtn.getParent());
-        energyList.addAnimatedNode((Region) solarbtn.getParent());
-
-        for (PieChart.Data chartData : chart.getData()) {
-            Node chartSlice = chartData.getNode();
-            chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                switch (chartData.getName()) {
-                    case "Food":
-                        foodList.animateList();
-                        if (energyList.isExpanded()) {
-                            energyList.animateList();
-                        }
-                        if (transportList.isExpanded()) {
-                            transportList.animateList();
-                        }
-                        break;
-                    case "Transport":
-                        transportList.animateList();
-                        if (foodList.isExpanded()) {
-                            foodList.animateList();
-                        }
-                        if (energyList.isExpanded()) {
-                            energyList.animateList();
-                        }
-                        break;
-                    case "Energy":
-                        energyList.animateList();
-                        if (foodList.isExpanded()) {
-                            foodList.animateList();
-                        }
-                        if (transportList.isExpanded()) {
-                            transportList.animateList();
-                        }
-
-                        break;
-                }
-            });
+        if (service.getStateSolar().isEnabled()) {
+            toggleButton(solarbtn);
         }
+
+        this.foodList = createFoodList();
+        this.transportList = createTransportList();
+        this.energyList = createEnergyList();
+
+        addListenerChart();
 
         //TODO: Decide if labels are needed
         vegLabel.setVisible(false);
@@ -202,14 +168,42 @@ public class MainController implements Initializable {
         tempLabel.setVisible(false);
         solarLabel.setVisible(false);
 
-
         addEventHandlers(vegbtn, vegLabel, localbtn, localLabel, bikebtn, bikeLabel);
         addEventHandlers(publicbtn, publicLabel, tempbtn, tempLabel, solarbtn, solarLabel);
 
+
+        solarbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.SOLAR);
+            toggleButton(solarbtn);
+        });
         vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            this.pointsContainer.setText(this.service.ateVegMeal() + "");
+            buttonPressed(Action.VEGETARIAN);
+        });
+        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.BIKE);
+        });
+        tempbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.TEMP);
+        });
+        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.PUBLIC);
+        });
+        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            buttonPressed(Action.LOCAL);
         });
     }
+
+    private void buttonPressed(Action action) {
+        this.service.madeAction(action);
+        int points = this.service.getPoints();
+        this.pointsContainer.setText("P:" + points);
+        this.logs = this.service.getLog();
+        this.loglist.getItems().clear();
+        this.logs.forEach(e -> this.loglist.getItems().add(0, new
+                Label(e.getAction() + " " + e.getDate())));
+        this.updateChart();
+    }
+
 
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
     private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
@@ -225,13 +219,116 @@ public class MainController implements Initializable {
         bikebtn.addEventHandler(MouseEvent.MOUSE_EXITED, e -> bikeLabel.setVisible(false));
     }
 
+    private JFXNodesList createFoodList() {
+        return createList(vegbtn, localbtn);
+    }
 
-    //TODO: Get PieChart.Data from user's history
+    private JFXNodesList createTransportList() {
+        return createList(bikebtn, publicbtn);
+    }
+
+    private JFXNodesList createEnergyList() {
+        return createList(tempbtn, solarbtn);
+    }
+
+    private JFXNodesList createList(JFXButton button1, JFXButton button2) {
+        JFXNodesList list = new JFXNodesList();
+        nodeListContainer.getChildren().add(list);
+        list.addAnimatedNode(new Region());
+        list.addAnimatedNode((Region) button1.getParent());
+        list.addAnimatedNode((Region) button2.getParent());
+        return list;
+    }
+
+    private void clickOnSlice(JFXNodesList clickedOn, JFXNodesList other1, JFXNodesList other2) {
+        clickedOn.animateList();
+        if (other1.isExpanded()) {
+            other1.animateList();
+        }
+        if (other2.isExpanded()) {
+            other2.animateList();
+        }
+    }
+
+    //TODO: Move this to another class
     private ObservableList<PieChart.Data> createData() {
+
+        Map<String, Integer> values = new HashMap<>();
+        values.putIfAbsent("Food", 1);
+        values.putIfAbsent("Energy", 1);
+        values.putIfAbsent("Transport", 1);
+        List<Log> logs = service.getLog();
+        for (Log log : logs) {
+            switch (log.getAction()) {
+                case LOCAL:
+                case VEGETARIAN:
+                    values.put("Food", values.get("Food") + log.getAction().getPoints());
+                    break;
+                case BIKE:
+                case PUBLIC:
+                    values.put("Transport", values.get("Transport") + log.getAction().getPoints());
+                    break;
+                case TEMP:
+                    values.put("Energy", values.get("Energy") + log.getAction().getPoints());
+                    break;
+                default:
+            }
+        }
+
+        values.put("Energy", values.get("Energy") + service.getStateSolar().getPoints());
+        int totalPoints = 3;
+        for (String key : values.keySet()) {
+            totalPoints += values.get(key);
+        }
+
+        double scale = 100.0 - 3 * minChartSlice;
+
+        double foodPercentage = (double) values.get("Food") / totalPoints * scale;
+        double transportPercentage = (double) values.get("Transport") / totalPoints * scale;
+        double energyPercentage = (double) values.get("Energy") / totalPoints * scale;
+
         return FXCollections.observableArrayList(
-                new PieChart.Data("Food", 33),
-                new PieChart.Data("Energy", 33),
-                new PieChart.Data("Transport", 33)
+                new PieChart.Data("Food", minChartSlice + foodPercentage),
+                new PieChart.Data("Energy", minChartSlice + energyPercentage),
+                new PieChart.Data("Transport", minChartSlice + transportPercentage)
         );
+    }
+
+    private void addListenerChart() {
+        for (PieChart.Data chartData : this.chart.getData()) {
+            Node chartSlice = chartData.getNode();
+            chartSlice.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                switch (chartData.getName()) {
+                    case "Food":
+                        clickOnSlice(foodList, energyList, transportList);
+                        break;
+                    case "Transport":
+                        clickOnSlice(transportList, energyList, foodList);
+                        break;
+                    case "Energy":
+                        clickOnSlice(energyList, transportList, foodList);
+                        break;
+                    default:
+                }
+            });
+        }
+    }
+
+    private void updateChart() {
+        if (this.chartContainer.getChildren().remove(this.chart)) {
+            this.chart = new DoughnutChart(createData());
+            this.chartContainer.getChildren().add(chart);
+        }
+        addListenerChart();
+    }
+
+    private void toggleButton(JFXButton button) {
+        if (button.getStyleClass().contains("toggle-button-off")) {
+            button.getStyleClass().remove("toggle-button-off");
+            button.getStyleClass().add("animated-option-button-sub");
+        } else {
+            button.getStyleClass().remove("animated-option-button-sub");
+            button.getStyleClass().add("toggle-button-off");
+        }
     }
 }

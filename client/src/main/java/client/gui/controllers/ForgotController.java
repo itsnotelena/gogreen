@@ -50,7 +50,6 @@ public class ForgotController extends AbstractController implements Initializabl
         goToSmall(returnButton, LOGIN);
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }

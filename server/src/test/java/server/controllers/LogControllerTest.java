@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import server.repositories.LogRepository;
 import server.repositories.UserRepository;
+import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
 import shared.models.User;
@@ -53,9 +54,9 @@ public class LogControllerTest {
         }
 
         this.mvc.perform(
-                post("/user/signup").contentType(MediaType.APPLICATION_JSON).content(UString));
+                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(UString));
         authorization = this.mvc.perform(
-                post("/login").contentType(MediaType.APPLICATION_JSON).content(UString))
+                post(UserEndpoints.LOGIN).contentType(MediaType.APPLICATION_JSON).content(UString))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getHeader("Authorization");
@@ -64,9 +65,9 @@ public class LogControllerTest {
     @Test
     public void sendActionLogTest() throws Exception{
         Log req = new Log();
-        req.setAction(Action.VegetarianMeal);
+        req.setAction(Action.VEGETARIAN);
         String postContent = new ObjectMapper().writeValueAsString(req);
-        String response = this.mvc.perform(post("/log")
+        String response = this.mvc.perform(post(UserEndpoints.LOGS)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())

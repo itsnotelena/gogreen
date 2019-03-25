@@ -11,11 +11,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import server.exceptions.UserExistsException;
+import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
+import shared.models.Log;
+import shared.models.SolarState;
 import shared.models.User;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -25,6 +33,8 @@ public class UserController {
     private static final AtomicLong counter = new AtomicLong();
 
     private final UserRepository repository;
+
+    private final LogRepository logRepository;
 
     private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
@@ -58,30 +68,103 @@ public class UserController {
         return user;
     }
 
-    //TODO: Give different points based on the action
-
     /**
-     * Updates the user points based on the action and returns the new amount of points.
+     * The method returns how many points a user has according to the logs.
      *
-     * @param action         The action for which the user gets the points
-     * @param authentication Details to identify the user
-     * @return The new amount of points
+     * @param authentication takes a user by which the log repository is sorted.
+     * @return user points.
      */
-    @PostMapping(value = "/action")
-    public long updatePoints(@RequestBody Action action,
-                             Authentication authentication) {
+    @GetMapping(value = UserEndpoints.ACTIONLIST)
+    public int actionList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
-        if (action.equals(Action.VegetarianMeal)) {
-            user.setFoodPoints(user.getFoodPoints() + 100);
-            repository.save(user);
+        user.setPassword("");
+        int points = 0;
+        List<Log> list = logRepository.findByUser(user);
+        if (list == null) {
+            return 0;
         }
-        return user.getFoodPoints();
+        for (Log log : list) {
+            if (!log.getAction().equals(Action.SOLAR)) {
+                points = points + log.getAction().getPoints();
+            }
+        }
+        return points + getStateSolar(authentication).getPoints();
     }
 
-    @GetMapping(value = "/points")
-    public long getPoints(Authentication authentication) {
+    /**
+     * The method returns a list of logs of a user to be displayed on the main screen.
+     *
+     * @param authentication to identify user.
+     * @return the list of user logs.
+     */
+    @GetMapping(value = UserEndpoints.LOGS)
+    public List<Log> getLogs(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
-        return user.getFoodPoints();
+        return logRepository.findByUser(user);
+    }
+
+    /**
+     * Returns the state of the solar panels.
+     *
+     * @param authentication authentication details pof the useer
+     * @return an array representing a pair of the state of the button
+     *          and the amount of points gathered by the solar panels
+     */
+    @GetMapping(value = "/solar")
+    public SolarState getStateSolar(Authentication authentication) {
+        int points = 0;
+        int total = 0;
+        Log lastLog = null;
+        for (Log log : getLogs(authentication)) {
+            if (log.getAction().equals(Action.SOLAR)) {
+                total++;
+                if (total % 2 == 1) {
+                    lastLog = log;
+                } else {
+                    LocalDate dateLatest = LocalDate.ofInstant(log.getDate().toInstant(),
+                            ZoneId.systemDefault());
+                    LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
+                            ZoneId.systemDefault());
+                    points += Action.SOLAR.getPoints()
+                            * Period.between(datePrevious, dateLatest).getDays();
+                }
+            }
+        }
+        if (total % 2 == 1) {
+            LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
+                    ZoneId.systemDefault());
+            points += Action.SOLAR.getPoints()
+                    * Period.between(datePrevious, LocalDate.now()).getDays();
+        }
+        return new SolarState(points, total % 2 == 1);
+    }
+
+    @GetMapping(value = UserEndpoints.LEADERBOARD)
+    public List<User> getLeaderBoard() {
+        return repository.findByOrderByFoodPointsDesc();
+    }
+
+    @GetMapping(value = UserEndpoints.SEARCH)
+    public User search(@RequestBody String username) {
+        return repository.findUserByUsername(username);
+    }
+
+    @PostMapping(value = UserEndpoints.FOLLOW)
+    public User addFollow(@RequestBody User user, Authentication authentication) {
+        User current = repository.findUserByUsername(authentication.getName());
+        if (!current.getUsername().equals(user.getUsername())) {
+
+            current.getFollowing().add(user);
+            repository.save(current);
+        }
+        return current;
+    }
+
+    @GetMapping(value = UserEndpoints.FOLLOWLIST)
+    public Set<User> viewFollowList(Authentication authentication) {
+        User user = repository.findUserByUsername(authentication.getName());
+        Set<User> friends = user.getFollowing();
+        return friends;
     }
 
 }

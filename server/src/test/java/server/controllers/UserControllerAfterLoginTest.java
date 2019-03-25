@@ -16,9 +16,20 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import server.repositories.LogRepository;
 import server.repositories.UserRepository;
+import shared.endpoints.UserEndpoints;
 import shared.models.Action;
+import shared.models.Log;
+import shared.models.SolarState;
 import shared.models.User;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAmount;
+import java.util.Date;
+import java.util.List;
 
 
 @RunWith(SpringRunner.class)
@@ -28,6 +39,8 @@ public class UserControllerAfterLoginTest {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    LogRepository logRepository;
     @Autowired
     private MockMvc mvc;
     private User testUser = new User();
@@ -50,30 +63,29 @@ public class UserControllerAfterLoginTest {
         }
 
         this.mvc.perform(
-                post("/user/signup").contentType(MediaType.APPLICATION_JSON).content(UString));
+                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(UString));
         authorization = this.mvc.perform(
-                post("/login").contentType(MediaType.APPLICATION_JSON).content(UString))
+                post(UserEndpoints.LOGIN).contentType(MediaType.APPLICATION_JSON).content(UString))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getHeader("Authorization");
 
     }
 
+
     @Test
-    public void sendActionTest() throws Exception {
-        String postContent = new ObjectMapper().writeValueAsString(Action.VegetarianMeal);
-        String result = this.mvc.perform(post("/action").header(HttpHeaders.AUTHORIZATION, authorization)
-                .contentType(MediaType.APPLICATION_JSON).content(postContent))
+    public void noLogUserTest() throws Exception {
+        String response = this.mvc.perform(get(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
 
-        Assert.assertEquals(100, Integer.parseInt(result));
+        Assert.assertTrue(new ObjectMapper().readValue(response, List.class).isEmpty());
     }
 
     @Test
     public void getPointsNoActionTest() throws Exception {
-        String result = this.mvc.perform(get("/points").header(HttpHeaders.AUTHORIZATION, authorization))
+        String result = this.mvc.perform(get(UserEndpoints.ACTIONLIST).header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
@@ -83,16 +95,77 @@ public class UserControllerAfterLoginTest {
 
     @Test
     public void getPointsAfterActionTest() throws Exception {
-        String postContent = new ObjectMapper().writeValueAsString(Action.VegetarianMeal);
-        this.mvc.perform(post("/action").header(HttpHeaders.AUTHORIZATION, authorization)
+        Log req = new Log();
+        req.setAction(Action.VEGETARIAN);
+        String postContent = new ObjectMapper().writeValueAsString(req);
+        String toDelete = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
-        String result = this.mvc.perform(get("/points").header(HttpHeaders.AUTHORIZATION, authorization))
+        String result = this.mvc.perform(get(UserEndpoints.ACTIONLIST).header(HttpHeaders.AUTHORIZATION, authorization))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
-        Assert.assertEquals(100, Integer.parseInt(result));
+
+        Assert.assertEquals(Action.VEGETARIAN.getPoints(), Integer.parseInt(result));
+        logRepository.delete(new ObjectMapper().readValue(toDelete, Log.class));
+    }
+
+    @Test
+    public void getSolarPoints_OnlyOneToggle_Test() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        Date datePrevious = Date.from(LocalDate.now().minus(Period.ofDays(2))
+                .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Log solar = new Log();
+        solar.setDate(datePrevious);
+        solar.setAction(Action.SOLAR);
+        solar.setUser(testUser);
+        String log = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(solar)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        Log test = mapper.readValue(log, Log.class);
+        test.setDate(datePrevious);
+        logRepository.save(test);
+        String response = this.mvc.perform(get("/solar").header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        SolarState state = mapper.readValue(response, SolarState.class);
+        Assert.assertEquals(2 * Action.SOLAR.getPoints(), state.getPoints());
+        Assert.assertTrue(state.isEnabled());
+        logRepository.delete(test);
+    }
+
+    @Test
+    public void getSolarPoints_afterOnOff_Test() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        Log firstLog = new Log();
+        Log secondLog = new Log();
+        firstLog.setUser(testUser);
+        secondLog.setUser(testUser);
+        firstLog.setAction(Action.SOLAR);
+        secondLog.setAction(Action.SOLAR);
+        String toDelete1 = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(firstLog)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        String toDelete2 = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(secondLog)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        String response = this.mvc.perform(get("/solar").header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        SolarState state = mapper.readValue(response, SolarState.class);
+        Assert.assertEquals(0, state.getPoints());
+        Assert.assertFalse(state.isEnabled());
+        logRepository.delete(mapper.readValue(toDelete1, Log.class));
+        logRepository.delete(mapper.readValue(toDelete2, Log.class));
     }
 }

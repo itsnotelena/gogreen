@@ -4,6 +4,7 @@ import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.MAIN;
 import static client.gui.tools.SceneNames.PERSONAL;
 import static client.gui.tools.SceneNames.SETTINGS;
+import static client.gui.tools.SceneNames.FOLLOWERS;
 
 import client.gui.tools.AbstractController;
 import com.jfoenix.controls.JFXButton;
@@ -52,6 +53,14 @@ public class ToolBarController extends AbstractController {
      */
     public void goToSettings() throws IOException {
         goToLarge(myPane, SETTINGS);
+    }
+
+    /**
+     * Logs the user out and shows them the login screen.
+     * @throws IOException Throws an exception when the main window cannot be found.
+     */
+    public void goToFollowers() throws IOException {
+        goToLarge(myPane, FOLLOWERS);
     }
 
     /**

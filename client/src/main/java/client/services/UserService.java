@@ -1,6 +1,7 @@
 package client.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +11,12 @@ import org.springframework.web.client.RestTemplate;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
+import shared.models.SolarState;
 import shared.models.User;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 @Service("UserService")
 public class UserService {
@@ -26,8 +28,19 @@ public class UserService {
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * Method that makes a post request to the database to register the new user.
+     *
+     * @param user The user to be registered
+     * @return true if the user was successfully registered; false otherwise
+     */
     public boolean createAccount(User user) {
-        User response = restTemplate.postForObject(UserEndpoints.SIGNUP, user, User.class);
+        User response;
+        try {
+            response = restTemplate.postForObject(UserEndpoints.SIGNUP, user, User.class);
+        } catch (HttpClientErrorException e) {
+            return false;
+        }
         return response != null;
     }
 
@@ -46,7 +59,9 @@ public class UserService {
             return false;
         }
 
-        if (response.getHeaders().get("Authorization") == null) return false;
+        if (response.getHeaders().get("Authorization") == null) {
+            return false;
+        }
 
         List<String> auth = response.getHeaders().get("Authorization");
         String token = auth.get(0);
@@ -63,20 +78,91 @@ public class UserService {
     /**
      * Methods logs to the database that the user has eaten a vegetarian meal.
      */
-    public long ateVegMeal() {
+    public void madeAction(Action action) {
         Log req = new Log();
-        req.setAction(Action.VegetarianMeal);
+        req.setAction(action);
         req.setDate(new Date());
-        restTemplate.postForObject("/log", req, Log.class);
-        Long newPoints = restTemplate.postForObject("/action", Action.VegetarianMeal, Long.class);
+        restTemplate.postForObject(UserEndpoints.LOGS, req, Log.class);
         System.out.println("Successfully added a log to the table");
-        return newPoints;
     }
 
-    public long getPoints() {
-        Long response = restTemplate.getForObject("/points", Long.class);
-        return response != null ? response : 0L;
+
+    /**
+     * Method that makes a request to the database and returns the total amount of points.
+     *
+     * @return the amounts of points a user has
+     */
+    public int getPoints() {
+        int response = restTemplate.getForObject(UserEndpoints.ACTIONLIST, int.class);
+        return response;
     }
+
+    /**
+     * Gets the state of the solar button (clicked or not)
+     * and the amounts of points gathered by the solar panels.
+     *
+     * @return A pair composed of the state (clicked or not) and the points
+     */
+    public SolarState getStateSolar() {
+        return restTemplate.getForObject("/solar", SolarState.class);
+    }
+
+    /**
+     * This method requests a log list from the server.
+     *
+     * @return the log list.
+     */
+    public List<Log> getLog() {
+        ResponseEntity<List<Log>> response = restTemplate.exchange(UserEndpoints.LOGS,
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Log>>() {
+                });
+        List<Log> loglist = response.getBody();
+        return loglist;
+    }
+
+    public List<User> getLeaderBoard() {
+        ResponseEntity<List<User>> response =
+                restTemplate.exchange(
+                        UserEndpoints.LEADERBOARD,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<User>>() {
+                        });
+
+        List<User> leaderlist = response.getBody();
+        return leaderlist;
+    }
+
+    public User search(String username) {
+        User response = restTemplate.postForObject(UserEndpoints.SEARCH, username, User.class);
+        System.out.println(response);
+        return response;
+    }
+
+    public User addFollow(User user) {
+        User response = restTemplate.postForObject(UserEndpoints.FOLLOW, user, User.class);
+
+        //response.getFollowing().forEach(e -> System.out.println(e));
+
+        System.out.println(response);
+        return response;
+    }
+
+    public Set<User> viewFollowList() {
+        ResponseEntity<Set<User>> response =
+                restTemplate.exchange(
+                        UserEndpoints.FOLLOWLIST,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<Set<User>>() {
+                        });
+
+        Set<User> followlist = response.getBody();
+        followlist.forEach(e -> System.out.println(e));
+        return followlist;
+    }
+
+
 }
 
 
