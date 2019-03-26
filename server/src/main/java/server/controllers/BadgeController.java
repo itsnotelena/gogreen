@@ -29,7 +29,7 @@ public class BadgeController {
      * @param auth to identify the user.
      * @return the list of badges and their levels.
      */
-    @GetMapping(value = UserEndpoints.BADGES)
+    @GetMapping(value = UserEndpoints.BADGES) // TODO: Reduce Cyclomatic complexity
     public Badges[] getBadgeLevel(Authentication auth) {
 
         // Init total count and temp count
@@ -132,11 +132,11 @@ public class BadgeController {
         local.setLevel(localCount);
 
         return new Badges[]{
-                vegetarian,
-                local,
-                bike,
-                publicTransport,
-                solar
+            vegetarian,
+            local,
+            bike,
+            publicTransport,
+            solar
         };
     }
 

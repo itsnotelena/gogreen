@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.After;
@@ -28,12 +27,7 @@ import shared.models.Badges;
 import shared.models.Log;
 import shared.models.User;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.tree.ExpandVetoException;
-import javax.validation.constraints.AssertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -61,7 +55,7 @@ public class BadgeControllerTest {
     }
 
     @Before
-    public void setup() throws Exception{
+    public void setup() throws Exception {
         logRepository.deleteAll();
         userRepository.deleteAll();
 

@@ -27,9 +27,6 @@ import shared.models.User;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
-import java.time.temporal.TemporalAmount;
-import java.util.Date;
 import java.util.List;
 
 
@@ -51,7 +48,7 @@ public class UserControllerAfterLoginTest {
     private String authorization;
 
     @Before
-    public void setup() throws Exception{
+    public void setup() throws Exception {
         String username = "test";
         testUser.setUsername(username);
         testUser.setPassword("test");
@@ -147,7 +144,7 @@ public class UserControllerAfterLoginTest {
     }
 
     @Test
-    public void getSolarPoints_afterOnOff_Test() throws Exception{
+    public void getSolarPoints_afterOnOff_Test() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
 
