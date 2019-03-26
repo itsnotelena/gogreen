@@ -21,6 +21,7 @@ import shared.models.Action;
 import shared.models.Log;
 import shared.models.User;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -108,7 +109,7 @@ public class TestUserService {
     public void testVegMeal() throws Exception {
         Log req = new Log();
         req.setAction(Action.VEGETARIAN);
-        req.setDate(new Date());
+        req.setDate(LocalDate.now());
         String response = new ObjectMapper().writeValueAsString(req);
         mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.LOGS))
                 .andExpect(method(HttpMethod.POST))

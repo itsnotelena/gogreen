@@ -115,8 +115,7 @@ public class UserControllerAfterLoginTest {
     @Test
     public void getSolarPoints_OnlyOneToggle_Test() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        Date datePrevious = Date.from(LocalDate.now().minus(Period.ofDays(2))
-                .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        LocalDate datePrevious = LocalDate.now().minus(Period.ofDays(2)).atStartOfDay().toLocalDate();
         Log solar = new Log();
         solar.setDate(datePrevious);
         solar.setAction(Action.SOLAR);
