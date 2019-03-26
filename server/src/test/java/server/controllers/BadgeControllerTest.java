@@ -62,6 +62,9 @@ public class BadgeControllerTest {
 
     @Before
     public void setup() throws Exception{
+        logRepository.deleteAll();
+        userRepository.deleteAll();
+
         String username = "test";
         testUser = new User();
         testUser.setUsername(username);
@@ -150,7 +153,7 @@ public class BadgeControllerTest {
 
     @After
     public void cleanup() {
-        userRepository.deleteAll();
         logRepository.deleteAll();
+        userRepository.deleteAll();
     }
 }
