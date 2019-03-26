@@ -216,11 +216,12 @@ public class UserController {
 
     /**
      * Method checks if two consecutive logs have consecutive days
-     *     and if yes, increments the counter which will decide the badge level.
+     * and if yes, increments the counter which will decide the badge level.
+     *
      * @param previous log is before the current log.
-     * @param current current log.
-     * @param counter counter which will be incremented.
-     * @param badge the badge to set a level
+     * @param current  current log.
+     * @param counter  counter which will be incremented.
+     * @param badge    the badge to set a level
      */
     public void counts(Log previous, Log current, int counter, Badges badge) {
         //set level immediately before we lost the value of counter
@@ -247,8 +248,9 @@ public class UserController {
 
     /**
      * Method calculates level of badge level for solar panels according to
-     *     turned on/turned off logs.
-     * @param list takes a list of only solar logs.
+     * turned on/turned off logs.
+     *
+     * @param list  takes a list of only solar logs.
      * @param badge takes a badge and sets its level.
      */
     public void solarBadgeLevel(ArrayList<Log> list, Badges badge) {
@@ -262,7 +264,8 @@ public class UserController {
             //for every 2 check their dates
             for (int i = 1; i < list.size(); i = i + 2) {
                 int variable = 0;
-                LocalDate datePrevious = LocalDate.ofInstant(list.get(variable).getDate().toInstant(),
+                LocalDate datePrevious = LocalDate.ofInstant(
+                        list.get(variable).getDate().toInstant(),
                         ZoneId.systemDefault());
 
                 // get the date of the current
@@ -278,7 +281,8 @@ public class UserController {
             //check for every 2 apart from the last one (which is enabled)
             for (int i = 1; i < list.size() - 1; i = i + 2) {
                 int variable = 0;
-                LocalDate datePrevious = LocalDate.ofInstant(list.get(variable).getDate().toInstant(),
+                LocalDate datePrevious = LocalDate.ofInstant(
+                        list.get(variable).getDate().toInstant(),
                         ZoneId.systemDefault());
 
                 // get the date of the current
@@ -312,7 +316,8 @@ public class UserController {
 
     /**
      * Method sets the badge level according to the counter.
-     * @param badge the badge which level is going to be set.
+     *
+     * @param badge   the badge which level is going to be set.
      * @param counter according to it the level is set.
      */
     public void setBadgeLevel(Badges badge, int counter) {
@@ -329,14 +334,20 @@ public class UserController {
         }
     }
 
-    public void checkSolarDates(LocalDate prev, LocalDate now, int counter){
-        if (prev.plusDays(3).equals(now)){
+    /**
+     * The method checks solar dates and increments the counter accordingly.
+     * @param prev previous date.
+     * @param now present date.
+     * @param counter the counter which determines badge level.
+     */
+    public void checkSolarDates(LocalDate prev, LocalDate now, int counter) {
+        if (prev.plusDays(3).equals(now)) {
             counter = 3;
         }
-        if (prev.plusDays(7).equals(now)){
+        if (prev.plusDays(7).equals(now)) {
             counter = 7;
         }
-        if (prev.plusDays(28).equals(now)){
+        if (prev.plusDays(28).equals(now)) {
             counter = 28;
         }
     }
