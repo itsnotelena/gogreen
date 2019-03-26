@@ -1,10 +1,14 @@
 package shared.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Badges {
     Vegetarian,
     Local,
@@ -28,5 +32,11 @@ public enum Badges {
         } else {
             this.level = 0;
         }
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return this.name() + ":" + this.level;
     }
 }

@@ -30,7 +30,7 @@ public class BadgeController {
      * @return the list of badges and their levels.
      */
     @GetMapping(value = UserEndpoints.BADGES)
-    public List<Badges> getBadgeLevel(Authentication auth) {
+    public Badges[] getBadgeLevel(Authentication auth) {
 
         // Init total count and temp count
         int vegCount = 0;
@@ -131,21 +131,19 @@ public class BadgeController {
         Badges local = Badges.Local;
         local.setLevel(localCount);
 
-        List<Badges> badges = new ArrayList<>();
-        badges.add(vegetarian);
-        badges.add(local);
-        badges.add(temperature);
-        badges.add(bike);
-        badges.add(publicTransport);
-        badges.add(solar);
-
-        return badges;
+        return new Badges[]{
+                vegetarian,
+                local,
+                bike,
+                publicTransport,
+                solar
+        };
     }
 
     private boolean areConsecutive(Log prev, Log next) {
         // Make it null safe
         if (prev == null || next == null || prev.getDate() == null || next.getDate() == null) {
-            return false;
+            return true;
         }
 
         Period between = Period.between(prev.getDate(), next.getDate());
