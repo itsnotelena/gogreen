@@ -2,6 +2,7 @@ package client.services;
 
 import client.AppConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -110,7 +111,9 @@ public class TestUserService {
         Log req = new Log();
         req.setAction(Action.VEGETARIAN);
         req.setDate(LocalDate.now());
-        String response = new ObjectMapper().writeValueAsString(req);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        String response = mapper.writeValueAsString(req);
         mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.LOGS))
                 .andExpect(method(HttpMethod.POST))
                 .andExpect(jsonPath("$.action").value(Action.VEGETARIAN.toString()))

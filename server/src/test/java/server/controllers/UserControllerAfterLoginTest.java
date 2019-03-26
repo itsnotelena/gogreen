@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,7 +81,9 @@ public class UserControllerAfterLoginTest {
                 .andReturn()
                 .getResponse().getContentAsString();
 
-        Assert.assertTrue(new ObjectMapper().readValue(response, List.class).isEmpty());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        Assert.assertTrue(mapper.readValue(response, List.class).isEmpty());
     }
 
     @Test
@@ -109,12 +112,17 @@ public class UserControllerAfterLoginTest {
                 .getResponse().getContentAsString();
 
         Assert.assertEquals(Action.VEGETARIAN.getPoints(), Integer.parseInt(result));
-        logRepository.delete(new ObjectMapper().readValue(toDelete, Log.class));
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        logRepository.delete(mapper.readValue(toDelete, Log.class));
     }
 
     @Test
     public void getSolarPoints_OnlyOneToggle_Test() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
         LocalDate datePrevious = LocalDate.now().minus(Period.ofDays(2)).atStartOfDay().toLocalDate();
         Log solar = new Log();
         solar.setDate(datePrevious);
@@ -141,6 +149,8 @@ public class UserControllerAfterLoginTest {
     @Test
     public void getSolarPoints_afterOnOff_Test() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
         Log firstLog = new Log();
         Log secondLog = new Log();
         firstLog.setUser(testUser);
