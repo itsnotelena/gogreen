@@ -151,6 +151,43 @@ public class BadgeControllerTest {
         Assert.assertArrayEquals(testBadges, badges);
     }
 
+    @Test
+    public void simpleSolarTest() throws Exception {
+
+        Log sol1 = new Log();
+        sol1.setUser(testUser);
+        sol1.setAction(Action.SOLAR);
+        sol1.setDate(LocalDate.EPOCH);
+        logRepository.save(sol1);
+
+        Log sol2 = new Log();
+        sol2.setUser(testUser);
+        sol2.setAction(Action.SOLAR);
+        sol2.setDate(LocalDate.EPOCH.plusDays(3));
+        logRepository.save(sol2);
+
+
+        String response = this.mvc.perform(get(UserEndpoints.BADGES)
+                .header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        Badges[] badges = mapper.readValue(response, Badges[].class);
+
+        Badges solBadge = Badges.Solar;
+        solBadge.setLevel(1);
+
+        Badges[] testBadges = new Badges[]{
+                Badges.Vegetarian,
+                Badges.Local,
+                Badges.Bike,
+                Badges.Public,
+                solBadge
+        };
+
+        Assert.assertArrayEquals(testBadges, badges);
+    }
+
     @After
     public void cleanup() {
         logRepository.deleteAll();
