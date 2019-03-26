@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -145,5 +146,11 @@ public class BadgeControllerTest {
         };
 
         Assert.assertArrayEquals(testBadges, badges);
+    }
+
+    @After
+    public void cleanup() {
+        userRepository.deleteAll();
+        logRepository.deleteAll();
     }
 }
