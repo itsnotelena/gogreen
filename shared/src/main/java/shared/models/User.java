@@ -58,4 +58,12 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hash(username);
     }
+
+    public boolean validateEmail() {
+        if(this.email.isEmpty()){
+            return false;
+        }
+        return this.email.matches(".*@.*");
+    }
+
 }

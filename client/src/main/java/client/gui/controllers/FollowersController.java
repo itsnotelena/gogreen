@@ -51,6 +51,9 @@ public class FollowersController implements Initializable {
     private Label errorlabel;
 
     @FXML
+    private Label noUserLabel;
+
+    @FXML
     private JFXTextField searchfield;
 
     @FXML
@@ -61,6 +64,8 @@ public class FollowersController implements Initializable {
     private List<User> leaderlist;
 
     private Set<User> followlist;
+
+    private List<User> searchlist;
 
     private User result;
 
@@ -80,6 +85,7 @@ public class FollowersController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rs) {
         errorlabel.setVisible(false);
+        noUserLabel.setVisible(false);
 
         drawer.setDefaultDrawerSize(DRAWER_SIZE);
         //drawer.setOverLayVisible(true);
@@ -105,9 +111,11 @@ public class FollowersController implements Initializable {
         infolabel.setText("Global Leaderboard");
         System.out.println("global leaderboard message printed");
         this.leaderlist = this.service.getLeaderBoard();
-        this.leaderlist.forEach(e -> this.leaderboard.getItems().add(
+        this.leaderlist.forEach(e ->
+                this.leaderboard.getItems().add(
                 new Label("Username: " + e.getUsername()
-                        + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername()))));
+                        + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername())
+                        + "       (press here to start following)")));
         this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 e -> this.service.addFollow(this.leaderlist.get(
                         this.leaderboard.getSelectionModel().getSelectedIndex())));
@@ -120,19 +128,27 @@ public class FollowersController implements Initializable {
         this.leaderlist = this.service.getLeaderBoard();
         infolabel.setText("Global Leaderboard");
         this.leaderlist.forEach(e -> this.leaderboard.getItems().add(new Label("Username: "
-                + e.getUsername() + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername()))));
+                + e.getUsername() + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername())
+        )));
     }
 
     @FXML
     private void search() {
         if (!this.searchfield.getText().isBlank()) {
-            this.result = this.service.search(this.searchfield.getText());
+            errorlabel.setVisible(false);
+            this.searchlist = this.service.search(this.searchfield.getText());
             this.leaderboard.getItems().clear();
             infolabel.setText("Search Results");
-            this.leaderboard.getItems().add(new Label("Username: " + this.result.getUsername()
-                    + " Email: " + this.result.getEmail()
-                    + " Points: " + service.getFollowingPoints(this.result.getUsername())));
+            if (!searchlist.isEmpty()) {
+                noUserLabel.setVisible(false);
+                this.searchlist.forEach(e ->
+                        this.leaderboard.getItems().add(new Label("Username: " + e.getUsername()
+                                + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername()))));
+            } else {
+                noUserLabel.setVisible(true);
+            }
         } else {
+            noUserLabel.setVisible(false);
             errorlabel.setVisible(true);
         }
     }
@@ -144,7 +160,11 @@ public class FollowersController implements Initializable {
         this.leaderboard.getItems().clear();
         this.followlist.forEach(e ->
                 this.leaderboard.getItems().add(new Label("Username: " + e.getUsername()
-                        + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername()))));
+                        + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername())
+                        + "       (press here to unfollow)")));
+        this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                e -> this.service.removeFollow(this.leaderlist.get(
+                        this.leaderboard.getSelectionModel().getSelectedIndex())));
     }
 
 

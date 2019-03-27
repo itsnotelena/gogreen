@@ -14,6 +14,7 @@ import shared.models.Log;
 import shared.models.SolarState;
 import shared.models.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -98,10 +99,8 @@ public class UserService {
     }
 
     public int getFollowingPoints(String username) {
-        System.out.println("this is before the request to get other points");
-        int result = restTemplate.postForObject(UserEndpoints.GETOTHERUSERPOINTS, username, int.class);
-        System.out.println(result + "this is user points");
-        return result;
+        int response = restTemplate.postForObject(UserEndpoints.GETOTHERUSERPOINTS, username, int.class);
+        return response;
     }
 
     /**
@@ -136,14 +135,19 @@ public class UserService {
                         new ParameterizedTypeReference<List<User>>() {
                         });
         List<User> leaderlist = response.getBody();
-        leaderlist.forEach(e -> System.out.println(e.getUsername()));
         return leaderlist;
     }
 
-    public User search(String username) {
-        User response = restTemplate.postForObject(UserEndpoints.SEARCH, username, User.class);
-        System.out.println(response);
-        return response;
+    public List<User> search(String username) {
+        HttpEntity<String> request = new HttpEntity<>(username);
+        ResponseEntity<List<User>> response =
+                restTemplate.exchange(UserEndpoints.SEARCH, HttpMethod.POST, request,
+                        new ParameterizedTypeReference<List<User>>() {
+                });
+        if (response.getBody().isEmpty()){
+            return new ArrayList<User>();
+        }
+        return response.getBody();
     }
 
     public User addFollow(User user) {
@@ -153,6 +157,11 @@ public class UserService {
 
         System.out.println(response);
         return response;
+    }
+
+    public void removeFollow(User user) {
+        User another = restTemplate.postForObject(UserEndpoints.UNFOLLOW, user, User.class);
+        System.out.println("removed user: " + another.getUsername());
     }
 
     public Set<User> viewFollowList() {
@@ -165,7 +174,6 @@ public class UserService {
                         });
 
         Set<User> followlist = response.getBody();
-        followlist.forEach(e -> System.out.println(e));
         return followlist;
     }
 

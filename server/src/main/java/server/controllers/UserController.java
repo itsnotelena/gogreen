@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import server.exceptions.EmailException;
 import server.exceptions.UserExistsException;
 import server.repositories.LogRepository;
 import server.repositories.UserRepository;
@@ -52,8 +53,9 @@ public class UserController {
      * @return the created user
      */
     @PostMapping(value = UserEndpoints.SIGNUP)
-    public User createUser(@RequestBody User user) throws UserExistsException {
+    public User createUser(@RequestBody User user) throws UserExistsException, EmailException {
         user.setPassword(hashPassword(user.getPassword())); // Hash the password
+
 
         // Catch duplicate exception
         try {
@@ -61,6 +63,12 @@ public class UserController {
         } catch (DataIntegrityViolationException e) {
             throw new UserExistsException();
         }
+         if(!user.validateEmail()){
+             throw new EmailException();
+         }
+
+
+
         user.setPassword(""); // Don't leak the (even the hashed) password
         try {
             System.out.println(new ObjectMapper().writeValueAsString(user));
@@ -80,25 +88,18 @@ public class UserController {
     public int actionList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         user.setPassword("");
-        int points = 0;
-        List<Log> list = logRepository.findByUser(user);
-        if (list == null) {
-            return 0;
-        }
-        for (Log log : list) {
-            if (!log.getAction().equals(Action.SOLAR)) {
-                points = points + log.getAction().getPoints();
-            }
-        }
+        int points = calcPoints(user);
         return points + getStateSolar(authentication).getPoints();
     }
 
-    @GetMapping(value = UserEndpoints.GETOTHERUSERPOINTS)
-    public int getOtherPoints(@RequestBody String username, Authentication authentication) {
-        User userrrrr = repository.findUserByUsername(authentication.getName());
-
-        System.out.println(username + "this is the username " + userrrrr.getUsername());
+    @PostMapping(value = UserEndpoints.GETOTHERUSERPOINTS)
+    public int getOtherPoints(@RequestBody String username) {
         User user = repository.findUserByUsername(username);
+        int points = calcPoints(user);
+        return points;
+    }
+
+    public int calcPoints(User user){
         int points = 0;
         List<Log> list = logRepository.findByUser(user);
         if (list == null) {
@@ -109,8 +110,9 @@ public class UserController {
                 points = points + log.getAction().getPoints();
             }
         }
-        return 0;
+        return points;
     }
+
 
     /**
      * The method returns a list of logs of a user to be displayed on the main screen.
@@ -167,9 +169,19 @@ public class UserController {
         return user;
     }
 
-    @GetMapping(value = UserEndpoints.SEARCH)
-    public User search(@RequestBody String username) {
-        return repository.findUserByUsername(username);
+    @PostMapping(value = UserEndpoints.SEARCH)
+    public List<User> search(@RequestBody String username) {
+        List<User> users = repository.findAll();
+        List<User> usersToReturn = new ArrayList<>();
+        for(User user : users){
+            if (user.getUsername().startsWith(username)){
+                usersToReturn.add(user);
+            }
+        }
+        if (usersToReturn.isEmpty()){
+            return new ArrayList<>();
+        }
+        return usersToReturn;
     }
 
     @PostMapping(value = UserEndpoints.FOLLOW)
@@ -181,6 +193,15 @@ public class UserController {
             repository.save(current);
         }
         return current;
+    }
+
+    @PostMapping(value = UserEndpoints.UNFOLLOW)
+    public User unfollow(@RequestBody User user, Authentication authentication) {
+        User current = repository.findUserByUsername(authentication.getName());
+        current.getFollowing().remove(user);
+        repository.save(current);
+        System.out.println(current.getFollowing().toArray().toString());
+        return user;
     }
 
     @GetMapping(value = UserEndpoints.FOLLOWLIST)
