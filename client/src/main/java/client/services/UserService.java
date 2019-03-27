@@ -171,10 +171,8 @@ public class UserService {
      * @return the added user.
      */
     public User addFollow(User user) {
-        User response = restTemplate.postForObject(UserEndpoints.FOLLOW, user, User.class);
-
-        //response.getFollowing().forEach(e -> System.out.println(e));
-
+        User response = restTemplate.postForObject(
+                UserEndpoints.FOLLOW, user.getUsername(), User.class);
         System.out.println(response);
         return response;
     }

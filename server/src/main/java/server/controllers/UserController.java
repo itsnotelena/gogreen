@@ -205,19 +205,20 @@ public class UserController {
 
     /**
      * Add a user to a 'following' set.
-     * @param user the one to be added.
+     * @param username the one to be added.
      * @param authentication the user who is adding.
      * @return the user who is adding.
      */
     @PostMapping(value = UserEndpoints.FOLLOW)
-    public User addFollow(@RequestBody User user, Authentication authentication) {
+    public User addFollow(@RequestBody String username, Authentication authentication) {
         User current = repository.findUserByUsername(authentication.getName());
+        User user = repository.findUserByUsername(username);
         if (!current.getUsername().equals(user.getUsername())) {
 
             current.getFollowing().add(user);
             repository.save(current);
         }
-        return current;
+        return user;
     }
 
     /**

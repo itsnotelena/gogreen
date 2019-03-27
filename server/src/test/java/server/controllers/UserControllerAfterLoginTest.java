@@ -4,7 +4,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,7 +32,9 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAmount;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @RunWith(SpringRunner.class)
@@ -46,6 +51,14 @@ public class UserControllerAfterLoginTest {
     private User testUser = new User();
 
     private String UString;
+
+    private User followUser = new User();
+
+    private String FUString;
+
+    private User followUser2 = new User();
+
+    private String FU2String;
 
     private String authorization;
 
@@ -169,5 +182,84 @@ public class UserControllerAfterLoginTest {
         Assert.assertFalse(state.isEnabled());
         logRepository.delete(mapper.readValue(toDelete1, Log.class));
         logRepository.delete(mapper.readValue(toDelete2, Log.class));
+    }
+
+//    @Test
+//    public void searchUserTest() throws  Exception{
+//        ObjectMapper mapper = new ObjectMapper();
+//        String Fusername = "follow";
+//        followUser.setUsername(Fusername);
+//        followUser.setPassword("test");
+//        FUString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword() + "\"}";
+//        this.mvc.perform(
+//                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FUString));
+//
+//        String search = this.mvc.perform(post(UserEndpoints.SEARCH).header(HttpHeaders.AUTHORIZATION, authorization)
+//                .content(testUser.getUsername()))
+//                .andExpect(status().isOk())
+//                .andReturn()
+//                .getResponse().getContentAsString();
+//        User result = mapper.readValue(search, User.class);
+//        Assert.assertEquals(testUser.getUsername(), result.getUsername());
+//
+//    }
+
+    @Test
+    public void followUserTest() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String Fusername = "follow1";
+        followUser.setUsername(Fusername);
+        followUser.setPassword("test");
+        FUString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword()+ "\", \"email\": \"" + testUser.getEmail() + "\"}";
+
+        this.mvc.perform(
+                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FUString));
+
+        String follow = this.mvc.perform(post(UserEndpoints.FOLLOW).header(HttpHeaders.AUTHORIZATION, authorization)
+                .content(followUser.getUsername()))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        System.out.println(follow);
+        User result = mapper.readValue(follow, User.class);
+        Assert.assertEquals(followUser.getUsername(), result.getUsername());
+
+    }
+
+    @Test
+    public void getFollowListTest() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String Fusername = "follow2";
+        followUser.setUsername(Fusername);
+        followUser.setPassword("test");
+        FUString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword()+ "\", \"email\": \"" + testUser.getEmail() + "\"}";
+
+        this.mvc.perform(
+                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FUString));
+
+        String F2username = "follow3";
+        followUser2.setUsername(F2username);
+        followUser2.setPassword("test");
+        FU2String = "{\"username\": \"" + followUser2.getUsername() + "\", \"password\": \"" + followUser2.getPassword()+ "\", \"email\": \"" + testUser.getEmail() + "\"}";
+
+        this.mvc.perform(
+                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FU2String));
+
+        Set<User> follows = new HashSet<>();
+        follows.add(followUser);
+        follows.add(followUser2);
+
+        this.mvc.perform(
+                post(UserEndpoints.FOLLOW).contentType(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, authorization).content(followUser.getUsername()));
+        this.mvc.perform(
+                post(UserEndpoints.FOLLOW).contentType(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, authorization).content(followUser2.getUsername()));
+
+        String followlist = this.mvc.perform(get(UserEndpoints.FOLLOWLIST).header(HttpHeaders.AUTHORIZATION, authorization))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        Set<User> result = mapper.readValue(followlist, new TypeReference<Set<User>>(){});
+        Assert.assertEquals(follows,result);
+
     }
 }
