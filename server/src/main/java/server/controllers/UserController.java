@@ -98,7 +98,7 @@ public class UserController {
      *
      * @param authentication authentication details pof the user
      * @return an array representing a pair of the state of the button
-     * and the amount of points gathered by the solar panels.
+     *         and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {

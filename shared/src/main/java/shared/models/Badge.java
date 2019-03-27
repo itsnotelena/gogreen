@@ -15,7 +15,8 @@ public class Badge {
     }
 
     /**
-     * Calculats and set level according to given streak (in days).
+     * Calculates and set level according to given streak (in days).
+     *
      * @param streak the highest streak (in days)
      */
     public void calculateAndSetLevel(int streak) {

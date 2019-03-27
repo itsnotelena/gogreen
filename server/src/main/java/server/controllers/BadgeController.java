@@ -169,7 +169,9 @@ public class BadgeController {
         }
 
         if (list.size() % 2 != 0) {
-            int days = (int) ChronoUnit.DAYS.between(list.get(list.size() - 1).getDate(), LocalDate.now());
+            int days = (int) ChronoUnit.DAYS.between(
+                    list.get(list.size() - 1).getDate(), LocalDate.now());
+
             count = Math.max(count, days);
         }
         badge.calculateAndSetLevel(count);
