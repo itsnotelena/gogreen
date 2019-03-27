@@ -114,10 +114,11 @@ public class FollowersController implements Initializable {
         this.leaderlist.forEach(e ->
                 this.leaderboard.getItems().add(
                 new Label("Username: " + e.getUsername()
-                        + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername())
+                        + " Email: " + e.getEmail() + " Points: "
+                        + service.getFollowingPoints(e.getUsername())
                         + "       (press here to start following)")));
-        this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                e -> this.service.addFollow(this.leaderlist.get(
+        this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
+                this.service.addFollow(this.leaderlist.get(
                         this.leaderboard.getSelectionModel().getSelectedIndex())));
 
     }
@@ -127,8 +128,9 @@ public class FollowersController implements Initializable {
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
         infolabel.setText("Global Leaderboard");
-        this.leaderlist.forEach(e -> this.leaderboard.getItems().add(new Label("Username: "
-                + e.getUsername() + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername())
+        this.leaderlist.forEach(e -> this.leaderboard.getItems().add(new Label(
+                "Username: " + e.getUsername() + " Email: " + e.getEmail()
+                        + " Points: " + service.getFollowingPoints(e.getUsername())
         )));
     }
 
@@ -143,7 +145,8 @@ public class FollowersController implements Initializable {
                 noUserLabel.setVisible(false);
                 this.searchlist.forEach(e ->
                         this.leaderboard.getItems().add(new Label("Username: " + e.getUsername()
-                                + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername()))));
+                                + " Email: " + e.getEmail() + " Points: "
+                                + service.getFollowingPoints(e.getUsername()))));
             } else {
                 noUserLabel.setVisible(true);
             }
@@ -160,10 +163,11 @@ public class FollowersController implements Initializable {
         this.leaderboard.getItems().clear();
         this.followlist.forEach(e ->
                 this.leaderboard.getItems().add(new Label("Username: " + e.getUsername()
-                        + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername())
+                        + " Email: " + e.getEmail() + " Points: "
+                        + service.getFollowingPoints(e.getUsername())
                         + "       (press here to unfollow)")));
-        this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                e -> this.service.removeFollow(this.leaderlist.get(
+        this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
+                this.service.removeFollow(this.leaderlist.get(
                         this.leaderboard.getSelectionModel().getSelectedIndex())));
     }
 

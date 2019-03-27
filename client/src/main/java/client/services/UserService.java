@@ -98,8 +98,14 @@ public class UserService {
         return response;
     }
 
+    /**
+     * Gets the points of a followed user.
+     * @param username of the followed user.
+     * @return that user's points.
+     */
     public int getFollowingPoints(String username) {
-        int response = restTemplate.postForObject(UserEndpoints.GETOTHERUSERPOINTS, username, int.class);
+        int response = restTemplate.postForObject(
+                UserEndpoints.GETOTHERUSERPOINTS, username, int.class);
         return response;
     }
 
@@ -126,6 +132,10 @@ public class UserService {
         return loglist;
     }
 
+    /**
+     * Gets leader board.
+     * @return all users with their points.
+     */
     public List<User> getLeaderBoard() {
         ResponseEntity<List<User>> response =
                 restTemplate.exchange(
@@ -138,18 +148,28 @@ public class UserService {
         return leaderlist;
     }
 
+    /**
+     * Searches for users.
+     * @param username a string which will be checked.
+     * @return a list of users whose usernames match the string.
+     */
     public List<User> search(String username) {
         HttpEntity<String> request = new HttpEntity<>(username);
         ResponseEntity<List<User>> response =
                 restTemplate.exchange(UserEndpoints.SEARCH, HttpMethod.POST, request,
                         new ParameterizedTypeReference<List<User>>() {
-                });
-        if (response.getBody().isEmpty()){
+                        });
+        if (response.getBody().isEmpty()) {
             return new ArrayList<User>();
         }
         return response.getBody();
     }
 
+    /**
+     * Adds user to the 'following' list.
+     * @param user to be added.
+     * @return the added user.
+     */
     public User addFollow(User user) {
         User response = restTemplate.postForObject(UserEndpoints.FOLLOW, user, User.class);
 
@@ -159,11 +179,19 @@ public class UserService {
         return response;
     }
 
+    /**
+     * Removes user from the 'following' list.
+     * @param user to be removed.
+     */
     public void removeFollow(User user) {
         User another = restTemplate.postForObject(UserEndpoints.UNFOLLOW, user, User.class);
         System.out.println("removed user: " + another.getUsername());
     }
 
+    /**
+     * Creates a view of the 'following' set.
+     * @return that set.
+     */
     public Set<User> viewFollowList() {
         ResponseEntity<Set<User>> response =
                 restTemplate.exchange(

@@ -88,7 +88,7 @@ public class SignUpController extends AbstractController implements Initializabl
         user.setUsername(username.getText());
         user.setPassword(password.getText());
 
-        if(!user.validateEmail()){
+        if (!user.validateEmail()) {
             validpass.setText("Please input correct email address.");
             return;
         }

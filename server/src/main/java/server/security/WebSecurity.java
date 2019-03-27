@@ -3,6 +3,7 @@ package server.security;
 import static server.security.SecurityConstants.SIGN_UP_URL;
 
 import lombok.AllArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

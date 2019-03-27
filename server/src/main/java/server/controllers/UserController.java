@@ -24,7 +24,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
@@ -63,9 +62,10 @@ public class UserController {
         } catch (DataIntegrityViolationException e) {
             throw new UserExistsException();
         }
-         if(!user.validateEmail()){
-             throw new EmailException();
-         }
+
+        if (!user.validateEmail()) {
+            throw new EmailException();
+        }
 
 
 
@@ -92,6 +92,11 @@ public class UserController {
         return points + getStateSolar(authentication).getPoints();
     }
 
+    /**
+     * Calculates leader board points.
+     * @param username takes a username of leader board.
+     * @return points of that user.
+     */
     @PostMapping(value = UserEndpoints.GETOTHERUSERPOINTS)
     public int getOtherPoints(@RequestBody String username) {
         User user = repository.findUserByUsername(username);
@@ -99,7 +104,12 @@ public class UserController {
         return points;
     }
 
-    public int calcPoints(User user){
+    /**
+     * Method to be used to calculate points by username.
+     * @param user for calculating user's points.
+     * @return points.
+     */
+    public int calcPoints(User user) {
         int points = 0;
         List<Log> list = logRepository.findByUser(user);
         if (list == null) {
@@ -153,6 +163,7 @@ public class UserController {
                 }
             }
         }
+
         if (total % 2 == 1) {
             LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
                     ZoneId.systemDefault());
@@ -162,28 +173,42 @@ public class UserController {
         return new SolarState(points, total % 2 == 1);
     }
 
+    /**
+     * Returns a list of all users.
+     * @return lists of users.
+     */
     @GetMapping(value = UserEndpoints.LEADERBOARD)
     public List<User> getLeaderBoard() {
         List<User> user = repository.findAll();
-        user.forEach(e -> System.out.println(e.getUsername()));
         return user;
     }
 
+    /**
+     * Searches for users.
+     * @param username takes a string to be searched in the user repo.
+     * @return list with matching usernames.
+     */
     @PostMapping(value = UserEndpoints.SEARCH)
     public List<User> search(@RequestBody String username) {
         List<User> users = repository.findAll();
         List<User> usersToReturn = new ArrayList<>();
-        for(User user : users){
-            if (user.getUsername().startsWith(username)){
+        for (User user : users) {
+            if (user.getUsername().startsWith(username)) {
                 usersToReturn.add(user);
             }
         }
-        if (usersToReturn.isEmpty()){
+        if (usersToReturn.isEmpty()) {
             return new ArrayList<>();
         }
         return usersToReturn;
     }
 
+    /**
+     * Add a user to a 'following' set.
+     * @param user the one to be added.
+     * @param authentication the user who is adding.
+     * @return the user who is adding.
+     */
     @PostMapping(value = UserEndpoints.FOLLOW)
     public User addFollow(@RequestBody User user, Authentication authentication) {
         User current = repository.findUserByUsername(authentication.getName());
@@ -195,6 +220,12 @@ public class UserController {
         return current;
     }
 
+    /**
+     * Removes user from 'following' set.
+     * @param user to be removed.
+     * @param authentication the user who is unfollowing.
+     * @return the unfollowed user.
+     */
     @PostMapping(value = UserEndpoints.UNFOLLOW)
     public User unfollow(@RequestBody User user, Authentication authentication) {
         User current = repository.findUserByUsername(authentication.getName());
@@ -204,6 +235,11 @@ public class UserController {
         return user;
     }
 
+    /**
+     * Returns a set of the 'following'.
+     * @param authentication the user whose set is returned.
+     * @return the set of the followed users.
+     */
     @GetMapping(value = UserEndpoints.FOLLOWLIST)
     public Set<User> viewFollowList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
