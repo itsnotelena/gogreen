@@ -108,8 +108,6 @@ public class BadgeController {
                     //add all the solar logs to a separate array
                     solarLogs.add(log);
                     break;
-                default:
-                    break;
             }
         }
 
@@ -129,20 +127,21 @@ public class BadgeController {
         temperature.calculateAndSetLevel(tempCount);
 
         Badges local = Badges.Local;
-        local.setLevel(localCount);
+        local.calculateAndSetLevel(localCount);
 
         return new Badges[]{
             vegetarian,
             local,
             bike,
             publicTransport,
-            solar
+            solar,
+            temperature
         };
     }
 
     private boolean areConsecutive(Log prev, Log next) {
         // Make it null safe
-        if (prev == null || next == null || prev.getDate() == null || next.getDate() == null) {
+        if (prev == null) {
             return true;
         }
 
@@ -157,9 +156,11 @@ public class BadgeController {
             return;
         }
 
-        for (int i = 0; i < list.size(); i += 2) {
-            int days = Period.between(list.get(i).getDate(), list.get(i + 1).getDate()).getDays();
-            count = Math.max(count, days);
+        if (list.size() > 1) {
+            for (int i = 0; i < list.size(); i += 2) {
+                int days = Period.between(list.get(i).getDate(), list.get(i + 1).getDate()).getDays();
+                count = Math.max(count, days);
+            }
         }
 
         if (list.size() % 2 != 0) {
