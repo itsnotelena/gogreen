@@ -21,7 +21,6 @@ import shared.models.User;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,19 +28,12 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 @AllArgsConstructor
 public class UserController {
-
-    private static final AtomicLong counter = new AtomicLong();
-
     private final UserRepository repository;
 
     private final LogRepository logRepository;
 
     private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
-    }
-
-    private static boolean checkPassword(String candidate, String hashed) {
-        return BCrypt.checkpw(candidate, hashed);
     }
 
     /**
@@ -106,9 +98,9 @@ public class UserController {
     /**
      * Returns the state of the solar panels.
      *
-     * @param authentication authentication details pof the useer
+     * @param authentication authentication details pof the user
      * @return an array representing a pair of the state of the button
-     *          and the amount of points gathered by the solar panels
+     *         and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
@@ -121,18 +113,15 @@ public class UserController {
                 if (total % 2 == 1) {
                     lastLog = log;
                 } else {
-                    LocalDate dateLatest = LocalDate.ofInstant(log.getDate().toInstant(),
-                            ZoneId.systemDefault());
-                    LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
-                            ZoneId.systemDefault());
+                    LocalDate dateLatest = log.getDate();
+                    LocalDate datePrevious = lastLog.getDate();
                     points += Action.SOLAR.getPoints()
                             * Period.between(datePrevious, dateLatest).getDays();
                 }
             }
         }
         if (total % 2 == 1) {
-            LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
-                    ZoneId.systemDefault());
+            LocalDate datePrevious = lastLog.getDate();
             points += Action.SOLAR.getPoints()
                     * Period.between(datePrevious, LocalDate.now()).getDays();
         }

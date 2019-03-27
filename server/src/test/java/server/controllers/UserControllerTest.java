@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,8 @@ public class UserControllerTest {
 
     @Before
     public void setup() {
+        userRepository.deleteAll();
+
         String username = "test";
         testUser.setUsername(username);
         testUser.setPassword("test");
@@ -108,5 +111,10 @@ public class UserControllerTest {
                 .getResponse().getStatus();
 
         Assert.assertEquals(HttpStatus.CONFLICT.value(), conflict);
+    }
+
+    @After
+    public void cleanUp() {
+        userRepository.deleteAll();
     }
 }

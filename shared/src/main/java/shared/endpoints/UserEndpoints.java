@@ -9,4 +9,5 @@ public class UserEndpoints {
     public static final String SEARCH = "/search";
     public static final String FOLLOW = "/follow";
     public static final String FOLLOWLIST = "/followlist";
+    public static final String BADGES = "/badges";
 }
