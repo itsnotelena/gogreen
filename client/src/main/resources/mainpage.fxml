@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSlider?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -72,11 +73,7 @@
                     <Font size="10.0" />
                 </font>
             </JFXButton>
-            <Label fx:id="tempLabel" prefHeight="46.0" prefWidth="103.0" text="Click to add lowering&#10;the temperature of&#10;your house">
-                <font>
-                    <Font size="10.0" />
-                </font>
-            </Label>
+      <JFXSlider fx:id="tempSlider" majorTickUnit="1.0" max="2.0" min="-2.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
     </HBox>
     <HBox layoutX="584.0" layoutY="326.0" prefHeight="46.0" prefWidth="190.0">
             <JFXButton fx:id="solarbtn" styleClass="animated-option-button-sub" text="Solar Panels">
@@ -96,5 +93,10 @@
    </VBox>
     <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
     <Text fx:id="pointsContainer" layoutX="750.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="67.73681640625" />
+         <Label fx:id="tempLabel" prefHeight="46.0" prefWidth="103.0" text="Click to add lowering&#10;the temperature of&#10;your house">
+             <font>
+                 <Font size="10.0" />
+             </font>
+         </Label>
     <JFXListView fx:id="loglist" layoutX="645.0" layoutY="350.0" prefHeight="250.0" prefWidth="250.0" />
 </AnchorPane>

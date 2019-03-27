@@ -5,11 +5,9 @@ import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
+import client.gui.tools.SliderFormatter;
 import client.services.UserService;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXNodesList;
+import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
+import javafx.util.converter.DoubleStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.Action;
@@ -108,6 +107,9 @@ public class MainController extends AbstractController implements Initializable 
     @FXML
     private ListView loglist;
 
+    @FXML
+    private JFXSlider tempSlider;
+
     private StackPane stackPane;
 
     private JFXNodesList foodList;
@@ -165,6 +167,8 @@ public class MainController extends AbstractController implements Initializable 
         this.energyList = createEnergyList();
 
         addListenerChart();
+
+        tempSlider.setLabelFormatter(new SliderFormatter());
 
         //TODO: Decide if labels are needed
         vegLabel.setVisible(false);
