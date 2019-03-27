@@ -16,17 +16,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.Action;
@@ -34,10 +34,7 @@ import shared.models.Log;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Component
 public class MainController extends AbstractController implements Initializable {
@@ -111,6 +108,8 @@ public class MainController extends AbstractController implements Initializable 
     @FXML
     private ListView loglist;
 
+    private StackPane stackPane;
+
     private JFXNodesList foodList;
 
     private JFXNodesList transportList;
@@ -142,14 +141,21 @@ public class MainController extends AbstractController implements Initializable 
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        stackPane = new StackPane();
         ObservableList<PieChart.Data> pieChartData = createData();
         this.chart = new DoughnutChart(pieChartData);
-        this.chartContainer.getChildren().add(chart);
+        this.chartContainer.getChildren().add(stackPane);
+        stackPane.setAlignment(Pos.CENTER);
+        stackPane.getChildren().add(chart);
 
         int point = service.getPoints();
         point += service.getStateSolar().getPoints();
-        pointsContainer.setText("P:" + point);
-
+        pointsContainer.setText(Integer.toString(point));
+        pointsContainer.setBoundsType(TextBoundsType.VISUAL);
+        pointsContainer.setFont(new Font(25));
+        pointsContainer.setFill(Color.GREEN);
+        pointsContainer.setTranslateY(-10);
+        stackPane.getChildren().add(pointsContainer);
         if (service.getStateSolar().isEnabled()) {
             toggleButton(solarbtn);
         }
@@ -196,12 +202,14 @@ public class MainController extends AbstractController implements Initializable 
     private void buttonPressed(Action action) {
         this.service.madeAction(action);
         int points = this.service.getPoints();
-        this.pointsContainer.setText("P:" + points);
+        this.pointsContainer.setText(Integer.toString(points));
+        this.stackPane.getChildren().remove(pointsContainer);
         this.logs = this.service.getLog();
         this.loglist.getItems().clear();
         this.logs.forEach(e -> this.loglist.getItems().add(0, new
                 Label(e.getAction() + " " + e.getDate())));
         this.updateChart();
+        this.stackPane.getChildren().add(pointsContainer);
     }
 
 
@@ -315,9 +323,9 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void updateChart() {
-        if (this.chartContainer.getChildren().remove(this.chart)) {
+        if (this.stackPane.getChildren().remove(this.chart)) {
             this.chart = new DoughnutChart(createData());
-            this.chartContainer.getChildren().add(chart);
+            this.stackPane.getChildren().add(chart);
         }
         addListenerChart();
     }
