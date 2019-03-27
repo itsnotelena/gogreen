@@ -67,7 +67,7 @@ public class BadgeController {
         for (Log log : logs) {
             switch (log.getAction()) {
                 case VEGETARIAN:
-                    if (areConsecutive(prevVeg, log)) {
+                    if (areConsecutiveOrIsFirst(prevVeg, log)) {
                         vegCount = Math.max(++tmpVegCount, vegCount);
                     } else {
                         tmpVegCount = 0;
@@ -75,7 +75,7 @@ public class BadgeController {
                     prevVeg = log;
                     break;
                 case LOCAL:
-                    if (areConsecutive(prevLocal, log)) {
+                    if (areConsecutiveOrIsFirst(prevLocal, log)) {
                         localCount = Math.max(++tmpLocalCount, localCount);
                     } else {
                         tmpLocalCount = 0;
@@ -83,7 +83,7 @@ public class BadgeController {
                     prevLocal = log;
                     break;
                 case TEMP:
-                    if (areConsecutive(prevTemperature, log)) {
+                    if (areConsecutiveOrIsFirst(prevTemperature, log)) {
                         tempCount = Math.max(++tmpTempCount, tempCount);
                     } else {
                         tmpTempCount = 0;
@@ -91,7 +91,7 @@ public class BadgeController {
                     prevTemperature = log;
                     break;
                 case BIKE:
-                    if (areConsecutive(prevBike, log)) {
+                    if (areConsecutiveOrIsFirst(prevBike, log)) {
                         bikeCount = Math.max(++tmpBikeCount, bikeCount);
                     } else {
                         tmpBikeCount = 0;
@@ -99,7 +99,7 @@ public class BadgeController {
                     prevBike = log;
                     break;
                 case PUBLIC:
-                    if (areConsecutive(prevPublic, log)) {
+                    if (areConsecutiveOrIsFirst(prevPublic, log)) {
                         publicCount = Math.max(++tmpPublicCount, publicCount);
                     } else {
                         tmpBikeCount = 0;
@@ -141,7 +141,7 @@ public class BadgeController {
         };
     }
 
-    private boolean areConsecutive(Log prev, Log next) {
+    private boolean areConsecutiveOrIsFirst(Log prev, Log next) {
         // Make it null safe
         if (prev == null) {
             return true;
