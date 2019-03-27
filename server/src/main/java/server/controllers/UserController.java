@@ -144,7 +144,7 @@ public class UserController {
         return repository.findByOrderByFoodPointsDesc();
     }
 
-    @GetMapping(value = UserEndpoints.SEARCH)
+    @PostMapping(value = UserEndpoints.SEARCH)
     public User search(@RequestBody String username) {
         return repository.findUserByUsername(username);
     }
