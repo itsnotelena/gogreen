@@ -18,14 +18,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
-import javafx.util.converter.DoubleStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.Action;
@@ -99,16 +97,25 @@ public class MainController extends AbstractController implements Initializable 
     private JFXButton solarbtn;
 
     @FXML
+    private JFXButton summerBtn;
+
+    @FXML
+    private JFXButton winterBtn;
+
+    @FXML
     private JFXDrawer drawer;
 
     @FXML
     private JFXHamburger hamburger;
 
     @FXML
-    private ListView loglist;
+    private JFXListView loglist;
 
     @FXML
-    private JFXSlider tempSlider;
+    private JFXSlider tempSliderSummer;
+
+    @FXML
+    private JFXSlider tempSliderWinter;
 
     private StackPane stackPane;
 
@@ -117,6 +124,8 @@ public class MainController extends AbstractController implements Initializable 
     private JFXNodesList transportList;
 
     private JFXNodesList energyList;
+
+    private JFXNodesList tempList;
 
     private DoughnutChart chart;
 
@@ -150,6 +159,7 @@ public class MainController extends AbstractController implements Initializable 
         stackPane.setAlignment(Pos.CENTER);
         stackPane.getChildren().add(chart);
 
+        //TODO: wrap this in a method
         int point = service.getPoints();
         point += service.getStateSolar().getPoints();
         pointsContainer.setText(Integer.toString(point));
@@ -158,6 +168,7 @@ public class MainController extends AbstractController implements Initializable 
         pointsContainer.setFill(Color.GREEN);
         pointsContainer.setTranslateY(-10);
         stackPane.getChildren().add(pointsContainer);
+
         if (service.getStateSolar().isEnabled()) {
             toggleButton(solarbtn);
         }
@@ -165,10 +176,12 @@ public class MainController extends AbstractController implements Initializable 
         this.foodList = createFoodList();
         this.transportList = createTransportList();
         this.energyList = createEnergyList();
+        this.tempList = createTemperatureList();
 
         addListenerChart();
 
-        tempSlider.setLabelFormatter(new SliderFormatter());
+        tempSliderWinter.setLabelFormatter(new SliderFormatter());
+        tempSliderSummer.setLabelFormatter(new SliderFormatter());
 
         //TODO: Decide if labels are needed
         vegLabel.setVisible(false);
@@ -193,14 +206,15 @@ public class MainController extends AbstractController implements Initializable 
             buttonPressed(Action.BIKE);
         });
         tempbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.TEMP);
+            energyList.animateList();
+            tempList.animateList();
         });
         publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             buttonPressed(Action.PUBLIC);
         });
-        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.LOCAL);
-        });
+        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.LOCAL));
+        summerBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.TEMP));
+        winterBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.TEMP));
     }
 
     private void buttonPressed(Action action) {
@@ -243,6 +257,10 @@ public class MainController extends AbstractController implements Initializable 
         return createList(tempbtn, solarbtn);
     }
 
+    private JFXNodesList createTemperatureList() {
+        return createList(summerBtn, winterBtn);
+    }
+
     private JFXNodesList createList(JFXButton button1, JFXButton button2) {
         JFXNodesList list = new JFXNodesList();
         nodeListContainer.getChildren().add(list);
@@ -253,6 +271,9 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void clickOnSlice(JFXNodesList clickedOn, JFXNodesList other1, JFXNodesList other2) {
+        if (tempList.isExpanded()) {
+            tempList.animateList();
+        }
         clickedOn.animateList();
         if (other1.isExpanded()) {
             other1.animateList();

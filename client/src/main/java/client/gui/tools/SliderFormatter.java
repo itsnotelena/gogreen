@@ -9,7 +9,7 @@ public class SliderFormatter extends StringConverter<Double> {
     }
 
     public String toString(Double value) {
-        if (value.equals(-2.0)) {
+        if (value.equals(4.0)) {
             return "Off";
         }
         return Integer.toString(value.intValue());

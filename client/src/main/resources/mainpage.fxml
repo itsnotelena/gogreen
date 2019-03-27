@@ -73,7 +73,11 @@
                     <Font size="10.0" />
                 </font>
             </JFXButton>
-      <JFXSlider fx:id="tempSlider" majorTickUnit="1.0" max="2.0" min="-2.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+            <Label fx:id="tempLabel" prefHeight="46.0" prefWidth="103.0" text="Click to add lowering&#10;the temperature of&#10;your house">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Label>
     </HBox>
     <HBox layoutX="584.0" layoutY="326.0" prefHeight="46.0" prefWidth="190.0">
             <JFXButton fx:id="solarbtn" styleClass="animated-option-button-sub" text="Solar Panels">
@@ -93,10 +97,25 @@
    </VBox>
     <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
     <Text fx:id="pointsContainer" layoutX="750.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="67.73681640625" />
-         <Label fx:id="tempLabel" prefHeight="46.0" prefWidth="103.0" text="Click to add lowering&#10;the temperature of&#10;your house">
-             <font>
-                 <Font size="10.0" />
-             </font>
-         </Label>
     <JFXListView fx:id="loglist" layoutX="645.0" layoutY="350.0" prefHeight="250.0" prefWidth="250.0" />
+   <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
+      <children>
+         <JFXButton fx:id="summerBtn" styleClass="animated-option-button-sub" text="  Summer&#10;Temperature">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </JFXButton>
+         <JFXSlider fx:id="tempSliderSummer" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+      </children>
+   </HBox>
+   <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
+      <children>
+         <JFXButton fx:id="winterBtn" styleClass="animated-option-button-sub" text="  Lowering &#10;Temperature&#10;Winter" textAlignment="CENTER">
+            <font>
+               <Font size="8.0" />
+            </font>
+         </JFXButton>
+         <JFXSlider fx:id="tempSliderWinter" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+      </children>
+   </HBox>
 </AnchorPane>
