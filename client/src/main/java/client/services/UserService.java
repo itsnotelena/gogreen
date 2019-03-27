@@ -14,7 +14,7 @@ import shared.models.Log;
 import shared.models.SolarState;
 import shared.models.User;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service("UserService")
@@ -80,7 +80,7 @@ public class UserService {
     public void madeAction(Action action) {
         Log req = new Log();
         req.setAction(action);
-        req.setDate(new Date());
+        req.setDate(LocalDate.now());
         restTemplate.postForObject(UserEndpoints.LOGS, req, Log.class);
         System.out.println("Successfully added a log to the table");
     }
@@ -88,6 +88,7 @@ public class UserService {
 
     /**
      * Method that makes a request to the database and returns the total amount of points.
+     *
      * @return the amounts of points a user has
      */
     public int getPoints() {
@@ -98,6 +99,7 @@ public class UserService {
     /**
      * Gets the state of the solar button (clicked or not)
      * and the amounts of points gathered by the solar panels.
+     *
      * @return A pair composed of the state (clicked or not) and the points
      */
     public SolarState getStateSolar() {
@@ -111,7 +113,8 @@ public class UserService {
      */
     public List<Log> getLog() {
         ResponseEntity<List<Log>> response = restTemplate.exchange(UserEndpoints.LOGS,
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Log>>(){});
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Log>>() {
+                });
         List<Log> loglist = response.getBody();
         return loglist;
     }
