@@ -1,10 +1,10 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.FOLLOWERS;
 import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.MAIN;
 import static client.gui.tools.SceneNames.PERSONAL;
 import static client.gui.tools.SceneNames.SETTINGS;
-import static client.gui.tools.SceneNames.FOLLOWERS;
 
 import client.gui.tools.AbstractController;
 import com.jfoenix.controls.JFXButton;

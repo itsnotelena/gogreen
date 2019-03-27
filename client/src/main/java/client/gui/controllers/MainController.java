@@ -7,7 +7,12 @@ import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
 import client.gui.tools.SliderFormatter;
 import client.services.UserService;
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXNodesList;
+import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +24,11 @@ import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,7 +40,10 @@ import shared.models.Log;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 @Component
 public class MainController extends AbstractController implements Initializable {
@@ -43,13 +55,7 @@ public class MainController extends AbstractController implements Initializable 
     private List<Log> logs;
 
     @FXML
-    private AnchorPane menupane;
-
-    @FXML
     private Pane myPane;
-
-    @FXML
-    private HBox profileInfo;
 
     @FXML
     private Text pointsContainer;
@@ -158,17 +164,7 @@ public class MainController extends AbstractController implements Initializable 
         this.chartContainer.getChildren().add(stackPane);
         stackPane.setAlignment(Pos.CENTER);
         stackPane.getChildren().add(chart);
-
-        //TODO: wrap this in a method
-        int point = service.getPoints();
-        point += service.getStateSolar().getPoints();
-        pointsContainer.setText(Integer.toString(point));
-        pointsContainer.setBoundsType(TextBoundsType.VISUAL);
-        pointsContainer.setFont(new Font(25));
-        pointsContainer.setFill(Color.GREEN);
-        pointsContainer.setTranslateY(-10);
-        stackPane.getChildren().add(pointsContainer);
-
+        this.createPoints();
         if (service.getStateSolar().isEnabled()) {
             toggleButton(solarbtn);
         }
@@ -183,7 +179,6 @@ public class MainController extends AbstractController implements Initializable 
         tempSliderWinter.setLabelFormatter(new SliderFormatter());
         tempSliderSummer.setLabelFormatter(new SliderFormatter());
 
-        //TODO: Decide if labels are needed
         vegLabel.setVisible(false);
         localLabel.setVisible(false);
         bikeLabel.setVisible(false);
@@ -363,5 +358,15 @@ public class MainController extends AbstractController implements Initializable 
             button.getStyleClass().remove("animated-option-button-sub");
             button.getStyleClass().add("toggle-button-off");
         }
+    }
+
+    private void createPoints() {
+        int point = service.getPoints();
+        pointsContainer.setText(Integer.toString(point));
+        pointsContainer.setBoundsType(TextBoundsType.VISUAL);
+        pointsContainer.setFont(new Font(25));
+        pointsContainer.setFill(Color.GREEN);
+        pointsContainer.setTranslateY(-10);
+        stackPane.getChildren().add(pointsContainer);
     }
 }
