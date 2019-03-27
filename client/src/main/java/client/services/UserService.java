@@ -97,6 +97,13 @@ public class UserService {
         return response;
     }
 
+    public int getFollowingPoints(String username) {
+        System.out.println("this is before the request to get other points");
+        int result = restTemplate.postForObject(UserEndpoints.GETOTHERUSERPOINTS, username, int.class);
+        System.out.println(result + "this is user points");
+        return result;
+    }
+
     /**
      * Gets the state of the solar button (clicked or not)
      * and the amounts of points gathered by the solar panels.
@@ -128,8 +135,8 @@ public class UserService {
                         null,
                         new ParameterizedTypeReference<List<User>>() {
                         });
-
         List<User> leaderlist = response.getBody();
+        leaderlist.forEach(e -> System.out.println(e.getUsername()));
         return leaderlist;
     }
 

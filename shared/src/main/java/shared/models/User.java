@@ -38,9 +38,6 @@ public class User implements Serializable {
     @Column
     private Boolean hasSolarPanels = false;
 
-    @Column
-    private long foodPoints;
-
     @JsonIgnore
     @ManyToMany
     private Set<User> following;

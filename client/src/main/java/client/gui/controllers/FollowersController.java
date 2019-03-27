@@ -103,10 +103,11 @@ public class FollowersController implements Initializable {
 
         });
         infolabel.setText("Global Leaderboard");
+        System.out.println("global leaderboard message printed");
         this.leaderlist = this.service.getLeaderBoard();
         this.leaderlist.forEach(e -> this.leaderboard.getItems().add(
                 new Label("Username: " + e.getUsername()
-                        + " Email: " + e.getEmail() + " Points: " + e.getFoodPoints())));
+                        + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername()))));
         this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 e -> this.service.addFollow(this.leaderlist.get(
                         this.leaderboard.getSelectionModel().getSelectedIndex())));
@@ -119,7 +120,7 @@ public class FollowersController implements Initializable {
         this.leaderlist = this.service.getLeaderBoard();
         infolabel.setText("Global Leaderboard");
         this.leaderlist.forEach(e -> this.leaderboard.getItems().add(new Label("Username: "
-                + e.getUsername() + " Email: " + e.getEmail() + " Points: " + e.getFoodPoints())));
+                + e.getUsername() + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername()))));
     }
 
     @FXML
@@ -130,7 +131,7 @@ public class FollowersController implements Initializable {
             infolabel.setText("Search Results");
             this.leaderboard.getItems().add(new Label("Username: " + this.result.getUsername()
                     + " Email: " + this.result.getEmail()
-                    + " Points: " + this.result.getFoodPoints()));
+                    + " Points: " + service.getFollowingPoints(this.result.getUsername())));
         } else {
             errorlabel.setVisible(true);
         }
@@ -143,7 +144,7 @@ public class FollowersController implements Initializable {
         this.leaderboard.getItems().clear();
         this.followlist.forEach(e ->
                 this.leaderboard.getItems().add(new Label("Username: " + e.getUsername()
-                        + " Email: " + e.getEmail() + " Points: " + e.getFoodPoints())));
+                        + " Email: " + e.getEmail() + " Points: " + service.getFollowingPoints(e.getUsername()))));
     }
 
 

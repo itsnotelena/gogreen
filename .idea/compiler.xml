@@ -13,6 +13,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="gogreen" target="11" />
+      <module name="gogreen1" target="11" />
       <module name="project-client" target="11" />
       <module name="project-root" target="11" />
       <module name="project-server" target="11" />

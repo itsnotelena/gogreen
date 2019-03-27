@@ -22,6 +22,8 @@ import shared.models.User;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
@@ -91,6 +93,25 @@ public class UserController {
         return points + getStateSolar(authentication).getPoints();
     }
 
+    @GetMapping(value = UserEndpoints.GETOTHERUSERPOINTS)
+    public int getOtherPoints(@RequestBody String username, Authentication authentication) {
+        User userrrrr = repository.findUserByUsername(authentication.getName());
+
+        System.out.println(username + "this is the username " + userrrrr.getUsername());
+        User user = repository.findUserByUsername(username);
+        int points = 0;
+        List<Log> list = logRepository.findByUser(user);
+        if (list == null) {
+            return 0;
+        }
+        for (Log log : list) {
+            if (!log.getAction().equals(Action.SOLAR)) {
+                points = points + log.getAction().getPoints();
+            }
+        }
+        return 0;
+    }
+
     /**
      * The method returns a list of logs of a user to be displayed on the main screen.
      *
@@ -141,7 +162,9 @@ public class UserController {
 
     @GetMapping(value = UserEndpoints.LEADERBOARD)
     public List<User> getLeaderBoard() {
-        return repository.findByOrderByFoodPointsDesc();
+        List<User> user = repository.findAll();
+        user.forEach(e -> System.out.println(e.getUsername()));
+        return user;
     }
 
     @GetMapping(value = UserEndpoints.SEARCH)
