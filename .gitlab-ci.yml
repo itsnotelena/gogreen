@@ -71,6 +71,6 @@ deploy-to-prod:
   before_script:
     - docker info
   script:
-    - echo $XIRION_PASS | docker login -u $XIRION_USER --pasword-stdin registry.xirion.net
+    - docker login -u $XIRION_USER -p $XIRION_PASS registry.xirion.net
     - docker build . -t $XIRION_REGISTRY:$CI_COMMIT_REF_NAME
     - docker push $XIRION_REGISTRY:$CI_COMMIT_REF_NAME

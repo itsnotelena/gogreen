@@ -15,6 +15,10 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,6 +40,9 @@ public class LoginController extends AbstractController implements Initializable
     private Button signup;
 
     @FXML
+    private AnchorPane pane;
+
+    @FXML
     private Label validpass;
 
     @FXML
@@ -54,7 +61,7 @@ public class LoginController extends AbstractController implements Initializable
     private Hyperlink forgotPassword;
 
     @FXML
-    private ImageView logo;
+    private Image mainimg;
 
     private UserService service;
 
