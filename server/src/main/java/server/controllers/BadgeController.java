@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
-import shared.models.Badges;
+import shared.models.Badge;
+import shared.models.BadgeType;
 import shared.models.Log;
 import shared.models.User;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class BadgeController {
      * @return the list of badges and their levels.
      */
     @GetMapping(value = UserEndpoints.BADGES) // TODO: Reduce Cyclomatic complexity
-    public Badges[] getBadgeLevel(Authentication auth) {
+    public Badge[] getBadgeLevel(Authentication auth) {
 
         // Init total count and temp count
         int vegCount = 0;
@@ -111,25 +113,25 @@ public class BadgeController {
             }
         }
 
-        Badges solar = Badges.Solar;
+        Badge solar = new Badge(BadgeType.Solar);
         setSolarLevel(solarLogs, solar);
 
-        Badges vegetarian = Badges.Vegetarian;
+        Badge vegetarian = new Badge(BadgeType.Vegetarian);
         vegetarian.calculateAndSetLevel(vegCount);
 
-        Badges bike = Badges.Bike;
+        Badge bike = new Badge(BadgeType.Bike);
         bike.calculateAndSetLevel(bikeCount);
 
-        Badges publicTransport = Badges.Public;
+        Badge publicTransport = new Badge(BadgeType.Public);
         publicTransport.calculateAndSetLevel(publicCount);
 
-        Badges temperature = Badges.Temp;
+        Badge temperature = new Badge(BadgeType.Temp);
         temperature.calculateAndSetLevel(tempCount);
 
-        Badges local = Badges.Local;
+        Badge local = new Badge(BadgeType.Local);
         local.calculateAndSetLevel(localCount);
 
-        return new Badges[]{
+        return new Badge[]{
             vegetarian,
             local,
             bike,
@@ -149,7 +151,7 @@ public class BadgeController {
         return between.getDays() <= 1;
     }
 
-    private void setSolarLevel(ArrayList<Log> list, Badges badge) {
+    private void setSolarLevel(ArrayList<Log> list, Badge badge) {
         int count = 0;
         if (list.isEmpty()) {
             badge.setLevel(0);
@@ -158,14 +160,16 @@ public class BadgeController {
 
         if (list.size() > 1) {
             for (int i = 0; i < list.size(); i += 2) {
-                int days = Period.between(list.get(i).getDate(), list.get(i + 1).getDate()).getDays();
+                int days = (int) ChronoUnit.DAYS.between(
+                        list.get(i).getDate(),
+                        list.get(i + 1).getDate());
+
                 count = Math.max(count, days);
             }
         }
 
         if (list.size() % 2 != 0) {
-            int days = Period.between(list.get(list.size() - 1).getDate(),
-                    LocalDate.now()).getDays();
+            int days = (int) ChronoUnit.DAYS.between(list.get(list.size() - 1).getDate(), LocalDate.now());
             count = Math.max(count, days);
         }
         badge.calculateAndSetLevel(count);

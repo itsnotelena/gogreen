@@ -23,7 +23,8 @@ import server.repositories.LogRepository;
 import server.repositories.UserRepository;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
-import shared.models.Badges;
+import shared.models.Badge;
+import shared.models.BadgeType;
 import shared.models.Log;
 import shared.models.User;
 
@@ -90,15 +91,15 @@ public class BadgeControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        Badges[] badges = mapper.readValue(response, Badges[].class);
+        Badge[] badges = mapper.readValue(response, Badge[].class);
 
-        Badges[] testBadges = new Badges[]{
-                Badges.Vegetarian,
-                Badges.Local,
-                Badges.Bike,
-                Badges.Public,
-                Badges.Solar,
-                Badges.Temp
+        Badge[] testBadges = new Badge[]{
+                new Badge(BadgeType.Vegetarian),
+                new Badge(BadgeType.Local),
+                new Badge(BadgeType.Bike),
+                new Badge(BadgeType.Public),
+                new Badge(BadgeType.Solar),
+                new Badge(BadgeType.Temp)
         };
 
         Assert.assertArrayEquals(testBadges, badges);
@@ -130,21 +131,24 @@ public class BadgeControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        Badges[] badges = mapper.readValue(response, Badges[].class);
+        Badge[] badges = mapper.readValue(response, Badge[].class);
 
-        Badges vegBadge = Badges.Vegetarian;
+        Badge vegBadge = new Badge(BadgeType.Vegetarian);
         vegBadge.setLevel(1);
 
-        Badges[] testBadges = new Badges[]{
+        Badge[] testBadges = new Badge[]{
                 vegBadge,
-                Badges.Local,
-                Badges.Bike,
-                Badges.Public,
-                Badges.Solar,
-                Badges.Temp
+                new Badge(BadgeType.Local),
+                new Badge(BadgeType.Bike),
+                new Badge(BadgeType.Public),
+                new Badge(BadgeType.Solar),
+                new Badge(BadgeType.Temp),
         };
 
         Assert.assertArrayEquals(testBadges, badges);
+
+        testBadges[0] = new Badge(BadgeType.Vegetarian);
+        Assert.assertNotEquals(testBadges, badges);
     }
 
     @Test
@@ -168,21 +172,23 @@ public class BadgeControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        Badges[] badges = mapper.readValue(response, Badges[].class);
+        Badge[] badges = mapper.readValue(response, Badge[].class);
 
-        Badges solBadge = Badges.Solar;
+        Badge solBadge = new Badge(BadgeType.Solar);
         solBadge.setLevel(1);
 
-        Badges[] testBadges = new Badges[]{
-                Badges.Vegetarian,
-                Badges.Local,
-                Badges.Bike,
-                Badges.Public,
+        Badge[] testBadges = new Badge[]{
+                new Badge(BadgeType.Vegetarian),
+                new Badge(BadgeType.Local),
+                new Badge(BadgeType.Bike),
+                new Badge(BadgeType.Public),
                 solBadge,
-                Badges.Temp
+                new Badge(BadgeType.Temp)
         };
 
         Assert.assertArrayEquals(testBadges, badges);
+        solBadge.setLevel(2);
+        Assert.assertNotEquals(testBadges, badges);
     }
 
     @Test
@@ -199,18 +205,18 @@ public class BadgeControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        Badges[] badges = mapper.readValue(response, Badges[].class);
+        Badge[] badges = mapper.readValue(response, Badge[].class);
 
-        Badges solBadge = Badges.Solar;
+        Badge solBadge = new Badge(BadgeType.Solar);
         solBadge.setLevel(3);
 
-        Badges[] testBadges = new Badges[]{
-                Badges.Vegetarian,
-                Badges.Local,
-                Badges.Bike,
-                Badges.Public,
+        Badge[] testBadges = new Badge[]{
+                new Badge(BadgeType.Vegetarian),
+                new Badge(BadgeType.Local),
+                new Badge(BadgeType.Bike),
+                new Badge(BadgeType.Public),
                 solBadge,
-                Badges.Temp
+                new Badge(BadgeType.Temp),
         };
 
         Assert.assertArrayEquals(testBadges, badges);
@@ -272,21 +278,21 @@ public class BadgeControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        Badges[] badges = mapper.readValue(response, Badges[].class);
+        Badge[] badges = mapper.readValue(response, Badge[].class);
 
-        Badges vegBadge = Badges.Vegetarian;
+        Badge vegBadge = new Badge(BadgeType.Vegetarian);
         vegBadge.setLevel(1);
 
-        Badges bikeBadge = Badges.Bike;
-        vegBadge.setLevel(1);
+        Badge bikeBadge = new Badge(BadgeType.Bike);
+        bikeBadge.setLevel(1);
 
-        Badges[] testBadges = new Badges[]{
+        Badge[] testBadges = new Badge[]{
                 vegBadge,
-                Badges.Local,
+                new Badge(BadgeType.Local),
                 bikeBadge,
-                Badges.Public,
-                Badges.Solar,
-                Badges.Temp
+                new Badge(BadgeType.Public),
+                new Badge(BadgeType.Solar),
+                new Badge(BadgeType.Temp)
         };
 
         Assert.assertArrayEquals(testBadges, badges);
@@ -373,23 +379,23 @@ public class BadgeControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        Badges[] badges = mapper.readValue(response, Badges[].class);
+        Badge[] badges = mapper.readValue(response, Badge[].class);
 
-        Badges lBadge = Badges.Local;
+        Badge lBadge = new Badge(BadgeType.Local);
         lBadge.setLevel(1);
 
-        Badges tBadge = Badges.Temp;
+        Badge tBadge = new Badge(BadgeType.Temp);
         lBadge.setLevel(1);
 
-        Badges pBadge = Badges.Public;
+        Badge pBadge = new Badge(BadgeType.Public);
         pBadge.setLevel(1);
 
-        Badges[] testBadges = new Badges[]{
-                Badges.Vegetarian,
+        Badge[] testBadges = new Badge[]{
+                new Badge(BadgeType.Vegetarian),
                 lBadge,
-                Badges.Bike,
+                new Badge(BadgeType.Bike),
                 pBadge,
-                Badges.Solar,
+                new Badge(BadgeType.Solar),
                 tBadge
         };
 
