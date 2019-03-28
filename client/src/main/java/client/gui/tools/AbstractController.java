@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -67,4 +68,25 @@ public class AbstractController {
             }
         });
     }
+
+
+    /**
+     * The method allows to display new buttons (used in Discover People fxml file).
+     * @param pane Pane to show.
+     */
+    protected void showBtn(Pane pane) {
+        if(pane.isVisible()) {
+
+            pane.setVisible(false);
+            pane.setVisible(false);
+            pane.setVisible(false);
+
+        } else {
+            pane.setVisible(true);
+            pane.setVisible(true);
+            pane.setVisible(true);
+
+        }
+    }
+
 }
