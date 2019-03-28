@@ -78,6 +78,9 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private Label noUserLabel;
 
     @FXML
+    private Label selectULabel;
+
+    @FXML
     private TextField searchfield;
 
     @FXML
@@ -103,6 +106,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorlabel.setVisible(false);
         noUserLabel.setVisible(false);
+        selectULabel.setVisible(false);
         addbtn.setVisible(false);
         deletebtn.setVisible(false);
         friendsbtn.setVisible(false);
@@ -150,6 +154,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     @FXML
     private void getLeaderBoard() {
+        selectULabel.setVisible(false);
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
         infolabel.setText("Global Leaderboard");
@@ -161,6 +166,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     @FXML
     private void getFollowList() {
+        selectULabel.setVisible(false);
         this.followlist = this.service.viewFollowList();
         this.infolabel.setText("Following");
         this.leaderboard.getItems().clear();
@@ -172,6 +178,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     @FXML
     private void search() {
+        selectULabel.setVisible(false);
         if (!this.searchfield.getText().isBlank()) {
             errorlabel.setVisible(false);
             this.searchlist = this.service.search(this.searchfield.getText());
@@ -194,14 +201,22 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     @FXML
     private void addFollow() {
-        this.service.addFollow(this.leaderlist.get(
-                this.leaderboard.getSelectionModel().getSelectedIndex()));
+        if (this.leaderboard.getSelectionModel().getSelectedIndex() != -1) {
+            this.service.addFollow(this.leaderlist.get(
+                    this.leaderboard.getSelectionModel().getSelectedIndex()));
+        } else {
+            selectULabel.setVisible(true);
+        }
     }
 
     @FXML
     private void removeFollow() {
-        this.service.removeFollow(this.leaderlist.get(
-                this.leaderboard.getSelectionModel().getSelectedIndex()));
+        if (this.leaderboard.getSelectionModel().getSelectedIndex() != -1) {
+            this.service.removeFollow(this.leaderlist.get(
+                    this.leaderboard.getSelectionModel().getSelectedIndex()));
+        } else {
+            selectULabel.setVisible(true);
+        }
     }
 
 
