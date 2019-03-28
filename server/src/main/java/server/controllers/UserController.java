@@ -49,7 +49,7 @@ public class UserController {
     /**
      * Creates and returns a user with the given username and password.
      *
-     * @return the created user
+     * @return The created user.
      */
     @PostMapping(value = UserEndpoints.SIGNUP)
     public User createUser(@RequestBody User user) throws UserExistsException, EmailException {
@@ -81,8 +81,8 @@ public class UserController {
     /**
      * The method returns how many points a user has according to the logs.
      *
-     * @param authentication takes a user by which the log repository is sorted.
-     * @return user points.
+     * @param authentication Takes a user by which the log repository is sorted.
+     * @return User points.
      */
     @GetMapping(value = UserEndpoints.ACTIONLIST)
     public int actionList(Authentication authentication) {
@@ -94,8 +94,8 @@ public class UserController {
 
     /**
      * Calculates leader board points.
-     * @param username takes a username of leader board.
-     * @return points of that user.
+     * @param username Takes a username of leader board.
+     * @return Points of that user.
      */
     @PostMapping(value = UserEndpoints.GETOTHERUSERPOINTS)
     public int getOtherPoints(@RequestBody String username) {
@@ -106,8 +106,8 @@ public class UserController {
 
     /**
      * Method to be used to calculate points by username.
-     * @param user for calculating user's points.
-     * @return points.
+     * @param user For calculating user's points.
+     * @return Points.
      */
     public int calcPoints(User user) {
         int points = 0;
@@ -127,8 +127,8 @@ public class UserController {
     /**
      * The method returns a list of logs of a user to be displayed on the main screen.
      *
-     * @param authentication to identify user.
-     * @return the list of user logs.
+     * @param authentication To identify user.
+     * @return The list of user logs.
      */
     @GetMapping(value = UserEndpoints.LOGS)
     public List<Log> getLogs(Authentication authentication) {
@@ -138,10 +138,9 @@ public class UserController {
 
     /**
      * Returns the state of the solar panels.
-     *
-     * @param authentication authentication details pof the useer
-     * @return an array representing a pair of the state of the button
-     *          and the amount of points gathered by the solar panels
+     * @param authentication Authentication details of the useer
+     * @return An array representing a pair of the state of the button
+     *          and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
@@ -175,7 +174,7 @@ public class UserController {
 
     /**
      * Returns a list of all users.
-     * @return lists of users.
+     * @return Lists of users.
      */
     @GetMapping(value = UserEndpoints.LEADERBOARD)
     public List<User> getLeaderBoard() {
@@ -185,8 +184,8 @@ public class UserController {
 
     /**
      * Searches for users.
-     * @param username takes a string to be searched in the user repo.
-     * @return list with matching usernames.
+     * @param username Takes a string to be searched in the user repo.
+     * @return List with matching usernames.
      */
     @PostMapping(value = UserEndpoints.SEARCH)
     public List<User> search(@RequestBody String username) {
@@ -204,10 +203,10 @@ public class UserController {
     }
 
     /**
-     * Add a user to a 'following' set.
-     * @param username the one to be added.
-     * @param authentication the user who is adding.
-     * @return the user who is adding.
+     * Adds the provided user to the current user's following set.
+     * @param username Username of the User to add.
+     * @param authentication Of the current user.
+     * @return The added User.
      */
     @PostMapping(value = UserEndpoints.FOLLOW)
     public User addFollow(@RequestBody String username, Authentication authentication) {
@@ -223,9 +222,9 @@ public class UserController {
 
     /**
      * Removes user from 'following' set.
-     * @param user to be removed.
-     * @param authentication the user who is unfollowing.
-     * @return the unfollowed user.
+     * @param user To be removed.
+     * @param authentication The user who is unfollowing.
+     * @return The unfollowed user.
      */
     @PostMapping(value = UserEndpoints.UNFOLLOW)
     public User unfollow(@RequestBody User user, Authentication authentication) {
@@ -238,8 +237,8 @@ public class UserController {
 
     /**
      * Returns a set of the 'following'.
-     * @param authentication the user whose set is returned.
-     * @return the set of the followed users.
+     * @param authentication The user whose set is returned.
+     * @return The set of the followed users.
      */
     @GetMapping(value = UserEndpoints.FOLLOWLIST)
     public Set<User> viewFollowList(Authentication authentication) {

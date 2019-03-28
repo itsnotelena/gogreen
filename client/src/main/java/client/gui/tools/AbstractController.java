@@ -8,7 +8,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -54,6 +53,12 @@ public class AbstractController {
         stage.setY((screenSize.getHeight() - stage.getHeight()) / 2);
     }
 
+    /**
+     * The method initializes the slide-out menu.
+     * @param task Transition of the "hamburger" to open/close menu.
+     * @param hamburger To open/close menu.
+     * @param drawer The panel in which the menu resides.
+     */
     protected void initializeHamburger(HamburgerSlideCloseTransition task,
                                        JFXHamburger hamburger, JFXDrawer drawer) {
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -67,26 +72,6 @@ public class AbstractController {
                 drawer.open();
             }
         });
-    }
-
-
-    /**
-     * The method allows to display new buttons (used in Discover People fxml file).
-     * @param pane Pane to show.
-     */
-    protected void showBtn(Pane pane) {
-        if(pane.isVisible()) {
-
-            pane.setVisible(false);
-            pane.setVisible(false);
-            pane.setVisible(false);
-
-        } else {
-            pane.setVisible(true);
-            pane.setVisible(true);
-            pane.setVisible(true);
-
-        }
     }
 
 }
