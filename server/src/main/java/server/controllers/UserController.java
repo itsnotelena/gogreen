@@ -49,12 +49,11 @@ public class UserController {
     /**
      * Creates and returns a user with the given username and password.
      *
-     * @return The created user.
+     * @return the created user
      */
     @PostMapping(value = UserEndpoints.SIGNUP)
     public User createUser(@RequestBody User user) throws UserExistsException, EmailException {
         user.setPassword(hashPassword(user.getPassword())); // Hash the password
-
 
         // Catch duplicate exception
         try {
@@ -162,7 +161,6 @@ public class UserController {
                 }
             }
         }
-
         if (total % 2 == 1) {
             LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
                     ZoneId.systemDefault());
