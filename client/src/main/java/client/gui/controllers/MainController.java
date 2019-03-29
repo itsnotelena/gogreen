@@ -5,7 +5,6 @@ import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
-import client.gui.tools.SliderFormatter;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
@@ -176,9 +175,10 @@ public class MainController extends AbstractController implements Initializable 
 
         addListenerChart();
 
-        tempSliderWinter.setLabelFormatter(new SliderFormatter());
-        tempSliderSummer.setLabelFormatter(new SliderFormatter());
-
+//        tempSliderWinter.setLabelFormatter(new SliderFormatter());
+//        tempSliderSummer.setLabelFormatter(new SliderFormatter());
+        tempSliderSummer.setValue(0);
+        tempSliderWinter.setValue(0);
         vegLabel.setVisible(false);
         localLabel.setVisible(false);
         bikeLabel.setVisible(false);
@@ -194,28 +194,24 @@ public class MainController extends AbstractController implements Initializable 
             buttonPressed(Action.SOLAR);
             toggleButton(solarbtn);
         });
-        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.VEGETARIAN);
-        });
-        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.BIKE);
-        });
+        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.VEGETARIAN));
+        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.BIKE));
         tempbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             energyList.animateList();
             tempList.animateList();
         });
-        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.PUBLIC);
-        });
+        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.PUBLIC));
         localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.LOCAL));
-        summerBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.TEMP));
-        winterBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.TEMP));
+        summerBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+                buttonPressed(Action.TEMP, (int)tempSliderSummer.getValue()));
+        winterBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+                buttonPressed(Action.TEMP, (int)tempSliderWinter.getValue()));
     }
 
     private void buttonPressed(Action action) {
         this.service.madeAction(action);
         int points = this.service.getPoints();
-        this.pointsContainer.setText(Integer.toString(points));
+        this.pointsContainer.setText("Points\ngathered\nso far\n" + points);
         this.stackPane.getChildren().remove(pointsContainer);
         this.logs = this.service.getLog();
         this.loglist.getItems().clear();
@@ -225,6 +221,11 @@ public class MainController extends AbstractController implements Initializable 
         this.stackPane.getChildren().add(pointsContainer);
     }
 
+    private void buttonPressed(Action action, int times) {
+        for (int i = 0; i < times; i++) {
+            buttonPressed(action);
+        }
+    }
 
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
     private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
@@ -362,9 +363,9 @@ public class MainController extends AbstractController implements Initializable 
 
     private void createPoints() {
         int point = service.getPoints();
-        pointsContainer.setText(Integer.toString(point));
+        pointsContainer.setText("Points\ngathered\nso far\n" + point);
         pointsContainer.setBoundsType(TextBoundsType.VISUAL);
-        pointsContainer.setFont(new Font(25));
+        pointsContainer.setFont(new Font(20));
         pointsContainer.setFill(Color.GREEN);
         pointsContainer.setTranslateY(-10);
         stackPane.getChildren().add(pointsContainer);
