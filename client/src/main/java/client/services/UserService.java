@@ -120,6 +120,10 @@ public class UserService {
         return loglist;
     }
 
+    /**
+     * Retrieves a list of users from the database sorted descending by score.
+     * @return The list of users based on score
+     */
     public List<User> getLeaderBoard() {
         ResponseEntity<List<User>> response =
                 restTemplate.exchange(
@@ -133,12 +137,22 @@ public class UserService {
         return leaderlist;
     }
 
+    /**
+     * Searches a user on the database by the username.
+     * @param username The identifier by which to search
+     * @return the searched user.
+     */
     public User search(String username) {
         User response = restTemplate.postForObject(UserEndpoints.SEARCH, username, User.class);
         System.out.println(response);
         return response;
     }
 
+    /**
+     * Adds the user to this user's followed users.
+     * @param user the user to follow.
+     * @return the followed user
+     */
     public User addFollow(User user) {
         User response = restTemplate.postForObject(UserEndpoints.FOLLOW, user, User.class);
 
@@ -148,6 +162,10 @@ public class UserService {
         return response;
     }
 
+    /**
+     * Returns a set of your followed users.
+     * @return Set of this user's followed people
+     */
     public Set<User> viewFollowList() {
         ResponseEntity<Set<User>> response =
                 restTemplate.exchange(

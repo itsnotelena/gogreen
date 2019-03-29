@@ -23,7 +23,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @AllArgsConstructor
@@ -100,7 +99,7 @@ public class UserController {
      *
      * @param authentication authentication details pof the user
      * @return an array representing a pair of the state of the button
-     * and the amount of points gathered by the solar panels.
+     *      and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
@@ -138,6 +137,12 @@ public class UserController {
         return repository.findUserByUsername(username);
     }
 
+    /**
+     * Adds the user to this user's followed users.
+     * @param user the user to follow
+     * @param authentication identifies the user
+     * @return the user to be added
+     */
     @PostMapping(value = UserEndpoints.FOLLOW)
     public User addFollow(@RequestBody User user, Authentication authentication) {
         User current = repository.findUserByUsername(authentication.getName());
@@ -149,6 +154,11 @@ public class UserController {
         return current;
     }
 
+    /**
+     * Returns the set of followed users for the user making the request.
+     * @param authentication identifies the user making the request
+     * @return the set of followed users
+     */
     @GetMapping(value = UserEndpoints.FOLLOWLIST)
     public Set<User> viewFollowList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
@@ -156,6 +166,11 @@ public class UserController {
         return friends;
     }
 
+    /**
+     * Returns the amount of points earned today by the user making the request.
+     * @param authentication identifies the user making the request
+     * @return the amount of points earned today
+     */
     @GetMapping(value = UserEndpoints.TODAYPROGRESS)
     public int getPointsToday(Authentication authentication) {
         int points = 0;

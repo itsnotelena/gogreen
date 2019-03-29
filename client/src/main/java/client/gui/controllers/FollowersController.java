@@ -107,8 +107,8 @@ public class FollowersController implements Initializable {
         this.leaderlist.forEach(e -> this.leaderboard.getItems().add(
                 new Label("Username: " + e.getUsername()
                         + " Email: " + e.getEmail() + " Points: " + e.getFoodPoints())));
-        this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                e -> this.service.addFollow(this.leaderlist.get(
+        this.leaderboard.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
+                this.service.addFollow(this.leaderlist.get(
                         this.leaderboard.getSelectionModel().getSelectedIndex())));
 
     }

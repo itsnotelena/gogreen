@@ -175,8 +175,6 @@ public class MainController extends AbstractController implements Initializable 
 
         addListenerChart();
 
-//        tempSliderWinter.setLabelFormatter(new SliderFormatter());
-//        tempSliderSummer.setLabelFormatter(new SliderFormatter());
         tempSliderSummer.setValue(0);
         tempSliderWinter.setValue(0);
         vegLabel.setVisible(false);
