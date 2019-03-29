@@ -210,8 +210,8 @@ public class MainController extends AbstractController implements Initializable 
 
     private void buttonPressed(Action action) {
         this.service.madeAction(action);
-        int points = this.service.getPoints();
-        this.pointsContainer.setText("Points\ngathered\nso far\n" + points);
+        int points = this.service.getPointsToday();
+        this.pointsContainer.setText("Points\nearned\ntoday\n" + points);
         this.stackPane.getChildren().remove(pointsContainer);
         this.logs = this.service.getLog();
         this.loglist.getItems().clear();
@@ -362,8 +362,8 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void createPoints() {
-        int point = service.getPoints();
-        pointsContainer.setText("Points\ngathered\nso far\n" + point);
+        int point = service.getPointsToday();
+        pointsContainer.setText("Points\nearned\ntoday\n" + point);
         pointsContainer.setBoundsType(TextBoundsType.VISUAL);
         pointsContainer.setFont(new Font(20));
         pointsContainer.setFill(Color.GREEN);

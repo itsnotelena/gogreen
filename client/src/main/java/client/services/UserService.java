@@ -162,6 +162,10 @@ public class UserService {
         return followlist;
     }
 
+    public int getPointsToday() {
+        return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
+    }
+
 
 }
 
