@@ -49,11 +49,12 @@ public class UserController {
     /**
      * Creates and returns a user with the given username and password.
      *
-     * @return the created user
+     * @return The created user.
      */
     @PostMapping(value = UserEndpoints.SIGNUP)
     public User createUser(@RequestBody User user) throws UserExistsException, EmailException {
         user.setPassword(hashPassword(user.getPassword())); // Hash the password
+
 
         // Catch duplicate exception
         try {
@@ -152,18 +153,16 @@ public class UserController {
                 if (total % 2 == 1) {
                     lastLog = log;
                 } else {
-                    LocalDate dateLatest = LocalDate.ofInstant(log.getDate().toInstant(),
-                            ZoneId.systemDefault());
-                    LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
-                            ZoneId.systemDefault());
+                    LocalDate dateLatest = log.getDate();
+                    LocalDate datePrevious = lastLog.getDate();
                     points += Action.SOLAR.getPoints()
                             * Period.between(datePrevious, dateLatest).getDays();
                 }
             }
         }
+
         if (total % 2 == 1) {
-            LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
-                    ZoneId.systemDefault());
+            LocalDate datePrevious = lastLog.getDate();
             points += Action.SOLAR.getPoints()
                     * Period.between(datePrevious, LocalDate.now()).getDays();
         }
