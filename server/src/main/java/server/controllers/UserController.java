@@ -22,7 +22,6 @@ import shared.models.User;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -75,6 +74,32 @@ public class UserController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        return user;
+    }
+
+    /**
+     * Returns the current user.
+     * @param authentication Identifies user.
+     * @return The current user.
+     */
+    @GetMapping(value = UserEndpoints.USER_INFO)
+    public User getUserInfo(Authentication authentication) {
+        return repository.findUserByUsername(authentication.getName());
+    }
+
+    /**
+     * Sets a new password for the given user.
+     * @param password The new password.
+     * @param authentication Identifies user.
+     * @return User.
+     */
+    @PostMapping(value = UserEndpoints.CHANGE_PASS)
+    public User changePassword(String password, Authentication authentication) {
+        User user = repository.findUserByUsername(authentication.getName());
+        user.setPassword(hashPassword(password));
+        System.out.println(user.getPassword());
+        repository.save(user);
+        user.setPassword("");
         return user;
     }
 
