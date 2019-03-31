@@ -184,25 +184,25 @@ public class UserControllerAfterLoginTest {
         logRepository.delete(mapper.readValue(toDelete2, Log.class));
     }
 
-//    @Test
-//    public void searchUserTest() throws  Exception{
-//        ObjectMapper mapper = new ObjectMapper();
-//        String Fusername = "follow";
-//        followUser.setUsername(Fusername);
-//        followUser.setPassword("test");
-//        FUString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword() + "\"}";
-//        this.mvc.perform(
-//                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FUString));
-//
-//        String search = this.mvc.perform(post(UserEndpoints.SEARCH).header(HttpHeaders.AUTHORIZATION, authorization)
-//                .content(testUser.getUsername()))
-//                .andExpect(status().isOk())
-//                .andReturn()
-//                .getResponse().getContentAsString();
-//        User result = mapper.readValue(search, User.class);
-//        Assert.assertEquals(testUser.getUsername(), result.getUsername());
-//
-//    }
+    @Test
+    public void searchUserTest() throws  Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String Fusername = "follow";
+        followUser.setUsername(Fusername);
+        followUser.setPassword("test");
+        followUser.setEmail("test@test");
+        String request = mapper.writeValueAsString(followUser);
+        this.mvc.perform(
+                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(request));
+
+        String search = this.mvc.perform(post(UserEndpoints.SEARCH).header(HttpHeaders.AUTHORIZATION, authorization)
+                .content(followUser.getUsername()))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        User[] result = mapper.readValue(search, User[].class);
+        Assert.assertTrue(result.length >= 1);
+    }
 
     @Test
     public void followUserTest() throws Exception{
@@ -220,7 +220,6 @@ public class UserControllerAfterLoginTest {
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
-        System.out.println(follow);
         User result = mapper.readValue(follow, User.class);
         Assert.assertEquals(followUser.getUsername(), result.getUsername());
 
