@@ -269,4 +269,21 @@ public class UserController {
         return friends;
     }
 
+    /**
+     * Returns the amount of points earned today by the user making the request.
+     * @param authentication identifies the user making the request
+     * @return the amount of points earned today
+     */
+    @GetMapping(value = UserEndpoints.TODAYPROGRESS)
+    public int getPointsToday(Authentication authentication) {
+        int points = 0;
+        for (Log log : getLogs(authentication)) {
+            if (Period.between(log.getDate(), LocalDate.now()).getDays() == 0
+                    && !log.getAction().equals(Action.SOLAR)) {
+                points += log.getAction().getPoints();
+            }
+        }
+        return points;
+    }
+
 }

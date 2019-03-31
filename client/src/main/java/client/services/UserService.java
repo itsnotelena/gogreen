@@ -133,8 +133,8 @@ public class UserService {
     }
 
     /**
-     * Gets leader board.
-     * @return all users with their points.
+     * Retrieves a list of users from the database sorted descending by score.
+     * @return The list of users based on score
      */
     public List<User> getLeaderBoard() {
         ResponseEntity<List<User>> response =
@@ -144,6 +144,7 @@ public class UserService {
                         null,
                         new ParameterizedTypeReference<List<User>>() {
                         });
+
         List<User> leaderlist = response.getBody();
         return leaderlist;
     }
@@ -167,8 +168,8 @@ public class UserService {
 
     /**
      * Adds user to the 'following' list.
-     * @param user to be added.
-     * @return the added user.
+     * @param user To be added.
+     * @return The added user.
      */
     public User addFollow(User user) {
         User response = restTemplate.postForObject(
@@ -218,6 +219,10 @@ public class UserService {
     public void setPassword(String password) {
         restTemplate.postForObject(UserEndpoints.CHANGE_PASS, password, User.class);
     }
+    public int getPointsToday() {
+        return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
+    }
+
 
 }
 

@@ -9,24 +9,29 @@ import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXNodesList;
+import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.Action;
@@ -49,13 +54,7 @@ public class MainController extends AbstractController implements Initializable 
     private List<Log> logs;
 
     @FXML
-    private AnchorPane menupane;
-
-    @FXML
     private Pane myPane;
-
-    @FXML
-    private HBox profileInfo;
 
     @FXML
     private Text pointsContainer;
@@ -103,19 +102,35 @@ public class MainController extends AbstractController implements Initializable 
     private JFXButton solarbtn;
 
     @FXML
+    private JFXButton summerBtn;
+
+    @FXML
+    private JFXButton winterBtn;
+
+    @FXML
     private JFXDrawer drawer;
 
     @FXML
     private JFXHamburger hamburger;
 
     @FXML
-    private ListView loglist;
+    private JFXListView loglist;
+
+    @FXML
+    private JFXSlider tempSliderSummer;
+
+    @FXML
+    private JFXSlider tempSliderWinter;
+
+    private StackPane stackPane;
 
     private JFXNodesList foodList;
 
     private JFXNodesList transportList;
 
     private JFXNodesList energyList;
+
+    private JFXNodesList tempList;
 
     private DoughnutChart chart;
 
@@ -142,14 +157,13 @@ public class MainController extends AbstractController implements Initializable 
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        stackPane = new StackPane();
         ObservableList<PieChart.Data> pieChartData = createData();
         this.chart = new DoughnutChart(pieChartData);
-        this.chartContainer.getChildren().add(chart);
-
-        int point = service.getPoints();
-        point += service.getStateSolar().getPoints();
-        pointsContainer.setText("P:" + point);
-
+        this.chartContainer.getChildren().add(stackPane);
+        stackPane.setAlignment(Pos.CENTER);
+        stackPane.getChildren().add(chart);
+        this.createPoints();
         if (service.getStateSolar().isEnabled()) {
             toggleButton(solarbtn);
         }
@@ -157,10 +171,12 @@ public class MainController extends AbstractController implements Initializable 
         this.foodList = createFoodList();
         this.transportList = createTransportList();
         this.energyList = createEnergyList();
+        this.tempList = createTemperatureList();
 
         addListenerChart();
 
-        //TODO: Decide if labels are needed
+        tempSliderSummer.setValue(0);
+        tempSliderWinter.setValue(0);
         vegLabel.setVisible(false);
         localLabel.setVisible(false);
         bikeLabel.setVisible(false);
@@ -176,34 +192,38 @@ public class MainController extends AbstractController implements Initializable 
             buttonPressed(Action.SOLAR);
             toggleButton(solarbtn);
         });
-        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.VEGETARIAN);
-        });
-        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.BIKE);
-        });
+        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.VEGETARIAN));
+        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.BIKE));
         tempbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.TEMP);
+            energyList.animateList();
+            tempList.animateList();
         });
-        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.PUBLIC);
-        });
-        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.LOCAL);
-        });
+        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.PUBLIC));
+        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.LOCAL));
+        summerBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+                buttonPressed(Action.TEMP, (int)tempSliderSummer.getValue()));
+        winterBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+                buttonPressed(Action.TEMP, (int)tempSliderWinter.getValue()));
     }
 
     private void buttonPressed(Action action) {
         this.service.madeAction(action);
-        int points = this.service.getPoints();
-        this.pointsContainer.setText("P:" + points);
+        int points = this.service.getPointsToday();
+        this.pointsContainer.setText("Points\nearned\ntoday\n" + points);
+        this.stackPane.getChildren().remove(pointsContainer);
         this.logs = this.service.getLog();
         this.loglist.getItems().clear();
         this.logs.forEach(e -> this.loglist.getItems().add(0, new
                 Label(e.getAction() + " " + e.getDate())));
         this.updateChart();
+        this.stackPane.getChildren().add(pointsContainer);
     }
 
+    private void buttonPressed(Action action, int times) {
+        for (int i = 0; i < times; i++) {
+            buttonPressed(action);
+        }
+    }
 
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
     private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
@@ -231,6 +251,10 @@ public class MainController extends AbstractController implements Initializable 
         return createList(tempbtn, solarbtn);
     }
 
+    private JFXNodesList createTemperatureList() {
+        return createList(summerBtn, winterBtn);
+    }
+
     private JFXNodesList createList(JFXButton button1, JFXButton button2) {
         JFXNodesList list = new JFXNodesList();
         nodeListContainer.getChildren().add(list);
@@ -241,6 +265,9 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void clickOnSlice(JFXNodesList clickedOn, JFXNodesList other1, JFXNodesList other2) {
+        if (tempList.isExpanded()) {
+            tempList.animateList();
+        }
         clickedOn.animateList();
         if (other1.isExpanded()) {
             other1.animateList();
@@ -315,9 +342,9 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void updateChart() {
-        if (this.chartContainer.getChildren().remove(this.chart)) {
+        if (this.stackPane.getChildren().remove(this.chart)) {
             this.chart = new DoughnutChart(createData());
-            this.chartContainer.getChildren().add(chart);
+            this.stackPane.getChildren().add(chart);
         }
         addListenerChart();
     }
@@ -330,5 +357,15 @@ public class MainController extends AbstractController implements Initializable 
             button.getStyleClass().remove("animated-option-button-sub");
             button.getStyleClass().add("toggle-button-off");
         }
+    }
+
+    private void createPoints() {
+        int point = service.getPointsToday();
+        pointsContainer.setText("Points\nearned\ntoday\n" + point);
+        pointsContainer.setBoundsType(TextBoundsType.VISUAL);
+        pointsContainer.setFont(new Font(20));
+        pointsContainer.setFill(Color.GREEN);
+        pointsContainer.setTranslateY(-10);
+        stackPane.getChildren().add(pointsContainer);
     }
 }
