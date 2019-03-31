@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,15 +67,18 @@ public class LogControllerTest {
 
     @Test
     public void sendActionLogTest() throws Exception{
+        ObjectMapper mapper =  new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
         Log req = new Log();
         req.setAction(Action.VEGETARIAN);
-        String postContent = new ObjectMapper().writeValueAsString(req);
+        String postContent = mapper.writeValueAsString(req);
         String response = this.mvc.perform(post(UserEndpoints.LOGS)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        Log log = new ObjectMapper().readValue(response,Log.class);
+        Log log = mapper.readValue(response,Log.class);
 
         Assert.assertEquals(log.getAction(), req.getAction());
         Assert.assertEquals(log.getUser().getUsername(), testUser.getUsername());

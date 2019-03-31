@@ -14,6 +14,7 @@ import shared.models.Log;
 import shared.models.SolarState;
 import shared.models.User;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,7 +83,7 @@ public class UserService {
     public void madeAction(Action action) {
         Log req = new Log();
         req.setAction(action);
-        req.setDate(new Date());
+        req.setDate(LocalDate.now());
         restTemplate.postForObject(UserEndpoints.LOGS, req, Log.class);
         System.out.println("Successfully added a log to the table");
     }

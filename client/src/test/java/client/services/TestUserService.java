@@ -2,6 +2,7 @@ package client.services;
 
 import client.AppConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,10 @@ import shared.models.Action;
 import shared.models.Log;
 import shared.models.User;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.*;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
@@ -106,8 +111,10 @@ public class TestUserService {
     public void testVegMeal() throws Exception {
         Log req = new Log();
         req.setAction(Action.VEGETARIAN);
-        req.setDate(new Date());
-        String response = new ObjectMapper().writeValueAsString(req);
+        req.setDate(LocalDate.now());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        String response = mapper.writeValueAsString(req);
         mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.LOGS))
                 .andExpect(method(HttpMethod.POST))
                 .andExpect(jsonPath("$.action").value(Action.VEGETARIAN.toString()))
