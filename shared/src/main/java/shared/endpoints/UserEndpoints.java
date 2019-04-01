@@ -14,6 +14,4 @@ public class UserEndpoints {
     public static final String GETOTHERUSERPOINTS = "/followerPoints";
     public static final String UNFOLLOW = "/unfollow";
     public static final String BADGES = "/badges";
-    public static final String GETOTHERUSERPOINTS = "/followerPoints";
-    public static final String UNFOLLOW = "/unfollow";
 }
