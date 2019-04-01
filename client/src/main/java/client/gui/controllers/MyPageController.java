@@ -178,3 +178,4 @@ public class MyPageController extends AbstractController implements Initializabl
         passPane.setVisible(false);
     }
 }
+

@@ -20,3 +20,4 @@
         <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="558.0" prefWidth="229.0" style="-fx-background-color: #FFFFFF;"/>
         <JFXHamburger fx:id="hamburger" layoutX="28.0" layoutY="14.0" prefHeight="35.0" prefWidth="46.0" />
 </Pane>
+
