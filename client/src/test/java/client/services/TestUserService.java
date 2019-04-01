@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.*;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
@@ -145,4 +146,25 @@ public class TestUserService {
 
         Assert.assertEquals(0L, response);
     }
+
+    @Test
+    public void testFollowUser()throws Exception{
+
+        User followUser = new User();
+        followUser.setPassword("follow");
+        followUser.setUsername("follow");
+        String responseT = new ObjectMapper().writeValueAsString(followUser);
+        mockServer.expect(requestTo(url + UserEndpoints.FOLLOW))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(responseT));
+        User response = userService.addFollow(followUser);
+        mockServer.verify();
+
+        Assert.assertEquals(responseT, new ObjectMapper().writeValueAsString(response));
+
+
+    }
+
 }

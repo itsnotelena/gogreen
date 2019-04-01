@@ -17,8 +17,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,8 +26,6 @@ import shared.models.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javax.swing.text.html.ImageView;
-
 
 @Component
 @ComponentScan({"client"})

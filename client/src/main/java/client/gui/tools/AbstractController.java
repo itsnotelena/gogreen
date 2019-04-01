@@ -53,6 +53,12 @@ public class AbstractController {
         stage.setY((screenSize.getHeight() - stage.getHeight()) / 2);
     }
 
+    /**
+     * The method initializes the slide-out menu.
+     * @param task Transition of the "hamburger" to open/close menu.
+     * @param hamburger To open/close menu.
+     * @param drawer The panel in which the menu resides.
+     */
     protected void initializeHamburger(HamburgerSlideCloseTransition task,
                                        JFXHamburger hamburger, JFXDrawer drawer) {
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -67,4 +73,5 @@ public class AbstractController {
             }
         });
     }
+
 }

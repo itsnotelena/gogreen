@@ -9,7 +9,7 @@ public class SceneNames {
     public static final String MY_GOALS = "mygoals.fxml";
     public static final String SETTINGS = "settings.fxml";
     public static final String TOOLBAR = "/toolbar.fxml";
-    public static final String FOLLOWERS = "followerspage.fxml";
+    public static final String FOLLOWERS = "discoverPeople.fxml";
 
     public static final int DRAWER_SIZE = 190;
 }

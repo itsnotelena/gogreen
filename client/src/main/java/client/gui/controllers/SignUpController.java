@@ -81,11 +81,18 @@ public class SignUpController extends AbstractController implements Initializabl
             return;
         }
 
+
         User user = new User();
         user.setGender(getGender());
         user.setEmail(email.getText());
         user.setUsername(username.getText());
         user.setPassword(password.getText());
+
+        if (!user.validateEmail()) {
+            validpass.setText("Please input correct email address.");
+            return;
+        }
+
 
         if (this.userService.createAccount(user)) {
             goToSmall(username, LOGIN);

@@ -46,7 +46,9 @@ public class LogControllerTest {
         String username = "test";
         testUser.setUsername(username);
         testUser.setPassword("test");
-        UString = "{\"username\": \"" + testUser.getUsername() + "\", \"password\": \"" + testUser.getPassword() + "\"}";
+        testUser.setEmail("test@test");
+        UString = "{\"username\": \"" + testUser.getUsername() + "\", \"password\": \"" + testUser.getPassword()
+                + "\", \"email\": \"" + testUser.getEmail() +"\"}";
 
         // Remove the test user if it exists
         User toDelete = userRepository.findUserByUsername(username);

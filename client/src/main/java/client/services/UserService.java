@@ -15,6 +15,8 @@ import shared.models.SolarState;
 import shared.models.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -98,6 +100,17 @@ public class UserService {
     }
 
     /**
+     * Gets the points of a followed user.
+     * @param username of the followed user.
+     * @return that user's points.
+     */
+    public int getFollowingPoints(String username) {
+        int response = restTemplate.postForObject(
+                UserEndpoints.GETOTHERUSERPOINTS, username, int.class);
+        return response;
+    }
+
+    /**
      * Gets the state of the solar button (clicked or not)
      * and the amounts of points gathered by the solar panels.
      *
@@ -120,6 +133,10 @@ public class UserService {
         return loglist;
     }
 
+    /**
+     * Gets leader board.
+     * @return all users with their points.
+     */
     public List<User> getLeaderBoard() {
         ResponseEntity<List<User>> response =
                 restTemplate.exchange(
@@ -128,26 +145,52 @@ public class UserService {
                         null,
                         new ParameterizedTypeReference<List<User>>() {
                         });
-
         List<User> leaderlist = response.getBody();
         return leaderlist;
     }
 
-    public User search(String username) {
-        User response = restTemplate.postForObject(UserEndpoints.SEARCH, username, User.class);
-        System.out.println(response);
-        return response;
+    /**
+     * Searches for users.
+     * @param username a string which will be checked.
+     * @return a list of users whose usernames match the string.
+     */
+    public List<User> search(String username) {
+        HttpEntity<String> request = new HttpEntity<>(username);
+        ResponseEntity<List<User>> response =
+                restTemplate.exchange(UserEndpoints.SEARCH, HttpMethod.POST, request,
+                        new ParameterizedTypeReference<List<User>>() {
+                        });
+        if (response.getBody().isEmpty()) {
+            return new ArrayList<User>();
+        }
+        return response.getBody();
     }
 
+    /**
+     * Adds user to the 'following' list.
+     * @param user to be added.
+     * @return the added user.
+     */
     public User addFollow(User user) {
-        User response = restTemplate.postForObject(UserEndpoints.FOLLOW, user, User.class);
-
-        //response.getFollowing().forEach(e -> System.out.println(e));
-
+        User response = restTemplate.postForObject(
+                UserEndpoints.FOLLOW, user.getUsername(), User.class);
         System.out.println(response);
         return response;
     }
 
+    /**
+     * Removes user from the 'following' list.
+     * @param user to be removed.
+     */
+    public void removeFollow(User user) {
+        User another = restTemplate.postForObject(UserEndpoints.UNFOLLOW, user, User.class);
+        System.out.println("removed user: " + another.getUsername());
+    }
+
+    /**
+     * Creates a view of the 'following' set.
+     * @return that set.
+     */
     public Set<User> viewFollowList() {
         ResponseEntity<Set<User>> response =
                 restTemplate.exchange(
@@ -158,7 +201,6 @@ public class UserService {
                         });
 
         Set<User> followlist = response.getBody();
-        followlist.forEach(e -> System.out.println(e));
         return followlist;
     }
 

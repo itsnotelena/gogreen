@@ -9,7 +9,15 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 
 @Entity
@@ -20,7 +28,9 @@ import javax.persistence.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
 
-    private @Id @GeneratedValue long id;
+    @Id
+    @GeneratedValue
+    private long id;
 
     @Column(unique = true)
     private String username;
@@ -37,9 +47,6 @@ public class User implements Serializable {
 
     @Column
     private Boolean hasSolarPanels = false;
-
-    @Column
-    private long foodPoints;
 
     @JsonIgnore
     @ManyToMany
@@ -61,4 +68,16 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hash(username);
     }
+
+    /**
+     * Method checks if email has the right format.
+     * @return true if yes.
+     */
+    public boolean validateEmail() {
+        if (this.email.isEmpty()) {
+            return false;
+        }
+        return this.email.matches(".*@.*");
+    }
+
 }
