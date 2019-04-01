@@ -76,7 +76,7 @@ public class UserController {
         }
         for (Log log : list) {
             if (!log.getAction().equals(Action.SOLAR)) {
-                points = points + log.getAction().getPoints();
+                points = points + log.getPoints();
             }
         }
         return points + getStateSolar(authentication).getPoints();
@@ -177,7 +177,7 @@ public class UserController {
         for (Log log : getLogs(authentication)) {
             if (Period.between(log.getDate(), LocalDate.now()).getDays() == 0
                     && !log.getAction().equals(Action.SOLAR)) {
-                points += log.getAction().getPoints();
+                points += log.getPoints();
             }
         }
         return points;

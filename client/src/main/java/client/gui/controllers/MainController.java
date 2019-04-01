@@ -189,25 +189,25 @@ public class MainController extends AbstractController implements Initializable 
 
 
         solarbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.SOLAR);
+            buttonPressed(Action.SOLAR,1);
             toggleButton(solarbtn);
         });
-        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.VEGETARIAN));
-        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.BIKE));
+        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.VEGETARIAN,1));
+        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.BIKE,1));
         tempbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             energyList.animateList();
             tempList.animateList();
         });
-        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.PUBLIC));
-        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.LOCAL));
+        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.PUBLIC,1));
+        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.LOCAL, 1));
         summerBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
                 buttonPressed(Action.TEMP, (int)tempSliderSummer.getValue()));
         winterBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
                 buttonPressed(Action.TEMP, (int)tempSliderWinter.getValue()));
     }
 
-    private void buttonPressed(Action action) {
-        this.service.madeAction(action);
+    private void buttonPressed(Action action, int amount) {
+        this.service.madeAction(action, amount);
         int points = this.service.getPointsToday();
         this.pointsContainer.setText("Points\nearned\ntoday\n" + points);
         this.stackPane.getChildren().remove(pointsContainer);
@@ -219,11 +219,6 @@ public class MainController extends AbstractController implements Initializable 
         this.stackPane.getChildren().add(pointsContainer);
     }
 
-    private void buttonPressed(Action action, int times) {
-        for (int i = 0; i < times; i++) {
-            buttonPressed(action);
-        }
-    }
 
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
     private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
@@ -289,14 +284,14 @@ public class MainController extends AbstractController implements Initializable 
             switch (log.getAction()) {
                 case LOCAL:
                 case VEGETARIAN:
-                    values.put("Food", values.get("Food") + log.getAction().getPoints());
+                    values.put("Food", values.get("Food") + log.getPoints());
                     break;
                 case BIKE:
                 case PUBLIC:
-                    values.put("Transport", values.get("Transport") + log.getAction().getPoints());
+                    values.put("Transport", values.get("Transport") + log.getPoints());
                     break;
                 case TEMP:
-                    values.put("Energy", values.get("Energy") + log.getAction().getPoints());
+                    values.put("Energy", values.get("Energy") + log.getPoints());
                     break;
                 default:
             }
