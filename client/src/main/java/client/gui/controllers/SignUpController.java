@@ -75,6 +75,14 @@ public class SignUpController extends AbstractController implements Initializabl
             return;
             //show error message in a modal
         }
+
+        User user = new User();
+        user.setEmail(email.getText());
+
+        if (!user.validateEmail()) {
+            validpass.setText("Please input correct email address.");
+            return;
+        }
         if (repeatPassword.getText().isEmpty()
                 || !repeatPassword.getText().equals(password.getText())) {
             validpass.setText("Passwords do not match.");
@@ -82,16 +90,9 @@ public class SignUpController extends AbstractController implements Initializabl
         }
 
 
-        User user = new User();
         user.setGender(getGender());
-        user.setEmail(email.getText());
         user.setUsername(username.getText());
         user.setPassword(password.getText());
-
-        if (!user.validateEmail()) {
-            validpass.setText("Please input correct email address.");
-            return;
-        }
 
 
         if (this.userService.createAccount(user)) {

@@ -18,7 +18,8 @@
                 <Image url="@images/logo.png" />
         </ImageView>
         <Label fx:id="infolabel" layoutX="225.0" layoutY="93.0" prefHeight="25.0" prefWidth="122.0" text="Global Leaderboard" />
-        <JFXListView fx:id="leaderboard" layoutX="225.0" layoutY="120.0" prefHeight="374.0" prefWidth="411.0" stylesheets="@styles/main.css" />
+    <JFXListView fx:id="followView" layoutX="225.0" layoutY="120.0" prefHeight="374.0" prefWidth="411.0" stylesheets="@styles/main.css" />
+    <JFXListView fx:id="leaderboard" layoutX="225.0" layoutY="120.0" prefHeight="374.0" prefWidth="411.0" stylesheets="@styles/main.css" />
         <JFXTextField fx:id="searchfield" layoutX="656.0" layoutY="133.0" prefHeight="27.0" prefWidth="188.0" promptText="Enter Username" />
         <Text layoutX="685.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search For User" wrappingWidth="104.2000732421875" />
         <Label fx:id="errorlabel" layoutX="656.0" layoutY="160.0" prefHeight="25.0" prefWidth="135.0" text="please enter username" textFill="#ea0101" />

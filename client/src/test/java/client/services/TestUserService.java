@@ -11,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.client.ExpectedCount;
@@ -140,24 +142,56 @@ public class TestUserService {
         Assert.assertEquals(0L, response);
     }
 
-//    @Test
-//    public void testFollowUser()throws Exception{
-//
-//        User followUser = new User();
-//        followUser.setPassword("follow");
-//        followUser.setUsername("follow");
-//        String responseT = new ObjectMapper().writeValueAsString(followUser);
-//        mockServer.expect(requestTo(url + UserEndpoints.FOLLOW))
-//                .andExpect(method(HttpMethod.POST))
-//                .andRespond(withStatus(HttpStatus.OK)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .body(responseT));
-//        User response = userService.addFollow(followUser);
-//        mockServer.verify();
-//
-//        Assert.assertEquals(responseT, new ObjectMapper().writeValueAsString(response));
-//
-//
-//    }
+    @Test
+    public void testFollowUser()throws Exception{
+
+        User followUser = new User();
+        followUser.setPassword("follow");
+        followUser.setUsername("follow");
+        String responseT = new ObjectMapper().writeValueAsString(followUser);
+        mockServer.expect(requestTo(url + UserEndpoints.FOLLOW))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(responseT));
+
+        User response = userService.addFollow(followUser);
+        mockServer.verify();
+
+        Assert.assertEquals(responseT, new ObjectMapper().writeValueAsString(response));
+
+
+    }
+
+    @Test
+    public void testSearchUser()throws Exception{
+
+        User searchUser = new User();
+        searchUser.setPassword("search");
+        searchUser.setUsername("search");
+        String username = "search";
+        List<User> list = new ArrayList<>();
+        list.add(searchUser);
+
+        String asdf = new ObjectMapper().writeValueAsString(list);
+
+        mockServer.expect(requestTo(url + UserEndpoints.SEARCH))
+                .andExpect(method(HttpMethod.POST))
+//                .andExpect(content().contentType(MediaType.TEXT_PLAIN))
+                .andExpect(content().string(username))
+                .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+                        .body(new ObjectMapper().writeValueAsString(list)));
+
+        List<User> response = userService.search(username);
+
+        mockServer.verify();
+
+
+        Assert.assertEquals(list, response);
+
+
+    }
+
+
 
 }

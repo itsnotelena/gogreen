@@ -184,25 +184,25 @@ public class UserControllerAfterLoginTest {
         logRepository.delete(mapper.readValue(toDelete2, Log.class));
     }
 
-//    @Test
-//    public void searchUserTest() throws  Exception{
-//        ObjectMapper mapper = new ObjectMapper();
-//        String Fusername = "follow";
-//        followUser.setUsername(Fusername);
-//        followUser.setPassword("test");
-//        FUString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword() + "\"}";
-//        this.mvc.perform(
-//                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FUString));
-//
-//        String search = this.mvc.perform(post(UserEndpoints.SEARCH).header(HttpHeaders.AUTHORIZATION, authorization)
-//                .content(testUser.getUsername()))
-//                .andExpect(status().isOk())
-//                .andReturn()
-//                .getResponse().getContentAsString();
-//        User result = mapper.readValue(search, User.class);
-//        Assert.assertEquals(testUser.getUsername(), result.getUsername());
-//
-//    }
+    @Test
+    public void searchUserTest() throws  Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String Fusername = "follow";
+        followUser.setUsername(Fusername);
+        followUser.setPassword("test");
+        FUString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword() + "\"}";
+        this.mvc.perform(
+                post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FUString));
+
+        String search = this.mvc.perform(post(UserEndpoints.SEARCH).header(HttpHeaders.AUTHORIZATION, authorization)
+                .content(testUser.getUsername()))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        User result = mapper.readValue(search, User.class);
+        Assert.assertEquals(testUser.getUsername(), result.getUsername());
+
+    }
 
     @Test
     public void followUserTest() throws Exception{
