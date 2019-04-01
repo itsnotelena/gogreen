@@ -168,6 +168,8 @@ public class MainController extends AbstractController implements Initializable 
             toggleButton(solarbtn);
         }
 
+        createLogList();
+
         this.foodList = createFoodList();
         this.transportList = createTransportList();
         this.energyList = createEnergyList();
@@ -230,16 +232,16 @@ public class MainController extends AbstractController implements Initializable 
         for (Log log : logs) {
             if (log.getAction().equals(Action.SOLAR)) {
                 if (parity % 2 == 1) {
-                    this.loglist.getItems().add(0, new Label("You removed your solar panels on "
-                            + log.getDate()));
+                    this.loglist.getItems().add(0,
+                            new Label("You removed your solar panels on "
+                                    + log.getDate()));
                 }
                 parity++;
             }
-            this.loglist.getItems().add(0, new Label("You " + log.getAction().historyString() + " on "
-                    + log.getDate()));
+            this.loglist.getItems().add(0,
+                    new Label("You " + log.getAction().historyString() + " on "
+                            + log.getDate()));
         }
-//        this.logs.forEach(e -> this.loglist.getItems().add(0, new
-//                Label(e.getAction() + " " + e.getDate())));
     }
 
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
