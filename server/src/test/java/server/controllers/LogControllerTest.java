@@ -46,7 +46,7 @@ public class LogControllerTest {
         String username = "test";
         testUser.setUsername(username);
         testUser.setPassword("test");
-        testUser.setEmail("test@test");
+        testUser.setEmail("test@test.com");
         UString = "{\"username\": \"" + testUser.getUsername() + "\", \"password\": \"" + testUser.getPassword()
                 + "\", \"email\": \"" + testUser.getEmail() +"\"}";
 

@@ -69,7 +69,7 @@ public class UserControllerAfterLoginTest {
         String username = "test";
         testUser.setUsername(username);
         testUser.setPassword("test");
-        testUser.setEmail("test@test");
+        testUser.setEmail("test@test.com");
         UString = "{\"username\": \"" + testUser.getUsername() + "\", \"password\": \"" + testUser.getPassword()
                 + "\", \"email\": \"" + testUser.getEmail() +"\"}";
 
@@ -200,7 +200,7 @@ public class UserControllerAfterLoginTest {
         String Fusername = "follow";
         followUser.setUsername(Fusername);
         followUser.setPassword("test");
-        followUser.setEmail("test@test");
+        followUser.setEmail("test@test.com");
         String request = mapper.writeValueAsString(followUser);
         this.mvc.perform(
                 post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(request));

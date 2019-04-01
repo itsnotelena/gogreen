@@ -54,6 +54,7 @@ public class TestUserService {
         testUser = new User();
         testUser.setPassword("test");
         testUser.setUsername("test");
+        testUser.setEmail("test@test.com");
     }
 
     @Test
@@ -61,6 +62,7 @@ public class TestUserService {
         User response = new User();
         response.setPassword("");
         response.setUsername("test");
+        response.setEmail("test@test.com");
 
         mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.SIGNUP))
                 .andExpect(method(HttpMethod.POST))
@@ -99,6 +101,7 @@ public class TestUserService {
         User wrongUser = new User();
         wrongUser.setPassword("wrong");
         wrongUser.setUsername("test");
+        wrongUser.setEmail("wrong@wrong.com");
         mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.LOGIN))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.FORBIDDEN));
@@ -135,6 +138,7 @@ public class TestUserService {
         User testUser = new User();
         testUser.setPassword("test");
         testUser.setUsername("test");
+        testUser.setUsername("test@test.com");
 
         mockServer.expect(requestTo(url + UserEndpoints.ACTIONLIST))
                 .andExpect(method(HttpMethod.GET))
@@ -155,32 +159,13 @@ public class TestUserService {
         User followUser = new User();
         followUser.setPassword("follow");
         followUser.setUsername("follow");
+        followUser.setEmail("follow@follow.com");
         String responseT = new ObjectMapper().writeValueAsString(followUser);
         mockServer.expect(requestTo(url + UserEndpoints.FOLLOW))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(responseT));
-        User response = userService.addFollow(followUser);
-        mockServer.verify();
-
-        Assert.assertEquals(responseT, new ObjectMapper().writeValueAsString(response));
-
-
-    }
-    @Test
-    public void testFollowUser()throws Exception{
-
-        User followUser = new User();
-        followUser.setPassword("follow");
-        followUser.setUsername("follow");
-        String responseT = new ObjectMapper().writeValueAsString(followUser);
-        mockServer.expect(requestTo(url + UserEndpoints.FOLLOW))
-                .andExpect(method(HttpMethod.POST))
-                .andRespond(withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(responseT));
-
         User response = userService.addFollow(followUser);
         mockServer.verify();
 
@@ -195,6 +180,7 @@ public class TestUserService {
         User searchUser = new User();
         searchUser.setPassword("search");
         searchUser.setUsername("search");
+        searchUser.setEmail("search@search.com");
         String username = "search";
         List<User> list = new ArrayList<>();
         list.add(searchUser);
