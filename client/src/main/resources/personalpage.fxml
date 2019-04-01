@@ -7,6 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
+<?import com.jfoenix.controls.JFXDrawersStack?>
 <Pane xmlns:fx="http://javafx.com/fxml/1" fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity"
       minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0"
       xmlns="http://javafx.com/javafx/10.0.1" fx:controller="client.gui.controllers.PersonalPageController">
@@ -16,6 +17,6 @@
         <JFXButton fx:id="mygoals" layoutX="350.0" layoutY="132.0" onAction="#goToGoals" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="#MyGoals" />
         <JFXButton fx:id="myprogress" layoutX="350.0" layoutY="201.0" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="MyProgress" />
         <JFXButton fx:id="connect" layoutX="350.0" layoutY="266.0" prefHeight="47.0" prefWidth="178.0" style="-fx-background-color: #C7EA46;" text="Connect with Friends" />
-        <JFXHamburger fx:id="cheeseburger" layoutX="844.0" layoutY="23.0" onMouseClicked="#sideBar" onMousePressed="#sideBar" />
-        <JFXDrawer fx:id="drawer" prefHeight="402.0" prefWidth="178.0" />
+        <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="558.0" prefWidth="229.0" style="-fx-background-color: #FFFFFF;"/>
+        <JFXHamburger fx:id="hamburger" layoutX="28.0" layoutY="14.0" prefHeight="35.0" prefWidth="46.0" />
 </Pane>

@@ -1,3 +1,4 @@
+
 package client.gui.controllers;
 
 import static client.gui.tools.SceneNames.FOLLOWERS;
@@ -47,7 +48,7 @@ public class ToolBarController extends AbstractController {
     }
 
     /**
-     * Logs the user out and shows them the login screen.
+     * Goes to discover Page.
      * @throws IOException Throws an exception when the main window cannot be found.
      */
     public void goToFollowers() throws IOException {
@@ -63,4 +64,3 @@ public class ToolBarController extends AbstractController {
     }
 
 }
-

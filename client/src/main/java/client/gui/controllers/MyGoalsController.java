@@ -5,6 +5,7 @@ import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
 import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
@@ -27,23 +28,19 @@ public class MyGoalsController extends AbstractController implements Initializab
     private JFXHamburger cheeseburger;
 
     @FXML
-    private JFXDrawer drawer;
-
-    @FXML
-    private void sideBar() throws IOException {
-        myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ) );
-        drawer.setSidePane(myPane);
-
-    }
+    private JFXDrawersStack drawer;
 
     @Override
     public void initialize(URL url, ResourceBundle rs) {
-        HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(cheeseburger);
-        task.setRate( -1 );
+        try {
+            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
 
-        this.initializeHamburger(task, cheeseburger, drawer);
 
-        drawer.setDefaultDrawerSize(DRAWER_SIZE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        initializeHamburger(myPane, cheeseburger, drawer);
+        drawer.setVisible(false);
     }
 
 }

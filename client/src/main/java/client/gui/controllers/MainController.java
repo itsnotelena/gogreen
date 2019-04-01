@@ -6,12 +6,7 @@ import static client.gui.tools.SceneNames.TOOLBAR;
 import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXNodesList;
-import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -108,7 +103,7 @@ public class MainController extends AbstractController implements Initializable 
     private JFXButton winterBtn;
 
     @FXML
-    private JFXDrawer drawer;
+    private JFXDrawersStack drawer;
 
     @FXML
     private JFXHamburger hamburger;
@@ -143,19 +138,12 @@ public class MainController extends AbstractController implements Initializable 
     public void initialize(URL url, ResourceBundle rs) {
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
-            drawer.setSidePane(myPane);
-            drawer.setDefaultDrawerSize(DRAWER_SIZE);
-            //drawer.setOverLayVisible(true);
-
-            drawer.setResizableOnDrag(true);
-            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-            task.setRate(task.getRate() * -1);
-
-            this.initializeHamburger(task, hamburger, drawer);
 
         } catch (IOException e) {
-            //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            e.printStackTrace();
         }
+        initializeHamburger(myPane, hamburger, drawer);
+        drawer.setVisible( false );
 
         stackPane = new StackPane();
         ObservableList<PieChart.Data> pieChartData = createData();

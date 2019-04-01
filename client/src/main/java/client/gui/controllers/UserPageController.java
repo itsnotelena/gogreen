@@ -4,6 +4,7 @@ import client.gui.tools.AbstractController;
 import client.services.BadgeService;
 import client.services.UserService;
 import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
@@ -40,7 +41,7 @@ public class UserPageController extends AbstractController implements Initializa
     JFXHamburger hamburger;
 
     @FXML
-    JFXDrawer drawer;
+    JFXDrawersStack drawer;
 
     @FXML
     private ImageView veg1;
@@ -149,20 +150,16 @@ public class UserPageController extends AbstractController implements Initializa
                     {local1, local2, local3},
                     {bike1, bike2, bike3}, {public1, public2, public3},
                     {solar1, solar2, solar3}, {temp1, temp2, temp3}};
-            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
-            drawer.setSidePane(myPane);
-            drawer.setDefaultDrawerSize(DRAWER_SIZE);
 
-            drawer.setResizableOnDrag(true);
-            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-            task.setRate(task.getRate() * -1);
+                myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
 
-            this.initializeHamburger(task, hamburger, drawer);
             initBadges();
             getBadges();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        initializeHamburger(myPane, hamburger, drawer);
+        drawer.setVisible( false );
         username.setText(userService.getUser().getUsername());
         email.setText(userService.getUser().getEmail());
 

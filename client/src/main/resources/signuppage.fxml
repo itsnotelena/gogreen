@@ -9,19 +9,19 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.SignUpController">
-        <ImageView fitHeight="100.0" fitWidth="172.0" layoutX="250.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
-                <Image url="@images/logo.png" />
-        </ImageView>
-   <JFXTextField fx:id="username" layoutX="200.0" layoutY="120.0" prefHeight="27.0" prefWidth="200.0" promptText="Username" />
-    <JFXPasswordField fx:id="password" layoutX="200.0" layoutY="170.0" prefHeight="27.0" prefWidth="200.0" promptText="Password" />
-    <JFXPasswordField fx:id="repeatPassword" layoutX="200.0" layoutY="220.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm password" />
-   <JFXTextField fx:id="email" layoutX="200.0" layoutY="290.0" prefHeight="34.0" prefWidth="200.0" promptText="E-mail" />
-   <JFXTextField fx:id="confirmemail" layoutX="200.0" layoutY="340.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm E-mail" />
-   <JFXRadioButton fx:id="man" layoutX="200.0" layoutY="265.0" text="Man" />
-   <JFXRadioButton fx:id="woman" layoutX="262.0" layoutY="265.0" text="Woman" />
-   <JFXRadioButton fx:id="other" layoutX="339.0" layoutY="265.0" text="Other" />
-    <JFXButton fx:id="signUpButton" layoutX="200.0" layoutY="380.0" onAction="#doSignUp" prefHeight="27.0" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Sign up!" />
-    <JFXButton fx:id="returnButton" layoutX="332.0" layoutY="380.0" onAction="#goToLogin" prefHeight="27.0" prefWidth="72.0" style="-fx-background-color: #2196F3;" text="Return" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.SignUpController">
+    <ImageView fitHeight="87.0" fitWidth="93.0" layoutX="250.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+        <Image url="@images/logo.png" />
+    </ImageView>
+    <JFXTextField fx:id="username" layoutX="199.0" layoutY="101.0" prefHeight="27.0" prefWidth="200.0" promptText="Username" />
+    <JFXPasswordField fx:id="password" layoutX="199.0" layoutY="154.0" prefHeight="27.0" prefWidth="200.0" promptText="Password" />
+    <JFXPasswordField fx:id="repeatPassword" layoutX="200.0" layoutY="206.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm password" />
+    <JFXTextField fx:id="email" layoutX="200.0" layoutY="299.0" prefHeight="34.0" prefWidth="200.0" promptText="E-mail" />
+    <JFXTextField fx:id="confirmemail" layoutX="200.0" layoutY="346.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm E-mail" />
+    <JFXRadioButton fx:id="man" layoutX="188.0" layoutY="265.0" text="Man" />
+    <JFXRadioButton fx:id="woman" layoutX="262.0" layoutY="265.0" text="Woman" />
+    <JFXRadioButton fx:id="other" layoutX="349.0" layoutY="265.0" text="Other" />
+    <JFXButton fx:id="signUpButton" layoutX="199.0" layoutY="397.0" onAction="#doSignUp" prefHeight="34.0" prefWidth="83.0" style="-fx-background-color: #73C2FB;" text="Sign up!" />
+    <JFXButton fx:id="returnButton" layoutX="331.0" layoutY="397.0" onAction="#goToLogin" prefHeight="34.0" prefWidth="83.0" style="-fx-background-color: #73C2FB;" text="Return" />
     <Label fx:id="validpass" layoutX="215.0" layoutY="410.0" textFill="#e82121" />
 </AnchorPane>

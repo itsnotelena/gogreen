@@ -1,15 +1,9 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.DRAWER_SIZE;
-import static client.gui.tools.SceneNames.TOOLBAR;
-
 import client.gui.tools.AbstractController;
 import client.services.UserService;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXNodesList;
-import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+import com.jfoenix.controls.*;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,18 +22,20 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
+import static client.gui.tools.SceneNames.TOOLBAR;
+
 @Component
 public class DiscoverPeopleController extends AbstractController implements Initializable {
 
     @FXML
-    Pane myPane;
+    private Pane myPane;
 
     @FXML
-    JFXHamburger hamburger;
+    private JFXHamburger hamburger;
 
     @FXML
-    JFXDrawer drawer;
-
+    private JFXDrawersStack drawer;
 
     @FXML
     private JFXNodesList friendsList;
@@ -125,16 +121,9 @@ public class DiscoverPeopleController extends AbstractController implements Init
         rankingList.setSpacing(2);
 
         try {
-            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
-            drawer.setSidePane(myPane);
-            drawer.setDefaultDrawerSize(DRAWER_SIZE);
-            //drawer.setOverLayVisible(true);
+                myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ));
 
-            drawer.setResizableOnDrag(true);
-            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-            task.setRate(task.getRate() * -1);
 
-            this.initializeHamburger(task, hamburger, drawer);
 
             infolabel.setText("Global Leaderboard");
             System.out.println("global leaderboard message printed");
@@ -148,6 +137,8 @@ public class DiscoverPeopleController extends AbstractController implements Init
         } catch (IOException e) {
             e.printStackTrace();
         }
+        initializeHamburger( myPane, hamburger, drawer);
+        drawer.setVisible(false);
 
 
     }
