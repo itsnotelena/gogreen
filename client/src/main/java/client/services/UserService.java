@@ -14,6 +14,7 @@ import shared.models.Log;
 import shared.models.SolarState;
 import shared.models.User;
 
+import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -204,6 +205,21 @@ public class UserService {
         return followlist;
     }
 
+    /**
+     * Returns the current user.
+     * @return The user.
+     */
+    public User getUser() {
+        return restTemplate.getForObject(UserEndpoints.USER_INFO, User.class);
+    }
+
+    /**
+     * Sends a request to change the user's password.
+     * @param password The new password value.
+     */
+    public void setPassword(String password) {
+        restTemplate.postForObject(UserEndpoints.CHANGE_PASS, password, User.class);
+    }
 
 }
 

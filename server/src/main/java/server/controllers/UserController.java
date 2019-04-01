@@ -72,6 +72,32 @@ public class UserController {
     }
 
     /**
+     * Returns the current user.
+     * @param authentication Identifies user.
+     * @return The current user.
+     */
+    @GetMapping(value = UserEndpoints.USER_INFO)
+    public User getUserInfo(Authentication authentication) {
+        return repository.findUserByUsername(authentication.getName());
+    }
+
+    /**
+     * Sets a new password for the given user.
+     * @param password The new password.
+     * @param authentication Identifies user.
+     * @return User.
+     */
+    @PostMapping(value = UserEndpoints.CHANGE_PASS)
+    public User changePassword(String password, Authentication authentication) {
+        User user = repository.findUserByUsername(authentication.getName());
+        user.setPassword(hashPassword(password));
+        System.out.println(user.getPassword());
+        repository.save(user);
+        user.setPassword("");
+        return user;
+    }
+
+    /**
      * The method returns how many points a user has according to the logs.
      *
      * @param authentication Takes a user by which the log repository is sorted.
@@ -131,10 +157,9 @@ public class UserController {
 
     /**
      * Returns the state of the solar panels.
-     *
-     * @param authentication authentication details pof the user
-     * @return an array representing a pair of the state of the button
-     *         and the amount of points gathered by the solar panels.
+     * @param authentication Authentication details of the useer
+     * @return An array representing a pair of the state of the button
+     *          and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
@@ -239,3 +264,4 @@ public class UserController {
     }
 
 }
+
