@@ -192,16 +192,16 @@ public class UserService {
      * Creates a view of the 'following' set.
      * @return that set.
      */
-    public Set<User> viewFollowList() {
-        ResponseEntity<Set<User>> response =
+    public List<User> viewFollowList() {
+        ResponseEntity<List<User>> response =
                 restTemplate.exchange(
                         UserEndpoints.FOLLOWLIST,
                         HttpMethod.GET,
                         null,
-                        new ParameterizedTypeReference<Set<User>>() {
+                        new ParameterizedTypeReference<List<User>>() {
                         });
 
-        Set<User> followlist = response.getBody();
+        List<User> followlist = response.getBody();
         return followlist;
     }
 

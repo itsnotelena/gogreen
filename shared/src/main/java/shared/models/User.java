@@ -77,7 +77,8 @@ public class User implements Serializable {
         if (this.email.isEmpty()) {
             return false;
         }
-        return this.email.matches(".*@.*");
+        //RFC 5322 regex for character permission in the email
+        return this.email.matches("^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$");
     }
 
 }

@@ -12,12 +12,19 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import server.repositories.UserRepository;
+import shared.endpoints.UserEndpoints;
 import shared.models.User;
+
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
@@ -30,8 +37,11 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mvc;
     private User testUser = new User();
+    private User followUser = new User();
 
     private String UString;
+    private String FString;
+    private String authorization;
 
     @Before
     public void setup() {
@@ -41,8 +51,15 @@ public class UserControllerTest {
         testUser.setUsername(username);
         testUser.setPassword("test");
         testUser.setEmail("test@test");
+        String followUsername = "follow";
+        followUser.setUsername(followUsername);
+        followUser.setPassword("follow");
+        followUser.setEmail("follow@follow");
+
         UString = "{\"username\": \"" + testUser.getUsername() + "\", \"password\": \"" + testUser.getPassword()
-                + "\", \"email\": \"" + testUser.getEmail() +"\"}";
+                + "\", \"email\": \"" + testUser.getEmail() + "\"}";
+        FString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword()
+                + "\", \"email\": \"" + followUser.getEmail() + "\"}";
 
         // Remove the test user if it exists
         User toDelete = userRepository.findUserByUsername(username);

@@ -257,10 +257,12 @@ public class UserController {
      * @return The set of the followed users.
      */
     @GetMapping(value = UserEndpoints.FOLLOWLIST)
-    public Set<User> viewFollowList(Authentication authentication) {
+    public List<User> viewFollowList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         Set<User> friends = user.getFollowing();
-        return friends;
+        List<User> list = new ArrayList<>();
+        list.addAll(friends);
+        return list;
     }
 
 }

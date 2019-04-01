@@ -86,11 +86,14 @@ public class DiscoverPeopleController extends AbstractController implements Init
     @FXML
     private ListView leaderboard;
 
+    @FXML
+    private ListView followView;
+
     private UserService service;
 
     private List<User> leaderlist;
 
-    private Set<User> followlist;
+    private List<User> followlist;
 
     private List<User> searchlist;
 
@@ -144,7 +147,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
                             new Label("Username: " + e.getUsername()
                                     + " Email: " + e.getEmail() + " Points: "
                                     + service.getFollowingPoints(e.getUsername()))));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -155,6 +157,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
     @FXML
     private void getLeaderBoard() {
         selectULabel.setVisible(false);
+        leaderboard.setVisible(true);
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
         infolabel.setText("Global Leaderboard");
@@ -167,11 +170,13 @@ public class DiscoverPeopleController extends AbstractController implements Init
     @FXML
     private void getFollowList() {
         selectULabel.setVisible(false);
+        leaderboard.setVisible(false);
+        followView.setVisible(true);
         this.followlist = this.service.viewFollowList();
         this.infolabel.setText("Following");
-        this.leaderboard.getItems().clear();
+        this.followView.getItems().clear();
         this.followlist.forEach(e ->
-                this.leaderboard.getItems().add(new Label("Username: " + e.getUsername()
+                this.followView.getItems().add(new Label("Username: " + e.getUsername()
                         + " Email: " + e.getEmail() + " Points: "
                         + service.getFollowingPoints(e.getUsername()))));
     }
@@ -179,6 +184,8 @@ public class DiscoverPeopleController extends AbstractController implements Init
     @FXML
     private void search() {
         selectULabel.setVisible(false);
+        followView.setVisible(false);
+        leaderboard.setVisible(true);
         if (!this.searchfield.getText().isBlank()) {
             errorlabel.setVisible(false);
             this.searchlist = this.service.search(this.searchfield.getText());
@@ -211,14 +218,14 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     @FXML
     private void removeFollow() {
-        if (this.leaderboard.getSelectionModel().getSelectedIndex() != -1) {
-            this.service.removeFollow(this.leaderlist.get(
-                    this.leaderboard.getSelectionModel().getSelectedIndex()));
+        if (this.followView.getSelectionModel().getSelectedIndex() != -1) {
+            System.out.println(this.followView.getSelectionModel().getSelectedIndex());
+            this.service.removeFollow(this.followlist.get(
+                    this.followView.getSelectionModel().getSelectedIndex()));
+            System.out.println(this.leaderboard.getSelectionModel().getSelectedIndex());
         } else {
             selectULabel.setVisible(true);
         }
     }
-
-
 }
 
