@@ -54,22 +54,25 @@ public class AbstractController {
     }
 
     /**
-     * The method initializes the slide-out menu.
-     * @param task Transition of the "hamburger" to open/close menu.
-     * @param hamburger To open/close menu.
-     * @param drawer The panel in which the menu resides.
+     * The method displays the toolbar
+     * @param myPane
+     * @param hamburger
+     * @param drawer
      */
-    protected void initializeHamburger(HamburgerSlideCloseTransition task,
-                                       JFXHamburger hamburger, JFXDrawer drawer) {
-        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+    protected void initializeHamburger(Pane myPane,
+                                       JFXHamburger hamburger, JFXDrawersStack drawer) {
+        drawer.setContent(myPane);
+        HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+        task.setRate( -1 );
 
-            task.setRate(task.getRate() * -1);
+        hamburger.addEventHandler( MouseEvent.MOUSE_CLICKED, e -> {
+            task.setRate(task.getRate() * -1 );
             task.play();
 
-            if (drawer.isOpened()) {
-                drawer.close();
+            if (drawer.isVisible()) {
+                drawer.setVisible(false);
             } else {
-                drawer.open();
+                drawer.setVisible(true);
             }
         });
     }
