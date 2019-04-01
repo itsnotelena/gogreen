@@ -59,7 +59,6 @@ public class UserController {
         }
 
 
-
         user.setPassword(""); // Don't leak the (even the hashed) password
         try {
             System.out.println(new ObjectMapper().writeValueAsString(user));
@@ -71,6 +70,7 @@ public class UserController {
 
     /**
      * Returns the current user.
+     *
      * @param authentication Identifies user.
      * @return The current user.
      */
@@ -81,7 +81,8 @@ public class UserController {
 
     /**
      * Sets a new password for the given user.
-     * @param password The new password.
+     *
+     * @param password       The new password.
      * @param authentication Identifies user.
      * @return User.
      */
@@ -111,6 +112,7 @@ public class UserController {
 
     /**
      * Calculates leader board points.
+     *
      * @param username Takes a username of leader board.
      * @return Points of that user.
      */
@@ -123,6 +125,7 @@ public class UserController {
 
     /**
      * Method to be used to calculate points by username.
+     *
      * @param user For calculating user's points.
      * @return Points.
      */
@@ -155,9 +158,10 @@ public class UserController {
 
     /**
      * Returns the state of the solar panels.
+     *
      * @param authentication Authentication details of the useer
      * @return An array representing a pair of the state of the button
-     *          and the amount of points gathered by the solar panels.
+     *      and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
@@ -188,16 +192,21 @@ public class UserController {
 
     /**
      * Returns a list of all users.
+     *
      * @return Lists of users.
      */
     @GetMapping(value = UserEndpoints.LEADERBOARD)
     public List<User> getLeaderBoard() {
         List<User> user = repository.findAll();
+        for (User withPassword : user) {
+            withPassword.setPassword("");
+        }
         return user;
     }
 
     /**
      * Searches for users.
+     *
      * @param username Takes a string to be searched in the user repo.
      * @return List with matching usernames.
      */
@@ -207,6 +216,7 @@ public class UserController {
         List<User> usersToReturn = new ArrayList<>();
         for (User user : users) {
             if (user.getUsername().startsWith(username)) {
+                user.setPassword("");
                 usersToReturn.add(user);
             }
         }
@@ -218,7 +228,8 @@ public class UserController {
 
     /**
      * Adds the provided user to the current user's following set.
-     * @param username Username of the User to add.
+     *
+     * @param username       Username of the User to add.
      * @param authentication Of the current user.
      * @return The added User.
      */
@@ -231,12 +242,14 @@ public class UserController {
             current.getFollowing().add(user);
             repository.save(current);
         }
+        user.setPassword("");
         return user;
     }
 
     /**
      * Removes user from 'following' set.
-     * @param user To be removed.
+     *
+     * @param user           To be removed.
      * @param authentication The user who is unfollowing.
      * @return The unfollowed user.
      */
@@ -246,11 +259,13 @@ public class UserController {
         current.getFollowing().remove(user);
         repository.save(current);
         System.out.println(current.getFollowing().toArray().toString());
+        user.setPassword("");
         return user;
     }
 
     /**
      * Returns a set of the 'following'.
+     *
      * @param authentication The user whose set is returned.
      * @return The set of the followed users.
      */
@@ -258,11 +273,15 @@ public class UserController {
     public Set<User> viewFollowList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         Set<User> friends = user.getFollowing();
+        for (User withPassword : friends) {
+            withPassword.setPassword("");
+        }
         return friends;
     }
 
     /**
      * Returns the amount of points earned today by the user making the request.
+     *
      * @param authentication identifies the user making the request
      * @return the amount of points earned today
      */
@@ -279,4 +298,3 @@ public class UserController {
     }
 
 }
-
