@@ -216,15 +216,31 @@ public class MainController extends AbstractController implements Initializable 
             int points = this.service.getPointsToday();
             this.pointsContainer.setText("Points\nearned\ntoday\n" + points);
             this.stackPane.getChildren().remove(pointsContainer);
-            this.logs = this.service.getLog();
-            this.loglist.getItems().clear();
-            this.logs.forEach(e -> this.loglist.getItems().add(0, new
-                    Label(e.getAction() + " " + e.getDate())));
+            this.createLogList();
             this.updateChart();
             this.stackPane.getChildren().add(pointsContainer);
         }
     }
 
+    private void createLogList() {
+        this.logs = this.service.getLog();
+        this.loglist.getItems().clear();
+
+        int parity = 0;
+        for (Log log : logs) {
+            if (log.getAction().equals(Action.SOLAR)) {
+                if (parity % 2 == 1) {
+                    this.loglist.getItems().add(0, new Label("You removed your solar panels on "
+                            + log.getDate()));
+                }
+                parity++;
+            }
+            this.loglist.getItems().add(0, new Label("You " + log.getAction().historyString() + " on "
+                    + log.getDate()));
+        }
+//        this.logs.forEach(e -> this.loglist.getItems().add(0, new
+//                Label(e.getAction() + " " + e.getDate())));
+    }
 
     //TODO: Add MOUSE_CLICKED request for buttons that sends a JSON request.
     private void addEventHandlers(JFXButton vegbtn, Label vegLabel,
