@@ -11,10 +11,10 @@
 }
 
 .animated-option-button-sub{
-        -fx-pref-width: 180px;
-        -fx-background-color: transparent;
+        -fx-pref-width: 75px;
+        -fx-background-color:#b3f4b2;
         -fx-background-radius: 0px;
-        -fx-pref-height:35px;
+        -fx-pref-height:45px;
         -fx-text-fill:#33a531;
         -fx-border-color:#33a531;
         -fx-border-radius:0px;

@@ -140,7 +140,7 @@ public class UserController {
                 points = points + log.getPoints();
             }
         }
-        return points;
+        return points + getStateSolar(user.getUsername()).getPoints();
     }
 
 
@@ -165,10 +165,16 @@ public class UserController {
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
+        return getStateSolar(authentication.getName());
+    }
+
+    private SolarState getStateSolar(String username) {
+        User user = repository.findUserByUsername(username);
+        List<Log> list = logRepository.findByUser(user);
         int points = 0;
         int total = 0;
         Log lastLog = null;
-        for (Log log : getLogs(authentication)) {
+        for (Log log : list) {
             if (log.getAction().equals(Action.SOLAR)) {
                 total++;
                 if (total % 2 == 1) {
