@@ -14,7 +14,6 @@ import shared.models.Log;
 import shared.models.SolarState;
 import shared.models.User;
 
-import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
