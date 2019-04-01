@@ -195,8 +195,9 @@ public class MainController extends AbstractController implements Initializable 
         vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.VEGETARIAN));
         bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.BIKE));
         tempbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            energyList.animateList();
-            tempList.animateList();
+            buttonPressed(Action.TEMP);
+//            energyList.animateList();
+//            tempList.animateList();
         });
         publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.PUBLIC));
         localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.LOCAL));
