@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import shared.endpoints.UserEndpoints;
+import shared.models.Action;
 import shared.models.Log;
 import shared.models.User;
 
@@ -42,7 +43,7 @@ public class TestLogService {
     @Test
     public void testCreateLog() {
         Log log = new Log();
-
+        log.setAction(Action.VEGETARIAN);
         mockServer.expect(requestTo(url + UserEndpoints.LOGS))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withNoContent());

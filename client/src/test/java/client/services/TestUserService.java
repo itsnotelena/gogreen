@@ -122,7 +122,7 @@ public class TestUserService {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(response));
 
-        userService.madeAction(Action.VEGETARIAN);
+        userService.madeAction(Action.VEGETARIAN,1);
 
         mockServer.verify();
     }

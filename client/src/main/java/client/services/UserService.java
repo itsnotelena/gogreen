@@ -79,10 +79,13 @@ public class UserService {
     /**
      * Methods logs to the database that the user has eaten a vegetarian meal.
      */
-    public void madeAction(Action action) {
+    public void madeAction(Action action, int amount) {
         Log req = new Log();
         req.setAction(action);
         req.setDate(LocalDate.now());
+        if (action.equals(Action.TEMP)) {
+            req.setAmount(amount);
+        }
         restTemplate.postForObject(UserEndpoints.LOGS, req, Log.class);
         System.out.println("Successfully added a log to the table");
     }
@@ -201,6 +204,10 @@ public class UserService {
 
         Set<User> followlist = response.getBody();
         return followlist;
+    }
+
+    public int getPointsToday() {
+        return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
     }
 
     /**
