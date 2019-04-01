@@ -4,7 +4,6 @@ import static client.gui.tools.SceneNames.FOLLOWERS;
 import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.MAIN;
 import static client.gui.tools.SceneNames.PERSONAL;
-import static client.gui.tools.SceneNames.SETTINGS;
 
 import client.gui.tools.AbstractController;
 import com.jfoenix.controls.JFXButton;
@@ -45,14 +44,6 @@ public class ToolBarController extends AbstractController {
      */
     public void goToMain() throws IOException {
         goToLarge(myPane, MAIN);
-    }
-
-    /**
-     * Goes to settings Page.
-     * @throws IOException Throws Exception when main page can't be found.
-     */
-    public void goToSettings() throws IOException {
-        goToLarge(myPane, SETTINGS);
     }
 
     /**
