@@ -189,34 +189,40 @@ public class MainController extends AbstractController implements Initializable 
 
 
         solarbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            buttonPressed(Action.SOLAR,1);
+            buttonPressed(Action.SOLAR, 1);
             toggleButton(solarbtn);
         });
-        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.VEGETARIAN,1));
-        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.BIKE,1));
+        vegbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+                buttonPressed(Action.VEGETARIAN, 1));
+        bikebtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+                buttonPressed(Action.BIKE, 1));
         tempbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             energyList.animateList();
             tempList.animateList();
         });
-        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.PUBLIC,1));
-        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buttonPressed(Action.LOCAL, 1));
+        publicbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+                buttonPressed(Action.PUBLIC, 1));
+        localbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
+                buttonPressed(Action.LOCAL, 1));
         summerBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
-                buttonPressed(Action.TEMP, (int)tempSliderSummer.getValue()));
+                buttonPressed(Action.TEMP, (int) tempSliderSummer.getValue()));
         winterBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
-                buttonPressed(Action.TEMP, (int)tempSliderWinter.getValue()));
+                buttonPressed(Action.TEMP, (int) tempSliderWinter.getValue()));
     }
 
     private void buttonPressed(Action action, int amount) {
-        this.service.madeAction(action, amount);
-        int points = this.service.getPointsToday();
-        this.pointsContainer.setText("Points\nearned\ntoday\n" + points);
-        this.stackPane.getChildren().remove(pointsContainer);
-        this.logs = this.service.getLog();
-        this.loglist.getItems().clear();
-        this.logs.forEach(e -> this.loglist.getItems().add(0, new
-                Label(e.getAction() + " " + e.getDate())));
-        this.updateChart();
-        this.stackPane.getChildren().add(pointsContainer);
+        if (amount != 0) {
+            this.service.madeAction(action, amount);
+            int points = this.service.getPointsToday();
+            this.pointsContainer.setText("Points\nearned\ntoday\n" + points);
+            this.stackPane.getChildren().remove(pointsContainer);
+            this.logs = this.service.getLog();
+            this.loglist.getItems().clear();
+            this.logs.forEach(e -> this.loglist.getItems().add(0, new
+                    Label(e.getAction() + " " + e.getDate())));
+            this.updateChart();
+            this.stackPane.getChildren().add(pointsContainer);
+        }
     }
 
 

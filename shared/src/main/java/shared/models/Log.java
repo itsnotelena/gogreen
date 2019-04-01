@@ -1,6 +1,5 @@
 package shared.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,7 +38,6 @@ public class Log implements Serializable {
     @Column
     private LocalDate date;
 
-//    @JsonIgnore
     public int getPoints() {
         return action.getPoints() * amount;
     }
