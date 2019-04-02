@@ -135,10 +135,10 @@ public class UserController {
         }
         for (Log log : list) {
             if (!log.getAction().equals(Action.SOLAR)) {
-                points = points + log.getAction().getPoints();
+                points = points + log.getPoints();
             }
         }
-        return points;
+        return points  + getStateSolar(user.getUsername()).getPoints();
     }
 
 
@@ -241,8 +241,8 @@ public class UserController {
     public User addFollow(@RequestBody String username, Authentication authentication) {
         User current = repository.findUserByUsername(authentication.getName());
         User user = repository.findUserByUsername(username);
-        if (!current.getUsername().equals(user.getUsername())&& !current.getFollowing().contains(user)) {
-
+        if (!current.getUsername().equals(user.getUsername())
+                && !current.getFollowing().contains(user)) {
             current.getFollowing().add(user);
             repository.save(current);
         }
