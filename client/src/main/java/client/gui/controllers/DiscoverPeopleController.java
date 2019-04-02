@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.User;
@@ -26,7 +27,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 @Component
 public class DiscoverPeopleController extends AbstractController implements Initializable {
@@ -140,13 +140,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
             this.initializeHamburger(task, hamburger, drawer);
 
             infolabel.setText("Global Leaderboard");
-            System.out.println("global leaderboard message printed");
-            this.leaderlist = this.service.getLeaderBoard();
-            this.leaderlist.forEach(e ->
-                    this.leaderboard.getItems().add(
-                            new Label("Username: " + e.getUsername()
-                                    + " Email: " + e.getEmail() + " Points: "
-                                    + service.getFollowingPoints(e.getUsername()))));
+            getLeaderBoard();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -161,10 +155,17 @@ public class DiscoverPeopleController extends AbstractController implements Init
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
         infolabel.setText("Global Leaderboard");
-        this.leaderlist.forEach(e -> this.leaderboard.getItems().add(new Label(
-                "Username: " + e.getUsername() + " Email: " + e.getEmail()
-                        + " Points: " + service.getFollowingPoints(e.getUsername())
-        )));
+        this.leaderlist.forEach(e -> this.leaderboard.getItems().add(getUserLabel(e)));
+    }
+
+    private Label getUserLabel(User user) {
+        Label result = new Label(
+                "Username: " + user.getUsername() + " Email: " + user.getEmail()
+                        + " Points: " + service.getFollowingPoints(user.getUsername()));
+        if (user.getUsername().equals(this.service.getUser().getUsername())) {
+            result.setTextFill(Color.rgb(18, 214, 8));
+        }
+        return result;
     }
 
     @FXML
@@ -176,9 +177,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
         this.infolabel.setText("Following");
         this.followView.getItems().clear();
         this.followlist.forEach(e ->
-                this.followView.getItems().add(new Label("Username: " + e.getUsername()
-                        + " Email: " + e.getEmail() + " Points: "
-                        + service.getFollowingPoints(e.getUsername()))));
+                this.followView.getItems().add(getUserLabel(e)));
     }
 
     @FXML
@@ -194,9 +193,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
             if (!searchlist.isEmpty()) {
                 noUserLabel.setVisible(false);
                 this.searchlist.forEach(e ->
-                        this.leaderboard.getItems().add(new Label("Username: " + e.getUsername()
-                                + " Email: " + e.getEmail() + " Points: "
-                                + service.getFollowingPoints(e.getUsername()))));
+                        this.leaderboard.getItems().add(getUserLabel(e)));
             } else {
                 noUserLabel.setVisible(true);
             }
@@ -219,10 +216,9 @@ public class DiscoverPeopleController extends AbstractController implements Init
     @FXML
     private void removeFollow() {
         if (this.followView.getSelectionModel().getSelectedIndex() != -1) {
-            System.out.println(this.followView.getSelectionModel().getSelectedIndex());
             this.service.removeFollow(this.followlist.get(
                     this.followView.getSelectionModel().getSelectedIndex()));
-            System.out.println(this.leaderboard.getSelectionModel().getSelectedIndex());
+            getFollowList();
         } else {
             selectULabel.setVisible(true);
         }

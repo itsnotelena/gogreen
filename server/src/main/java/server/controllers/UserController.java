@@ -24,7 +24,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -81,7 +80,8 @@ public class UserController {
 
     /**
      * Sets a new password for the given user.
-     * @param password The new password.
+     *
+     * @param password       The new password.
      * @param authentication Identifies user.
      * @return User.
      */
@@ -118,16 +118,16 @@ public class UserController {
     @PostMapping(value = UserEndpoints.GETOTHERUSERPOINTS)
     public int getOtherPoints(@RequestBody String username) {
         User user = repository.findUserByUsername(username);
-        int points = calcPoints(user);
-        return points;
+        return calcPoints(user);
     }
 
     /**
      * Method to be used to calculate points by username.
+     *
      * @param user For calculating user's points.
      * @return Points.
      */
-    public int calcPoints(User user) {
+    private int calcPoints(User user) {
         int points = 0;
         List<Log> list = logRepository.findByUser(user);
         if (list == null) {
@@ -159,7 +159,7 @@ public class UserController {
      *
      * @param authentication Authentication details of the useer
      * @return An array representing a pair of the state of the button
-     *      and the amount of points gathered by the solar panels.
+     * and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
@@ -233,7 +233,7 @@ public class UserController {
     /**
      * Adds the provided user to the current user's following set.
      *
-     * @param username Username of the User to add.
+     * @param username       Username of the User to add.
      * @param authentication Of the current user.
      * @return The added User.
      */
@@ -253,7 +253,7 @@ public class UserController {
     /**
      * Removes user from 'following' set.
      *
-     * @param user To be removed.
+     * @param user           To be removed.
      * @param authentication The user who is unfollowing.
      * @return The unfollowed user.
      */
@@ -276,9 +276,7 @@ public class UserController {
     @GetMapping(value = UserEndpoints.FOLLOWLIST)
     public List<User> viewFollowList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
-        Set<User> friends = user.getFollowing();
-        List<User> list = new ArrayList<>();
-        list.addAll(friends);
+        List<User> list = user.getFollowing();
         for (User withPassword : list) {
             withPassword.setPassword("");
         }
@@ -303,3 +301,4 @@ public class UserController {
         return points;
     }
 
+}

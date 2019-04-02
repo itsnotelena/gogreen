@@ -7,8 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +51,7 @@ public class User implements Serializable {
 
     @JsonIgnore
     @ManyToMany
-    private Set<User> following;
+    private List<User> following;
 
     @Override
     public boolean equals(Object other) {
