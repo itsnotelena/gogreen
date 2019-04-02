@@ -241,7 +241,7 @@ public class UserController {
     public User addFollow(@RequestBody String username, Authentication authentication) {
         User current = repository.findUserByUsername(authentication.getName());
         User user = repository.findUserByUsername(username);
-        if (!current.getUsername().equals(user.getUsername())) {
+        if (!current.getUsername().equals(user.getUsername())&& !current.getFollowing().contains(user)) {
 
             current.getFollowing().add(user);
             repository.save(current);

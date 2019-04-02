@@ -152,6 +152,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private void getLeaderBoard() {
         selectULabel.setVisible(false);
         leaderboard.setVisible(true);
+        followView.setVisible(false);
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
         infolabel.setText("Global Leaderboard");
@@ -164,6 +165,9 @@ public class DiscoverPeopleController extends AbstractController implements Init
                         + " Points: " + service.getFollowingPoints(user.getUsername()));
         if (user.getUsername().equals(this.service.getUser().getUsername())) {
             result.setTextFill(Color.rgb(18, 214, 8));
+        }
+        if (this.service.viewFollowList().contains(user)) {
+            result.setTextFill(Color.rgb(239, 150, 16));
         }
         return result;
     }
@@ -183,7 +187,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
     @FXML
     private void search() {
         selectULabel.setVisible(false);
-        followView.setVisible(false);
         leaderboard.setVisible(true);
         if (!this.searchfield.getText().isBlank()) {
             errorlabel.setVisible(false);
@@ -208,6 +211,11 @@ public class DiscoverPeopleController extends AbstractController implements Init
         if (this.leaderboard.getSelectionModel().getSelectedIndex() != -1) {
             this.service.addFollow(this.leaderlist.get(
                     this.leaderboard.getSelectionModel().getSelectedIndex()));
+            if (this.followView.isVisible()) {
+                getFollowList();
+            } else {
+                getLeaderBoard();
+            }
         } else {
             selectULabel.setVisible(true);
         }
@@ -218,7 +226,11 @@ public class DiscoverPeopleController extends AbstractController implements Init
         if (this.followView.getSelectionModel().getSelectedIndex() != -1) {
             this.service.removeFollow(this.followlist.get(
                     this.followView.getSelectionModel().getSelectedIndex()));
-            getFollowList();
+            if (this.followView.isVisible()) {
+                getFollowList();
+            } else {
+                getLeaderBoard();
+            }
         } else {
             selectULabel.setVisible(true);
         }
