@@ -1,7 +1,5 @@
 package server.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -60,11 +58,6 @@ public class UserController {
 
 
         user.setPassword(""); // Don't leak the (even the hashed) password
-        try {
-            System.out.println(new ObjectMapper().writeValueAsString(user));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
         return user;
     }
 

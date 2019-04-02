@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import server.repositories.UserRepository;
+import shared.endpoints.UserEndpoints;
 import shared.models.User;
 
 
@@ -113,6 +114,22 @@ public class UserControllerTest {
                 .getResponse().getStatus();
 
         Assert.assertEquals(HttpStatus.CONFLICT.value(), conflict);
+    }
+
+    @Test
+    public void invalidEmailSignUp() throws Exception{
+        User toRegister = new User();
+        toRegister.setUsername("toRegister");
+        toRegister.setPassword("pass");
+        toRegister.setEmail("invalid");
+        String request = new ObjectMapper().writeValueAsString(toRegister);
+
+        int response = this.mvc.perform(post(UserEndpoints.SIGNUP)
+                .contentType(MediaType.APPLICATION_JSON).content(request))
+                .andExpect(status().isConflict())
+                .andReturn().getResponse().getStatus();
+
+        Assert.assertEquals(HttpStatus.CONFLICT.value(), response);
     }
 
     @After
