@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSlider?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -95,6 +96,26 @@
     <VBox fx:id="nodeListContainer" alignment="TOP_CENTER" layoutY="250.0" prefHeight="0.0" prefWidth="0.0" AnchorPane.rightAnchor="150.0">
    </VBox>
     <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
-    <Text fx:id="pointsContainer" layoutX="750.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="67.73681640625" />
+    <Text fx:id="pointsContainer" layoutX="750.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="105.59999937191606" />
     <JFXListView fx:id="loglist" layoutX="645.0" layoutY="350.0" prefHeight="250.0" prefWidth="250.0" />
+   <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
+      <children>
+         <JFXButton fx:id="winterBtn" styleClass="animated-option-button-sub" text="Reduce Heating" textAlignment="CENTER" wrapText="true">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </JFXButton>
+         <JFXSlider fx:id="tempSliderWinter" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+      </children>
+   </HBox>
+   <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
+      <children>
+         <JFXButton fx:id="summerBtn" styleClass="animated-option-button-sub" text="Reduce Climate Control" textAlignment="CENTER" wrapText="true">
+            <font>
+               <Font size="8.0" />
+            </font>
+         </JFXButton>
+         <JFXSlider fx:id="tempSliderSummer" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+      </children>
+   </HBox>
 </AnchorPane>

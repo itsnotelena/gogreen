@@ -22,11 +22,9 @@ import shared.models.User;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @AllArgsConstructor
@@ -61,7 +59,6 @@ public class UserController {
         }
 
 
-
         user.setPassword(""); // Don't leak the (even the hashed) password
         try {
             System.out.println(new ObjectMapper().writeValueAsString(user));
@@ -73,6 +70,7 @@ public class UserController {
 
     /**
      * Returns the current user.
+     *
      * @param authentication Identifies user.
      * @return The current user.
      */
@@ -113,6 +111,7 @@ public class UserController {
 
     /**
      * Calculates leader board points.
+     *
      * @param username Takes a username of leader board.
      * @return Points of that user.
      */
@@ -157,16 +156,23 @@ public class UserController {
 
     /**
      * Returns the state of the solar panels.
+     *
      * @param authentication Authentication details of the useer
      * @return An array representing a pair of the state of the button
-     *          and the amount of points gathered by the solar panels.
+     *      and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
+        return getStateSolar(authentication.getName());
+    }
+
+    private SolarState getStateSolar(String username) {
+        User user = repository.findUserByUsername(username);
+        List<Log> list = logRepository.findByUser(user);
         int points = 0;
         int total = 0;
         Log lastLog = null;
-        for (Log log : getLogs(authentication)) {
+        for (Log log : list) {
             if (log.getAction().equals(Action.SOLAR)) {
                 total++;
                 if (total % 2 == 1) {
@@ -190,16 +196,21 @@ public class UserController {
 
     /**
      * Returns a list of all users.
+     *
      * @return Lists of users.
      */
     @GetMapping(value = UserEndpoints.LEADERBOARD)
     public List<User> getLeaderBoard() {
         List<User> user = repository.findAll();
+        for (User withPassword : user) {
+            withPassword.setPassword("");
+        }
         return user;
     }
 
     /**
      * Searches for users.
+     *
      * @param username Takes a string to be searched in the user repo.
      * @return List with matching usernames.
      */
@@ -209,6 +220,7 @@ public class UserController {
         List<User> usersToReturn = new ArrayList<>();
         for (User user : users) {
             if (user.getUsername().startsWith(username)) {
+                user.setPassword("");
                 usersToReturn.add(user);
             }
         }
@@ -220,6 +232,7 @@ public class UserController {
 
     /**
      * Adds the provided user to the current user's following set.
+     *
      * @param username Username of the User to add.
      * @param authentication Of the current user.
      * @return The added User.
@@ -233,11 +246,13 @@ public class UserController {
             current.getFollowing().add(user);
             repository.save(current);
         }
+        user.setPassword("");
         return user;
     }
 
     /**
      * Removes user from 'following' set.
+     *
      * @param user To be removed.
      * @param authentication The user who is unfollowing.
      * @return The unfollowed user.
@@ -248,11 +263,13 @@ public class UserController {
         current.getFollowing().remove(user);
         repository.save(current);
         System.out.println(current.getFollowing().toArray().toString());
+        user.setPassword("");
         return user;
     }
 
     /**
      * Returns a set of the 'following'.
+     *
      * @param authentication The user whose set is returned.
      * @return The set of the followed users.
      */
@@ -262,8 +279,27 @@ public class UserController {
         Set<User> friends = user.getFollowing();
         List<User> list = new ArrayList<>();
         list.addAll(friends);
+        for (User withPassword : list) {
+            withPassword.setPassword("");
+        }
         return list;
     }
 
-}
+    /**
+     * Returns the amount of points earned today by the user making the request.
+     *
+     * @param authentication identifies the user making the request
+     * @return the amount of points earned today
+     */
+    @GetMapping(value = UserEndpoints.TODAYPROGRESS)
+    public int getPointsToday(Authentication authentication) {
+        int points = 0;
+        for (Log log : getLogs(authentication)) {
+            if (Period.between(log.getDate(), LocalDate.now()).getDays() == 0
+                    && !log.getAction().equals(Action.SOLAR)) {
+                points += log.getPoints();
+            }
+        }
+        return points;
+    }
 

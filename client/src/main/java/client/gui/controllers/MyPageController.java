@@ -1,5 +1,8 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
+import static client.gui.tools.SceneNames.TOOLBAR;
+
 import client.gui.tools.AbstractController;
 import client.services.BadgeService;
 import client.services.UserService;
@@ -20,9 +23,6 @@ import shared.models.Badge;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static client.gui.tools.SceneNames.DRAWER_SIZE;
-import static client.gui.tools.SceneNames.TOOLBAR;
 
 @Component
 public class MyPageController extends AbstractController implements Initializable {
@@ -145,10 +145,10 @@ public class MyPageController extends AbstractController implements Initializabl
         passPane.setVisible(false);
 
         try {
-            this.badges =  new ImageView[][] {{veg1, veg2, veg3},
-                {local1, local2, local3},
-                {bike1, bike2, bike3}, {public1, public2, public3},
-                {solar1, solar2, solar3}, {temp1, temp2, temp3}};
+            this.badges = new ImageView[][]{{veg1, veg2, veg3},
+                                            {local1, local2, local3},
+                                            {bike1, bike2, bike3}, {public1, public2, public3},
+                                            {solar1, solar2, solar3}, {temp1, temp2, temp3}};
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
             drawer.setSidePane(myPane);
             drawer.setDefaultDrawerSize(DRAWER_SIZE);
@@ -173,8 +173,12 @@ public class MyPageController extends AbstractController implements Initializabl
         passPane.setVisible(true);
     }
 
+
+    /**
+     * Sets password.
+     */
     @FXML
-    public  void setPass() {
+    public void setPass() {
         if (!passfield.getText().isEmpty()) {
             userService.setPassword(passfield.getText());
         }

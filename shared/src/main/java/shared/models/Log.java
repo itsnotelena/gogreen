@@ -33,5 +33,12 @@ public class Log implements Serializable {
     private Action action;
 
     @Column
+    private int amount = 1;
+
+    @Column
     private LocalDate date;
+
+    public int getPoints() {
+        return action.getPoints() * amount;
+    }
 }

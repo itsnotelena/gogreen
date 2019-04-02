@@ -14,10 +14,8 @@ import shared.models.Log;
 import shared.models.SolarState;
 import shared.models.User;
 
-import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -81,10 +79,13 @@ public class UserService {
     /**
      * Methods logs to the database that the user has eaten a vegetarian meal.
      */
-    public void madeAction(Action action) {
+    public void madeAction(Action action, int amount) {
         Log req = new Log();
         req.setAction(action);
         req.setDate(LocalDate.now());
+        if (action.equals(Action.TEMP)) {
+            req.setAmount(amount);
+        }
         restTemplate.postForObject(UserEndpoints.LOGS, req, Log.class);
         System.out.println("Successfully added a log to the table");
     }
@@ -203,6 +204,10 @@ public class UserService {
 
         List<User> followlist = response.getBody();
         return followlist;
+    }
+
+    public int getPointsToday() {
+        return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
     }
 
     /**
