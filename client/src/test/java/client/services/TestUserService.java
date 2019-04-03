@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
+import shared.models.SolarState;
 import shared.models.User;
 
 import java.time.LocalDate;
@@ -46,12 +47,16 @@ public class TestUserService {
 
     private User testUser;
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
     @Before
     public void setUp() {
         mockServer = MockRestServiceServer.createServer(restTemplate);
         testUser = new User();
         testUser.setPassword("test");
         testUser.setUsername("test");
+        testUser.setEmail("test@gmail.com");
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
@@ -59,7 +64,7 @@ public class TestUserService {
         User response = new User();
         response.setPassword("");
         response.setUsername("test");
-
+        response.setEmail("test@test.com");
         mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.SIGNUP))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.OK)
@@ -97,6 +102,7 @@ public class TestUserService {
         User wrongUser = new User();
         wrongUser.setPassword("wrong");
         wrongUser.setUsername("test");
+        wrongUser.setEmail("wrong@gmail.com");
         mockServer.expect(ExpectedCount.once(), requestTo(url + UserEndpoints.LOGIN))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.FORBIDDEN));
@@ -130,10 +136,6 @@ public class TestUserService {
 
     @Test
     public void testGetPoints() {
-        User testUser = new User();
-        testUser.setPassword("test");
-        testUser.setUsername("test");
-
         mockServer.expect(requestTo(url + UserEndpoints.ACTIONLIST))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
@@ -153,6 +155,7 @@ public class TestUserService {
         User followUser = new User();
         followUser.setPassword("follow");
         followUser.setUsername("follow");
+        followUser.setEmail("follow@gmail.com");
         String responseT = new ObjectMapper().writeValueAsString(followUser);
         mockServer.expect(requestTo(url + UserEndpoints.FOLLOW))
                 .andExpect(method(HttpMethod.POST))
@@ -163,8 +166,69 @@ public class TestUserService {
         mockServer.verify();
 
         Assert.assertEquals(responseT, new ObjectMapper().writeValueAsString(response));
+    }
 
+    @Test
+    public void actionTempAmountTest() throws Exception {
+        Log log = new Log();
+        log.setAction(Action.TEMP);
+        log.setUser(testUser);
+        log.setAmount(4);
+        log.setDate(LocalDate.now());
+        mockServer.expect(requestTo(url + UserEndpoints.LOGS))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(jsonPath("$.action").value(Action.TEMP.toString()))
+                .andExpect(jsonPath("$.amount").value(4))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON).body(objectMapper.writeValueAsString(log)));
 
+        userService.madeAction(Action.TEMP, 4);
+
+        mockServer.verify();
+    }
+
+    @Test
+    public void getFollwingPointsTest() throws Exception {
+        String request = "username";
+        mockServer.expect(requestTo(url + UserEndpoints.GETOTHERUSERPOINTS))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(content().string(request))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON).body(objectMapper.writeValueAsString(0)));
+
+        String username = "username";
+        int points = userService.getFollowingPoints(username);
+
+        mockServer.verify();
+        Assert.assertEquals(0, points);
+    }
+
+    @Test
+    public void getPointsTodayTest() throws Exception {
+        mockServer.expect(requestTo(url + UserEndpoints.TODAYPROGRESS))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON).body(objectMapper.writeValueAsString(0)));
+
+        userService.getPointsToday();
+
+        mockServer.verify();
+    }
+
+    @Test
+    public void getSolarStateTest() throws Exception {
+        SolarState response = new SolarState();
+        response.setEnabled(true);
+        response.setPoints(Action.SOLAR.getPoints());
+        mockServer.expect(requestTo(url + UserEndpoints.SOLAR))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(response)));
+
+        SolarState toTest = userService.getStateSolar();
+
+        mockServer.verify();
+        Assert.assertEquals(response, toTest);
     }
 
 }
