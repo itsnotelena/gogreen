@@ -30,7 +30,7 @@
             <Image url="@images/close.png" />
          </ImageView>
          <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
-            <Font size="14.0" />
+            <Font size="17.0" />
          </Text>
       </Pane>
       <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />

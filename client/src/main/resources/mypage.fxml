@@ -94,13 +94,13 @@
                     <Image url="@images/close.png" />
                 </image>
             </ImageView>
-            <Text fx:id="userField" layoutX="715.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
+            <Text fx:id="usernameField" layoutX="715.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
                 <font>
-                    <Font size="24.0" />
+                    <Font size="17.0" />
                 </font></Text>
             <Label layoutX="394.0" layoutY="74.0" prefHeight="28.0" prefWidth="108.0" text="Achievements" textFill="#ff790b">
                <font>
-                  <Font name="System Bold" size="16.0" />
+                  <Font name="Ariel" size="16.0" />
                </font>
             </Label>
         </children>
@@ -108,7 +108,7 @@
     <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
         <children>
             <JFXListCell fx:id="profileListCell" layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
-            <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="history" onMouseClicked="#goToHistory"/>
+            <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" onMouseClicked="#goToHistory"/>
         </children>
     </Pane>
 </Pane>

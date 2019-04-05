@@ -124,7 +124,7 @@
             <Image url="@images/close.png" />
         </ImageView>
         <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
-            <Font size="14.0" />
+            <Font size="17.0" />
         </Text>
     </Pane>
     <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
