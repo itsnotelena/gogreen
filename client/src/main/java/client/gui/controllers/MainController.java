@@ -1,8 +1,5 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.DRAWER_SIZE;
-import static client.gui.tools.SceneNames.TOOLBAR;
-
 import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
@@ -17,12 +14,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -39,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static client.gui.tools.SceneNames.*;
+
 @Component
 public class MainController extends AbstractController implements Initializable {
 
@@ -50,6 +46,9 @@ public class MainController extends AbstractController implements Initializable 
 
     @FXML
     private Pane myPane;
+
+    @FXML
+    private Pane pane1;
 
     @FXML
     private Text pointsContainer;
@@ -117,6 +116,9 @@ public class MainController extends AbstractController implements Initializable 
     @FXML
     private JFXSlider tempSliderWinter;
 
+    @FXML
+    private Text usernameField;
+
     private StackPane stackPane;
 
     private JFXNodesList foodList;
@@ -134,8 +136,36 @@ public class MainController extends AbstractController implements Initializable 
         this.service = service;
     }
 
+    @FXML
+    public void logOut() throws IOException{
+        goToSmall(myPane, LOGIN);
+    }
+
+    @FXML
+    public void goToSettings() throws IOException{
+        goToLarge(myPane, SETTINGS);
+    }
+
+    @FXML
+    public void goToHistory() throws IOException{
+        goToLarge( myPane, HISTORY );
+    }
+
+    @FXML
+    public void show() throws IOException {
+        if (pane1.isVisible()) {
+            pane1.setVisible( false );
+        } else {
+            pane1.setVisible( true );
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle rs) {
+
+        pane1.setVisible( false );
+
+
+        this.usernameField.setText(service.getUsername());
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
 
@@ -357,4 +387,5 @@ public class MainController extends AbstractController implements Initializable 
         pointsContainer.setTranslateY(-10);
         stackPane.getChildren().add(pointsContainer);
     }
+
 }
