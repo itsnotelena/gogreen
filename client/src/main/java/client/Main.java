@@ -44,7 +44,7 @@ public class Main extends Application {
         scene.setFill( Color.TRANSPARENT );
         primaryStage.setTitle("GoGreen");
         primaryStage.setScene(scene);
-        primaryStage.initStyle( StageStyle.TRANSPARENT);
+        //primaryStage.initStyle( StageStyle.TRANSPARENT);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
