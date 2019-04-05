@@ -12,10 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.User;
@@ -99,7 +97,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     private List<User> searchlist;
 
-    private User result;
 
     @Autowired
     public DiscoverPeopleController(UserService service) {

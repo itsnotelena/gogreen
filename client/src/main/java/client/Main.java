@@ -2,23 +2,16 @@ package client;
 
 import client.gui.tools.SceneNames;
 import client.gui.tools.SpringFxmlLoader;
-import com.sun.javafx.geom.RoundRectangle2D;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.awt.*;
 
 @SpringBootApplication
 @ComponentScan( {"client.gui.controllers"})

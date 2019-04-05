@@ -54,3 +54,11 @@
        -fx-border-radius:45px;
        -fx-border-width: 2px;
 }
+
+.button-border{
+        -fx-pref-width: 80px;
+        -fx-background-radius: 45px;
+        -fx-pref-height:35px;
+        -fx-border-radius:45px;
+        -fx-border-width: 2px;
+}
