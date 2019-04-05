@@ -172,7 +172,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
                 myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ));
 
 
-            infolabel.setText("Global Leaderboard");
+            infolabel.setText("Global Leaderboard ");
             System.out.println("global leaderboard message printed");
             this.leaderlist = this.service.getLeaderBoard();
             this.leaderlist.forEach(e ->
