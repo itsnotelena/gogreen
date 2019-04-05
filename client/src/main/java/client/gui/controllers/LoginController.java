@@ -38,9 +38,6 @@ import java.util.ResourceBundle;
 public class LoginController extends AbstractController implements Initializable {
 
     @FXML
-    private Stage stage;
-
-    @FXML
     private Button signup;
 
     @FXML
@@ -67,6 +64,8 @@ public class LoginController extends AbstractController implements Initializable
     @FXML
     private Hyperlink forgotPassword;
 
+    @FXML
+    private Image mainimg;
 
     private UserService service;
 
@@ -134,13 +133,9 @@ public class LoginController extends AbstractController implements Initializable
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        login.setDefaultButton(true);
-    }
+    public void initialize(URL location, ResourceBundle resources) { login.setDefaultButton(true); }
 
 }
-
 
 
 
