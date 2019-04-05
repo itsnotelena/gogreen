@@ -11,17 +11,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="/styles/settings.css," xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.HistoryController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="/styles/settings.css," xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.HistoryController">
    <children>
       <Pane layoutX="162.0" layoutY="185.0" prefHeight="376.0" prefWidth="577.0" styleClass="border">
          <children>
             <JFXListView fx:id="historyView" layoutX="-4.0" layoutY="1.0" prefHeight="376.0" prefWidth="585.0" styleClass="border" stylesheets="@styles/main.css" />
          </children></Pane>
-      <Label layoutX="380.0" layoutY="131.0" prefHeight="41.0" prefWidth="184.0" text="My Activities">
-         <font>
-            <Font name="Arial" size="24.0" />
-         </font>
-      </Label>
       <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
          <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
          <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
@@ -45,5 +40,15 @@
             <JFXListCell fx:id="messagesListCell" layoutY="35.0" prefHeight="28.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
          </children>
       </Pane>
+      <ImageView fitHeight="96.0" fitWidth="103.0" layoutX="275.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/activity.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="395.0" layoutY="117.0" prefHeight="41.0" prefWidth="160.0" text="Activities">
+         <font>
+            <Font name="Arial" size="35.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
