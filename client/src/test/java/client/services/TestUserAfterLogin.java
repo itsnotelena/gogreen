@@ -8,6 +8,7 @@ package client.services;
         import org.junit.Before;
         import org.junit.Test;
         import org.junit.runner.RunWith;
+        import org.mindrot.jbcrypt.BCrypt;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.http.HttpHeaders;
         import org.springframework.http.HttpMethod;
@@ -21,6 +22,7 @@ package client.services;
         import shared.endpoints.UserEndpoints;
         import shared.models.Action;
         import shared.models.Log;
+        import shared.models.SolarState;
         import shared.models.User;
 
         import java.time.LocalDate;
@@ -126,11 +128,8 @@ public class TestUserAfterLogin {
         List<User> list = new ArrayList<>();
         list.add(searchUser);
 
-        String asdf = new ObjectMapper().writeValueAsString(list);
-
         mockServer.expect(requestTo(url + UserEndpoints.SEARCH))
                 .andExpect(method(HttpMethod.POST))
-//                .andExpect(content().contentType(MediaType.TEXT_PLAIN))
                 .andExpect(content().string(username))
                 .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
                         .body(new ObjectMapper().writeValueAsString(list)));
@@ -139,11 +138,192 @@ public class TestUserAfterLogin {
 
         mockServer.verify();
 
-
         Assert.assertEquals(list, response);
-
-
     }
+
+    @Test
+    public void testGetUserDetails() throws Exception{
+
+        String responseT = new ObjectMapper().writeValueAsString(testUser);
+
+        mockServer.expect(requestTo(url + UserEndpoints.USER_INFO))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(responseT));
+
+        User response = userService.getUser();
+
+        mockServer.verify();
+
+        Assert.assertEquals(responseT, new ObjectMapper().writeValueAsString(response));
+    }
+
+    @Test
+    public void testSetPassword() throws Exception{
+        String resp = new ObjectMapper().writeValueAsString(testUser);
+        String password = "pass";
+
+        mockServer.expect(requestTo(url + UserEndpoints.CHANGE_PASS))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(content().string(password))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(resp));
+
+        userService.setPassword(password);
+
+        mockServer.verify();
+    }
+
+    @Test
+    public void testGetPointsToday() throws Exception{
+
+        mockServer.expect(requestTo(url + UserEndpoints.TODAYPROGRESS))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Integer.toString(0)));
+
+        int points = userService.getPointsToday();
+
+        mockServer.verify();
+
+        Assert.assertTrue(points == 0);
+    }
+
+    @Test
+    public void testGetSolarState() throws Exception{
+
+        SolarState state = new SolarState();
+        state.setEnabled(false);
+        state.setPoints(0);
+
+        String response = new ObjectMapper().writeValueAsString(state);
+
+        mockServer.expect(requestTo(url + "/solar"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(response));
+
+        SolarState test = userService.getStateSolar();
+
+        mockServer.verify();
+
+        Assert.assertTrue(test.getPoints() == 0);
+        Assert.assertFalse(test.isEnabled());
+    }
+
+    @Test
+    public void testFollowingPoints() throws Exception{
+
+        mockServer.expect(requestTo(url + UserEndpoints.GETOTHERUSERPOINTS))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(content().string(testUser.getUsername()))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Integer.toString(0)));
+
+        int resp = userService.getFollowingPoints(testUser.getUsername());
+
+        mockServer.verify();
+
+        Assert.assertTrue(resp == 0);
+    }
+
+    @Test
+    public void testRemoveFollow() throws Exception{
+
+        User followUser = new User();
+        followUser.setPassword("follow");
+        followUser.setUsername("follow");
+        followUser.setEmail("follow@follow.com");
+        String responseT = new ObjectMapper().writeValueAsString(followUser);
+
+        mockServer.expect(requestTo(url + UserEndpoints.UNFOLLOW))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(responseT));
+
+        userService.removeFollow(followUser);
+
+        mockServer.verify();
+    }
+
+    @Test
+    public void testViewFollowList() throws Exception{
+
+        User followUser = new User();
+        followUser.setPassword("follow");
+        followUser.setUsername("follow");
+        followUser.setEmail("follow@follow.com");
+
+        List<User> list = new ArrayList<>();
+        list.add(followUser);
+
+        mockServer.expect(requestTo(url + UserEndpoints.FOLLOWLIST))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ObjectMapper().writeValueAsString(list)));
+
+        List follow = userService.viewFollowList();
+
+        mockServer.verify();
+
+        Assert.assertTrue(follow.size()>0);
+    }
+
+    @Test
+    public void testGetLeaderBoard() throws Exception{
+
+        List<User> list = new ArrayList<>();
+        list.add(testUser);
+
+        mockServer.expect(requestTo(url + UserEndpoints.LEADERBOARD))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ObjectMapper().writeValueAsString(list)));
+
+        List lead = userService.getLeaderBoard();
+
+        mockServer.verify();
+
+        Assert.assertTrue(lead.size()>0);
+    }
+
+    @Test
+    public void testGetLog() throws Exception{
+
+        List<Log> list = new ArrayList<>();
+        Log log = new Log();
+        log.setAction(Action.PUBLIC);
+        log.setUser(testUser);
+        list.add(log);
+
+        mockServer.expect(requestTo(url + UserEndpoints.LOGS))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ObjectMapper().writeValueAsString(list)));
+
+        List resp = userService.getLog();
+
+        mockServer.verify();
+
+        Assert.assertTrue(resp.size()>0);
+    }
+
+
+
+
+
+
+
+
 
 
 }
