@@ -5,18 +5,18 @@
         -fx-background-radius: 0px;
         -fx-pref-height:45px;
         -fx-text-fill:#b3f4b2;
-        -fx-border-color:#33a531;
+        -fx-border-color:#f2f11f;
         -fx-border-radius:0px;
         -fx-border-width: 2px;
 }
 
 .animated-option-button-sub{
         -fx-pref-width: 75px;
-        -fx-background-color:#b3f4b2;
+        -fx-background-color:#74d14c;
         -fx-background-radius: 0px;
         -fx-pref-height:45px;
         -fx-text-fill:#33a531;
-        -fx-border-color:#33a531;
+        -fx-border-color:#74d14c;
         -fx-border-radius:0px;
         -fx-border-width: 2px;
 }
