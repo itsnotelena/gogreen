@@ -1,0 +1,15 @@
+.cell:hover {
+    -fx-background-color: #C7EA46;
+}
+
+.cell:pressed {
+     -fx-font-size: 15px;
+}
+
+.border-listcell {
+
+  -fx-background-radius: 10;
+
+  -fx-border-radius: 10;
+
+}

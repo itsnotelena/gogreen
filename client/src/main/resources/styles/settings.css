@@ -1,0 +1,11 @@
+.border {
+
+  -fx-background-radius: 10;
+
+  -fx-border-radius: 10;
+
+  -fx-border-width: 5;
+
+  -fx-border-color: #C7EA46;
+
+}
