@@ -160,7 +160,7 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     /**
-     * Shows either pane1.
+     * Shows user settings/history pane.
      */
     @FXML
     public void show() {

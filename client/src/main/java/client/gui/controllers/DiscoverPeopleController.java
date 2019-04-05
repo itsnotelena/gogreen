@@ -12,6 +12,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXNodesList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.User;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -49,34 +52,29 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private Pane pane1;
 
     @FXML
+    private Pane userPane;
+
+    @FXML
     private JFXHamburger hamburger;
 
     @FXML
     private JFXDrawersStack drawer;
 
     @FXML
-    private JFXNodesList friendsList;
+    private JFXButton followbtn;
 
     @FXML
-    private JFXNodesList rankingList;
-
-    @FXML
-    private JFXButton friendsbtn;
-
-    @FXML
-    private JFXButton addbtn;
-
-    @FXML
-    private JFXButton deletebtn;
-
-    @FXML
-    private JFXButton searchbtn;
+    private JFXButton unfollowbtn;
 
     @FXML
     private Label errorlabel;
 
     @FXML
     private Label noUserLabel;
+
+    @FXML
+    private Label userLabel;
+
 
     @FXML
     private Label selectULabel;
@@ -91,13 +89,10 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private ListView leaderboard;
 
     @FXML
-    private Text globalLabel;
-
-    @FXML
-    private Text friendsLabel;
-
-    @FXML
     private ListView followView;
+
+    @FXML
+    private ListView searchView;
 
     private UserService service;
 
@@ -108,6 +103,8 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private List<User> searchlist;
 
     private User result;
+
+    private User selectedUser;
 
     @Autowired
     public DiscoverPeopleController(UserService service) {
@@ -120,7 +117,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
     }
 
     /**
-     * Shows 'pane1' or 'pane2'.
+     * Shows user settings /history pane.
      */
     @FXML
     public void show() {
@@ -143,6 +140,8 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        userPane.setVisible(false);
+        addListListeners(this.leaderboard);
 
         if (service.getPoints() >= 5000) {
             BackgroundImage myBI = new BackgroundImage(
@@ -168,14 +167,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
         errorlabel.setVisible(false);
         noUserLabel.setVisible(false);
         selectULabel.setVisible(false);
-        addbtn.setVisible(false);
-        deletebtn.setVisible(false);
-
-        friendsList.addAnimatedNode( friendsbtn );
-        friendsList.addAnimatedNode(addbtn);
-        friendsList.addAnimatedNode(deletebtn);
-
-        friendsList.setSpacing(2);
 
 
         try {
@@ -195,6 +186,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
         selectULabel.setVisible(false);
         leaderboard.setVisible(true);
         followView.setVisible(false);
+        searchView.setVisible(false);
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
         this.leaderlist.forEach(e -> this.leaderboard.getItems().add(getUserLabel(e)));
@@ -213,29 +205,65 @@ public class DiscoverPeopleController extends AbstractController implements Init
         return result;
     }
 
+    private void addListListeners(ListView list) {
+        list.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if (t1.intValue() != -1) {
+                    if (list.equals(followView)) {
+                        selectedUser = followlist.get(t1.intValue());
+                    } else if (list.equals(leaderboard)) {
+                        selectedUser = leaderlist.get(t1.intValue());
+                    } else {
+                        selectedUser = searchlist.get(t1.intValue());
+                    }
+                    System.out.println(t1.intValue());
+                    if (service.viewFollowList().contains(selectedUser)) {
+                        unfollowbtn.setVisible(true);
+                        followbtn.setVisible(false);
+                    } else {
+                        followbtn.setVisible(true);
+                        unfollowbtn.setVisible(false);
+
+                    }
+                    userPane.setVisible(true);
+                    userLabel.setText(selectedUser.getUsername());
+                    if (service.getUser().getUsername().equals(selectedUser.getUsername())) {
+                        userLabel.setText("That's You!");
+                        followbtn.setVisible(false);
+                        unfollowbtn.setVisible(false);
+                    }
+                }
+            }
+        });
+    }
+
+
     @FXML
     private void getFollowList() {
         selectULabel.setVisible(false);
         leaderboard.setVisible(false);
+        searchView.setVisible(false);
         followView.setVisible(true);
         this.followlist = this.service.viewFollowList();
         this.followView.getItems().clear();
         this.followlist.forEach(e ->
                 this.followView.getItems().add(getUserLabel(e)));
+        addListListeners(this.followView);
     }
 
     @FXML
     private void search() {
         selectULabel.setVisible(false);
-        leaderboard.setVisible(true);
+        searchView.setVisible(true);
         if (!this.searchfield.getText().isBlank()) {
             errorlabel.setVisible(false);
             this.searchlist = this.service.search(this.searchfield.getText());
-            this.leaderboard.getItems().clear();
+            this.searchView.getItems().clear();
             if (!searchlist.isEmpty()) {
                 noUserLabel.setVisible(false);
                 this.searchlist.forEach(e ->
-                        this.leaderboard.getItems().add(getUserLabel(e)));
+                        this.searchView.getItems().add(getUserLabel(e)));
             } else {
                 noUserLabel.setVisible(true);
             }
@@ -243,35 +271,28 @@ public class DiscoverPeopleController extends AbstractController implements Init
             noUserLabel.setVisible(false);
             errorlabel.setVisible(true);
         }
+        addListListeners(this.searchView);
     }
 
     @FXML
     private void addFollow() {
-        if (this.leaderboard.getSelectionModel().getSelectedIndex() != -1) {
-            this.service.addFollow(this.leaderlist.get(
-                    this.leaderboard.getSelectionModel().getSelectedIndex()));
-            if (this.followView.isVisible()) {
-                getFollowList();
-            } else {
-                getLeaderBoard();
-            }
+        this.service.addFollow(this.selectedUser);
+        this.userPane.setVisible(false);
+        if (this.followView.isVisible()) {
+            getFollowList();
         } else {
-            selectULabel.setVisible(true);
+            getLeaderBoard();
         }
     }
 
     @FXML
     private void removeFollow() {
-        if (this.followView.getSelectionModel().getSelectedIndex() != -1) {
-            this.service.removeFollow(this.followlist.get(
-                    this.followView.getSelectionModel().getSelectedIndex()));
-            if (this.followView.isVisible()) {
-                getFollowList();
-            } else {
-                getLeaderBoard();
-            }
+        this.service.removeFollow(this.selectedUser);
+        this.userPane.setVisible(false);
+        if (this.followView.isVisible()) {
+            getFollowList();
         } else {
-            selectULabel.setVisible(true);
+            getLeaderBoard();
         }
     }
 }

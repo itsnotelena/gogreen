@@ -12,14 +12,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="rootPane" stylesheets="@styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MyPageController">
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="rootPane" stylesheets="@styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MyPageController">
     <JFXNodesList fx:id="foodList" layoutX="413.0" layoutY="202.0" />
     <JFXNodesList fx:id="transList" layoutX="304.0" layoutY="318.0" />
     <JFXNodesList fx:id="energyList" layoutX="522.0" layoutY="318.0" />
     <Accordion layoutX="240.0" layoutY="188.0" />
     <Accordion layoutX="281.0" layoutY="152.0" />
     <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />
-   <Pane fx:id="badgePane" layoutX="147.0" layoutY="99.0" prefHeight="404.0" prefWidth="625.0" style="-fx-background-color: #FFFFFF;">
+   <Pane fx:id="badgePane" layoutX="147.0" layoutY="99.0" prefHeight="404.0" prefWidth="625.0">
          <ImageView fx:id="veg3" fitHeight="143.0" fitWidth="108.0" layoutX="-18.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/vegbadge3.png" />
          </ImageView>
@@ -108,7 +108,7 @@
     <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
         <children>
             <JFXListCell fx:id="profileListCell" layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
-            <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" onMouseClicked="#goToHistory"/>
+            <JFXListCell fx:id="messagesListCell" layoutY="34.0" onMouseClicked="#goToHistory" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
         </children>
     </Pane>
 </Pane>

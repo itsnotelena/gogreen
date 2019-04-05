@@ -1,10 +1,10 @@
 .button{
         -fx-pref-width: 130px;
-        -fx-background-color: #C7EA46;
+        -fx-background-color: #f2f11f;
         -fx-background-radius: 45px;
         -fx-pref-height:35px;
         -fx-text-fill: #000000;
-        -fx-border-color:#33a531;
+        -fx-border-color: #74d14c ;
         -fx-border-radius:45px;
         -fx-border-width: 2px;
 }

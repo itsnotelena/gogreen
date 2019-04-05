@@ -5,9 +5,9 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListCell?>
 <?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXNodesList?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,17 +15,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" styleClass="rootPane" stylesheets="styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.DiscoverPeopleController">
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" styleClass="rootPane" stylesheets="styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.DiscoverPeopleController">
     <JFXListView fx:id="followView" layoutX="225.0" layoutY="154.0" prefHeight="340.0" prefWidth="411.0" stylesheets="@styles/main.css" />
     <JFXListView fx:id="leaderboard" layoutX="225.0" layoutY="154.0" prefHeight="340.0" prefWidth="411.0" stylesheets="@styles/main.css" />
+   <JFXListView fx:id="searchView" layoutX="225.0" layoutY="154.0" prefHeight="340.0" prefWidth="411.0" stylesheets="@styles/main.css" />
     <JFXTextField fx:id="searchfield" layoutX="661.0" layoutY="154.0" prefHeight="27.0" prefWidth="188.0" promptText="Enter Username" />
     <Label fx:id="errorlabel" layoutX="672.0" layoutY="181.0" prefHeight="25.0" prefWidth="174.0" text="please enter username" textFill="#ea0101" />
     <Label fx:id="noUserLabel" layoutX="688.0" layoutY="181.0" prefHeight="25.0" prefWidth="135.0" text="user does not exist" textFill="#ea0101" />
-    <JFXButton fx:id="friendsbtn" layoutX="672.0" layoutY="350.0" text="FollowMenu" styleClass="animated-option-button-main" style="-fx-background-color: #C7EA46;"/>
-    <JFXButton fx:id="addbtn" layoutX="672.0" layoutY="400.0" onAction="#addFollow" prefHeight="27.0" prefWidth="188.0" styleClass="animated-option-button-main" text="Follow" />
-    <JFXButton fx:id="deletebtn" layoutX="672.0" layoutY="430.0" onAction="#removeFollow" prefHeight="27.0" prefWidth="188.0" styleClass="animated-option-button-main" text="Unfollow" />
     <JFXDrawersStack fx:id="drawer" layoutY="56.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color:#FFFFFF" />
-    <JFXNodesList fx:id="friendsList" layoutX="672.0" layoutY="350.0" />
     <Label fx:id="selectULabel" layoutX="688.0" layoutY="194.0" prefHeight="25.0" prefWidth="135.0" text="Please select a User" textFill="#ea0101" />
     <JFXTextArea layoutX="768.0" layoutY="17.0" prefHeight="25.0" prefWidth="104.0" />
     <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
@@ -48,19 +45,23 @@
         <JFXListCell fx:id="profileListCell" layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
         <JFXListCell fx:id="messagesListCell" layoutY="34.0" onMouseClicked="#goToHistory" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
     </Pane>
-   <Text fx:id="globalLabel" layoutX="262.0" layoutY="138.0" onMouseClicked="#getLeaderBoard" text="Global">
-      <font>
-         <Font name="Arial" size="37.0" />
-      </font>
-   </Text>
-   <Text fx:id="friendsLabel" layoutX="443.0" layoutY="138.0" onMouseClicked="#getFollowList" text="Friends :)">
-      <font>
-         <Font name="Arial" size="37.0" />
-      </font>
-   </Text>
-    <JFXButton fx:id="searchbtn" layoutX="672.0" layoutY="250.0" onAction="#search" prefHeight="27.0" prefWidth="81.0" style="-fx-background-color: #C7EA46;" styleClass="animated-option-button-main" text="Search" textFill="WHITE">
+    <JFXButton fx:id="searchbtn" layoutX="768.0" layoutY="225.0" onAction="#search" prefHeight="16.0" prefWidth="81.0" style="-fx-background-color: #74d14c;" text="Search">
         <font>
-            <Font size="14.0" />
+            <Font size="13.0" />
         </font>
    </JFXButton>
+   <ButtonBar layoutX="103.0" layoutY="199.0" prefHeight="41.0" prefWidth="425.0" />
+   <JFXButton layoutX="431.0" layoutY="125.0" onAction="#getFollowList" prefHeight="30.0" prefWidth="207.0" ripplerFill="#0ddd3a" style="-fx-background-color: #8af55c;" text="Following" />
+   <JFXButton layoutX="225.0" layoutY="125.0" onAction="#getLeaderBoard" prefHeight="30.0" prefWidth="207.0" style="-fx-background-color: ffb75b;" text="Global" />
+   <Pane fx:id="userPane" layoutX="668.0" layoutY="275.0" prefHeight="200.0" prefWidth="200.0">
+      <children>
+         <Label layoutX="14.0" layoutY="14.0" text="Selected User" />
+         <Label fx:id="userLabel" layoutX="97.0" layoutY="9.0" prefHeight="27.0" prefWidth="88.0">
+            <font>
+               <Font name="System Bold" size="12.0" />
+            </font></Label>
+         <JFXButton fx:id="followbtn" layoutX="101.0" layoutY="47.0" onAction="#addFollow" prefHeight="30.0" prefWidth="81.0" style="-fx-background-color: #74d14c;" text="Follow" />
+         <JFXButton fx:id="unfollowbtn" layoutX="101.0" layoutY="47.0" onAction="#removeFollow" prefHeight="29.0" prefWidth="81.0" style="-fx-background-color: #74d14c;" text="Unfollow" />
+      </children>
+   </Pane>
 </Pane>
