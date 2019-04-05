@@ -11,7 +11,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.User;
@@ -22,14 +26,16 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import static client.gui.tools.SceneNames.DRAWER_SIZE;
-import static client.gui.tools.SceneNames.TOOLBAR;
+import static client.gui.tools.SceneNames.*;
 
 @Component
 public class DiscoverPeopleController extends AbstractController implements Initializable {
 
     @FXML
     private Pane myPane;
+
+    @FXML
+    private Pane pane1;
 
     @FXML
     private JFXHamburger hamburger;
@@ -80,6 +86,9 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private TextField searchfield;
 
     @FXML
+    private Text usernameField;
+
+    @FXML
     private ListView leaderboard;
 
     private UserService service;
@@ -97,9 +106,51 @@ public class DiscoverPeopleController extends AbstractController implements Init
         this.service = service;
     }
 
+    @FXML
+    public void logOut() throws IOException{
+        goToSmall(myPane, LOGIN);
+    }
+
+    @FXML
+    public void show() throws IOException {
+        if (pane1.isVisible()) {
+            pane1.setVisible( false );
+        } else {
+            pane1.setVisible( true );
+        }
+    }
+
+    @FXML
+    public void goToSettings() throws IOException{
+        goToLarge(myPane, SETTINGS );
+    }
+
+    @FXML
+    public void goToHistory() throws IOException{
+        goToLarge( myPane, HISTORY );
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        if (service.getPoints() >= 5000) {
+            BackgroundImage myBI = new BackgroundImage( new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
+                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT );
+
+            myPane.setBackground( new Background( myBI ) );
+
+        } else if (service.getPoints() >= 10000) {
+            BackgroundImage myBI = new BackgroundImage( new Image( "/images/image_background.png", 900, 600, false, true ),
+                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT );
+
+            myPane.setBackground( new Background( myBI ) );
+        }
+
+        pane1.setVisible( false );
+        this.usernameField.setText(service.getUsername());
+
         errorlabel.setVisible(false);
         noUserLabel.setVisible(false);
         selectULabel.setVisible(false);
@@ -124,7 +175,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
                 myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ));
 
 
-
             infolabel.setText("Global Leaderboard");
             System.out.println("global leaderboard message printed");
             this.leaderlist = this.service.getLeaderBoard();
@@ -139,7 +189,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
         }
         initializeHamburger( myPane, hamburger, drawer);
         drawer.setVisible(false);
-
 
     }
 

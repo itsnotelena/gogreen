@@ -170,6 +170,7 @@ public class UserPageController extends AbstractController implements Initializa
         passPane.setVisible(true);
     }
 
+
     @FXML
     public  void setPass() {
         if (!passfield.getText().isEmpty()) {
@@ -177,4 +178,5 @@ public class UserPageController extends AbstractController implements Initializa
         }
         passPane.setVisible(false);
     }
+
 }

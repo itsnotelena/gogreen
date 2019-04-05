@@ -12,6 +12,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +31,9 @@ import java.util.ResourceBundle;
 @Controller
 @NoArgsConstructor
 public class SignUpController extends AbstractController implements Initializable {
+
+    @FXML
+    private AnchorPane pane;
 
     @FXML
     private TextField username;
@@ -59,6 +66,7 @@ public class SignUpController extends AbstractController implements Initializabl
     private JFXButton signUpButton;
 
     private UserService userService;
+
 
     @Autowired
     SignUpController(UserService userService) {
@@ -124,5 +132,8 @@ public class SignUpController extends AbstractController implements Initializabl
         woman.setToggleGroup(toggleGroup);
         other.setToggleGroup(toggleGroup);
         signUpButton.setDefaultButton(true);
+
     }
+
+
 }

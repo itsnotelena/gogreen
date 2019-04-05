@@ -223,6 +223,20 @@ public class UserService {
         return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
     }
 
+    /**
+     * Returns the current user's username.
+     * @return
+     */
+    public String getUsername() {
+        return getUser().getUsername();
+    }
+
+    /**
+     * Returns the current user's email.
+     * @return
+     */
+    public String getEmail() { return getUser().getEmail(); }
+
 
 }
 

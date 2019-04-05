@@ -53,4 +53,6 @@ public class ForgotController extends AbstractController implements Initializabl
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
+
+
 }

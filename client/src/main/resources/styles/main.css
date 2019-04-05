@@ -22,8 +22,8 @@
 }
 
 .animated-option-button-main{
-        -fx-pref-width:180px;
-        -fx-background-color:transparent;
+        -fx-pref-width: 180px;
+        -fx-background-color: transparent;
         -fx-background-radius: 45px;
         -fx-pref-height:35px;
         -fx-text-fill: #000000;
@@ -33,7 +33,7 @@
 }
 
 .animated-option-sub-button{
-        -fx-background-color:#43609C;
+        -fx-background-color: #43609C;
 }
 .animated-option-sub-button2{
         -fx-background-color: rgb(203, 104, 96);
@@ -44,4 +44,13 @@
 
 .drawer-color{
         -fx-background-color: #FFFFFF;
+}
+
+.button-main{
+       -fx-pref-width: 180px;
+       -fx-background-color: #C7EA46;
+       -fx-text-fill:#000000;
+       -fx-background-radius : 30px;
+       -fx-border-radius:45px;
+       -fx-border-width: 2px;
 }
