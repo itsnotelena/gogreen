@@ -2,9 +2,7 @@
 
 <?import com.jfoenix.controls.JFXDrawersStack?>
 <?import com.jfoenix.controls.JFXHamburger?>
-<?import com.jfoenix.controls.JFXListCell?>
 <?import com.jfoenix.controls.JFXNodesList?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -13,19 +11,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="rootPane" stylesheets="@styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MyPageController">
+<?import com.jfoenix.controls.JFXListCell?>
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="rootPane" stylesheets="@styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MyPageController">
     <JFXNodesList fx:id="foodList" layoutX="413.0" layoutY="202.0" />
     <JFXNodesList fx:id="transList" layoutX="304.0" layoutY="318.0" />
     <JFXNodesList fx:id="energyList" layoutX="522.0" layoutY="318.0" />
     <Accordion layoutX="240.0" layoutY="188.0" />
-    <ImageView fitHeight="85.0" fitWidth="209.0" layoutX="418.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
-        <image>
-            <Image url="@images/logo.png" />
-        </image>
-    </ImageView>
     <Accordion layoutX="281.0" layoutY="152.0" />
     <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />
-   <Pane fx:id="badgePane" layoutX="147.0" layoutY="99.0" prefHeight="404.0" prefWidth="625.0" style="-fx-background-color: #FFFFFF;">
+   <Pane fx:id="badgePane" layoutX="129.0" layoutY="105.0" prefHeight="426.0" prefWidth="630.0">
          <ImageView fx:id="veg3" fitHeight="143.0" fitWidth="108.0" layoutX="-18.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/vegbadge3.png" />
          </ImageView>
@@ -88,33 +82,23 @@
          <Label layoutX="526.0" layoutY="23.0" text="  Lowering &#10;Temperature" />
    </Pane>
     <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
-        <children>
-            <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
-            <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@images/logo.png" />
-                </image>
-            </ImageView>
-            <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@images/close.png" />
-                </image>
-            </ImageView>
-            <Text fx:id="userField" layoutX="715.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
-                <font>
-                    <Font size="24.0" />
-                </font></Text>
-            <Label layoutX="394.0" layoutY="74.0" prefHeight="28.0" prefWidth="108.0" text="Achievements" textFill="#ff790b">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-        </children>
+        <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
+        <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/logo.png" />
+        </ImageView>
+        <Text fx:id="usernameField" layoutX="690.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
+            <font>
+                <Font size="14.0" />
+            </font></Text>
+        <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/close.png" />
+        </ImageView>
+        <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
+            <Font size="14.0" />
+        </Text>
     </Pane>
     <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
-        <children>
-            <JFXListCell fx:id="profileListCell" layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
-            <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Messages" onMouseClicked="#goToHistory"/>
-        </children>
+        <JFXListCell fx:id="profileListCell" layoutY="-2.0" prefHeight="39.0" prefWidth="135.0" text="Profile Settings" onMouseClicked="#goToSettings" styleClass="cell:hover;cell:pressed"/>
+        <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" text="History" styleClass="cell:hover;cell:pressed" onMouseClicked="#goToHistory"/>
     </Pane>
 </Pane>

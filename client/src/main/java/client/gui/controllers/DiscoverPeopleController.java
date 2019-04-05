@@ -1,12 +1,17 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.HISTORY;
+import static client.gui.tools.SceneNames.LOGIN;
+import static client.gui.tools.SceneNames.SETTINGS;
+import static client.gui.tools.SceneNames.TOOLBAR;
+
 import client.gui.tools.AbstractController;
 import client.services.UserService;
+
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXNodesList;
-import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,10 +20,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.User;
@@ -28,7 +37,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static client.gui.tools.SceneNames.*;
+
 
 @Component
 public class DiscoverPeopleController extends AbstractController implements Initializable {
@@ -112,12 +121,15 @@ public class DiscoverPeopleController extends AbstractController implements Init
     }
 
     @FXML
-    public void logOut() throws IOException{
+    public void logOut() throws IOException {
         goToSmall(myPane, LOGIN);
     }
 
+    /**
+     * Shows 'pane1' or 'pane2'.
+     */
     @FXML
-    public void show() throws IOException {
+    public void show() {
         if (pane1.isVisible()) {
             pane1.setVisible( false );
         } else {
@@ -126,12 +138,12 @@ public class DiscoverPeopleController extends AbstractController implements Init
     }
 
     @FXML
-    public void goToSettings() throws IOException{
+    public void goToSettings() throws IOException {
         goToLarge(myPane, SETTINGS );
     }
 
     @FXML
-    public void goToHistory() throws IOException{
+    public void goToHistory() throws IOException {
         goToLarge( myPane, HISTORY );
     }
 
@@ -139,14 +151,17 @@ public class DiscoverPeopleController extends AbstractController implements Init
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         if (service.getPoints() >= 5000) {
-            BackgroundImage myBI = new BackgroundImage( new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
+            BackgroundImage myBI = new BackgroundImage(
+                    new Image(
+                            "/images/backgroundlevel2.png", 900, 600, false, true ),
                     BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                     BackgroundSize.DEFAULT );
 
             myPane.setBackground( new Background( myBI ) );
 
         } else if (service.getPoints() >= 10000) {
-            BackgroundImage myBI = new BackgroundImage( new Image( "/images/image_background.png", 900, 600, false, true ),
+            BackgroundImage myBI = new BackgroundImage(
+                    new Image( "/images/image_background.png", 900, 600, false, true ),
                     BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                     BackgroundSize.DEFAULT );
 

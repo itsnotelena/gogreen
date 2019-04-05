@@ -4,13 +4,11 @@ import static client.gui.tools.SceneNames.FORGOT;
 import static client.gui.tools.SceneNames.MAIN;
 import static client.gui.tools.SceneNames.SIGNUP;
 
-import client.Main;
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -75,11 +73,10 @@ public class LoginController extends AbstractController implements Initializable
     }
 
     /**
-     * Closes the Application
-     * @throws IOException
+     * Closes the Application.
      */
     @FXML
-    public void closeApplication() throws IOException{
+    public void closeApplication() {
 
         Stage stage = (Stage) closeImg.getScene().getWindow();
         stage.close();
@@ -133,8 +130,9 @@ public class LoginController extends AbstractController implements Initializable
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) { login.setDefaultButton(true); }
-
+    public void initialize(URL location, ResourceBundle resources) {
+        login.setDefaultButton(true);
+    }
 }
 
 

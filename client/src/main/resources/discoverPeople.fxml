@@ -11,15 +11,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" stylesheets="styles/main.css,styles/background.css" styleClass="rootPane"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.DiscoverPeopleController">
-   <ImageView fitHeight="500.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" />
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" styleClass="rootPane" stylesheets="styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.DiscoverPeopleController">
         <Label fx:id="infolabel" layoutX="225.0" layoutY="93.0" prefHeight="25.0" prefWidth="122.0" text="Global Leaderboard" />
-        <JFXListView fx:id="leaderboard" layoutX="225.0" layoutY="118.0" prefHeight="374.0" prefWidth="411.0" stylesheets="@styles/main.css" />
     <JFXListView fx:id="followView" layoutX="225.0" layoutY="120.0" prefHeight="374.0" prefWidth="411.0" stylesheets="@styles/main.css" />
     <JFXListView fx:id="leaderboard" layoutX="225.0" layoutY="120.0" prefHeight="374.0" prefWidth="411.0" stylesheets="@styles/main.css" />
         <JFXTextField fx:id="searchfield" layoutX="656.0" layoutY="133.0" prefHeight="27.0" prefWidth="188.0" promptText="Enter Username" />
@@ -48,28 +45,23 @@
    <Label fx:id="selectULabel" layoutX="497.0" layoutY="93.0" prefHeight="25.0" prefWidth="135.0" text="Please select a User" textFill="#ea0101" />
    <JFXTextArea layoutX="768.0" layoutY="17.0" prefHeight="25.0" prefWidth="104.0" />
    <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
-      <children>
               <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
          <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
-            <image>
                <Image url="@images/logo.png" />
-            </image>
          </ImageView>
          <Text fx:id="usernameField" layoutX="690.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
             <font>
-               <Font size="24.0" />
+               <Font size="14.0" />
             </font></Text>
          <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
-            <image>
                <Image url="@images/close.png" />
-            </image>
          </ImageView>
-      </children>
+         <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
+               <Font size="14.0" />
+         </Text>
    </Pane>
    <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
-      <children>
-         <JFXListCell fx:id="profileListCell" layoutY="-2.0" prefHeight="39.0" prefWidth="135.0" text="Profile Settings" onMouseClicked="#goToSettings" styleClass="cell:hover;cell:pressed"/>
-         <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" text="Messages" styleClass="cell:hover;cell:pressed" onMouseClicked="#goToHistory"/>
-      </children>
+         <JFXListCell fx:id="profileListCell" layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
+         <JFXListCell fx:id="messagesListCell" layoutY="34.0" onMouseClicked="#goToHistory" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
    </Pane>
 </Pane>

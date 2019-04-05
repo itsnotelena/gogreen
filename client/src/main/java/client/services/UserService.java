@@ -17,7 +17,6 @@ import shared.models.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service("UserService")
 public class UserService {
@@ -207,10 +206,6 @@ public class UserService {
         return followlist;
     }
 
-    public int getPointsToday() {
-        return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
-    }
-
     /**
      * Returns the current user.
      * @return The user.
@@ -226,6 +221,7 @@ public class UserService {
     public void setPassword(String password) {
         restTemplate.postForObject(UserEndpoints.CHANGE_PASS, password, User.class);
     }
+
     public int getPointsToday() {
         return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
     }
@@ -242,7 +238,9 @@ public class UserService {
      * Returns the current user's email.
      * @return
      */
-    public String getEmail() { return getUser().getEmail(); }
+    public String getEmail() {
+        return getUser().getEmail();
+    }
 
 
 }

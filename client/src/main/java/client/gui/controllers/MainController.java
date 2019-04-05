@@ -4,12 +4,11 @@ import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.controls.JFXSlider;
-import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,11 +18,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -50,7 +45,7 @@ import static client.gui.tools.SceneNames.*;
 @Component
 public class MainController extends AbstractController implements Initializable {
 
-    public static final int minChartSlice = 5;
+    private static final int minChartSlice = 5;
 
     private UserService service;
 
@@ -114,12 +109,6 @@ public class MainController extends AbstractController implements Initializable 
     private JFXButton winterBtn;
 
     @FXML
-    private JFXButton summerBtn;
-
-    @FXML
-    private JFXButton winterBtn;
-
-    @FXML
     private JFXDrawersStack drawer;
 
     @FXML
@@ -134,19 +123,11 @@ public class MainController extends AbstractController implements Initializable 
     @FXML
     private JFXSlider tempSliderWinter;
 
+    @FXML
     private StackPane stackPane;
-    private JFXListView loglist;
-
-    @FXML
-    private JFXSlider tempSliderSummer;
-
-    @FXML
-    private JFXSlider tempSliderWinter;
 
     @FXML
     private Text usernameField;
-
-    private StackPane stackPane;
 
     private JFXNodesList foodList;
 
@@ -164,28 +145,32 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     @FXML
-    public void logOut() throws IOException{
+    public void logOut() throws IOException {
         goToSmall(myPane, LOGIN);
     }
 
     @FXML
-    public void goToSettings() throws IOException{
+    public void goToSettings() throws IOException {
         goToLarge(myPane, SETTINGS);
     }
 
     @FXML
-    public void goToHistory() throws IOException{
+    public void goToHistory() throws IOException {
         goToLarge( myPane, HISTORY );
     }
 
+    /**
+     * Shows either pane1.
+     */
     @FXML
-    public void show() throws IOException {
+    public void show() {
         if (pane1.isVisible()) {
             pane1.setVisible( false );
         } else {
             pane1.setVisible( true );
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rs) {
 
