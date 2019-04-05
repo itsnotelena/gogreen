@@ -192,7 +192,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
         rankingList.setSpacing(2);
 
         try {
-                myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ));
+            myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ));
 
 
             infolabel.setText("Global Leaderboard");
@@ -293,6 +293,3 @@ public class DiscoverPeopleController extends AbstractController implements Init
         }
     }
 }
-
-
-

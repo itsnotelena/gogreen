@@ -46,19 +46,53 @@
         -fx-background-color: #FFFFFF;
 }
 
-.button-main{
-       -fx-pref-width: 180px;
-       -fx-background-color: #C7EA46;
-       -fx-text-fill:#000000;
-       -fx-background-radius : 30px;
-       -fx-border-radius:45px;
-       -fx-border-width: 2px;
-}
-
 .button-border{
         -fx-pref-width: 80px;
         -fx-background-radius: 45px;
         -fx-pref-height:35px;
         -fx-border-radius:45px;
         -fx-border-width: 2px;
+}
+
+
+.default-color0.chart-pie {
+   -fx-background-color: #b2ff59;
+}
+
+.default-color1.chart-pie {
+   -fx-background-color:  #fff176 ;
+}
+
+.default-color2.chart-pie {
+   -fx-background-color: #ffb7c5;
+}
+
+.button-food{
+        -fx-pref-width: 130px;
+        -fx-background-color: #b2ff59 ;
+        -fx-background-radius: 45px;
+        -fx-pref-height:35px;
+        -fx-text-fill: #000000;
+        -fx-border-radius:45px;
+        -fx-border-width: 2px;
+}
+
+.button-energy {
+         -fx-pref-width: 130px;
+         -fx-background-color: #fff176;
+         -fx-background-radius: 45px;
+         -fx-pref-height:35px;
+         -fx-text-fill: #000000;
+         -fx-border-radius:45px;
+         -fx-border-width: 2px;
+}
+
+.button-transportation {
+         -fx-pref-width: 130px;
+         -fx-background-color:  #ffb7c5;
+         -fx-background-radius: 45px;
+         -fx-pref-height:35px;
+          -fx-text-fill: #000000;
+          -fx-border-radius:45px;
+          -fx-border-width: 2px;
 }
