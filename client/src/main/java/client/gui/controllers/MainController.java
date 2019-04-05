@@ -1,8 +1,5 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.DRAWER_SIZE;
-import static client.gui.tools.SceneNames.TOOLBAR;
-
 import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
@@ -22,7 +19,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -44,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static client.gui.tools.SceneNames.*;
+
 @Component
 public class MainController extends AbstractController implements Initializable {
 
@@ -55,6 +58,9 @@ public class MainController extends AbstractController implements Initializable 
 
     @FXML
     private Pane myPane;
+
+    @FXML
+    private Pane pane1;
 
     @FXML
     private Text pointsContainer;
@@ -108,7 +114,13 @@ public class MainController extends AbstractController implements Initializable 
     private JFXButton winterBtn;
 
     @FXML
-    private JFXDrawer drawer;
+    private JFXButton summerBtn;
+
+    @FXML
+    private JFXButton winterBtn;
+
+    @FXML
+    private JFXDrawersStack drawer;
 
     @FXML
     private JFXHamburger hamburger;
@@ -121,6 +133,18 @@ public class MainController extends AbstractController implements Initializable 
 
     @FXML
     private JFXSlider tempSliderWinter;
+
+    private StackPane stackPane;
+    private JFXListView loglist;
+
+    @FXML
+    private JFXSlider tempSliderSummer;
+
+    @FXML
+    private JFXSlider tempSliderWinter;
+
+    @FXML
+    private Text usernameField;
 
     private StackPane stackPane;
 
@@ -139,23 +163,44 @@ public class MainController extends AbstractController implements Initializable 
         this.service = service;
     }
 
+    @FXML
+    public void logOut() throws IOException{
+        goToSmall(myPane, LOGIN);
+    }
+
+    @FXML
+    public void goToSettings() throws IOException{
+        goToLarge(myPane, SETTINGS);
+    }
+
+    @FXML
+    public void goToHistory() throws IOException{
+        goToLarge( myPane, HISTORY );
+    }
+
+    @FXML
+    public void show() throws IOException {
+        if (pane1.isVisible()) {
+            pane1.setVisible( false );
+        } else {
+            pane1.setVisible( true );
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle rs) {
+
+        pane1.setVisible( false );
+
+
+        this.usernameField.setText(service.getUsername());
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
-            drawer.setSidePane(myPane);
-            drawer.setDefaultDrawerSize(DRAWER_SIZE);
-            //drawer.setOverLayVisible(true);
-
-            drawer.setResizableOnDrag(true);
-            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-            task.setRate(task.getRate() * -1);
-
-            this.initializeHamburger(task, hamburger, drawer);
 
         } catch (IOException e) {
-            //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            e.printStackTrace();
         }
+        initializeHamburger(myPane, hamburger, drawer);
+        drawer.setVisible( false );
 
         stackPane = new StackPane();
         ObservableList<PieChart.Data> pieChartData = createData();

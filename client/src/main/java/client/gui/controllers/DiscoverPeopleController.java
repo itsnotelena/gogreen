@@ -1,8 +1,5 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.DRAWER_SIZE;
-import static client.gui.tools.SceneNames.TOOLBAR;
-
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
@@ -17,6 +14,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +28,22 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static client.gui.tools.SceneNames.*;
+
 @Component
 public class DiscoverPeopleController extends AbstractController implements Initializable {
 
     @FXML
-    Pane myPane;
+    private Pane myPane;
 
     @FXML
-    JFXHamburger hamburger;
+    private Pane pane1;
 
     @FXML
-    JFXDrawer drawer;
+    private JFXHamburger hamburger;
 
+    @FXML
+    private JFXDrawersStack drawer;
 
     @FXML
     private JFXNodesList friendsList;
@@ -84,6 +88,9 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private TextField searchfield;
 
     @FXML
+    private Text usernameField;
+
+    @FXML
     private ListView leaderboard;
 
     @FXML
@@ -104,9 +111,51 @@ public class DiscoverPeopleController extends AbstractController implements Init
         this.service = service;
     }
 
+    @FXML
+    public void logOut() throws IOException{
+        goToSmall(myPane, LOGIN);
+    }
+
+    @FXML
+    public void show() throws IOException {
+        if (pane1.isVisible()) {
+            pane1.setVisible( false );
+        } else {
+            pane1.setVisible( true );
+        }
+    }
+
+    @FXML
+    public void goToSettings() throws IOException{
+        goToLarge(myPane, SETTINGS );
+    }
+
+    @FXML
+    public void goToHistory() throws IOException{
+        goToLarge( myPane, HISTORY );
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        if (service.getPoints() >= 5000) {
+            BackgroundImage myBI = new BackgroundImage( new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
+                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT );
+
+            myPane.setBackground( new Background( myBI ) );
+
+        } else if (service.getPoints() >= 10000) {
+            BackgroundImage myBI = new BackgroundImage( new Image( "/images/image_background.png", 900, 600, false, true ),
+                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT );
+
+            myPane.setBackground( new Background( myBI ) );
+        }
+
+        pane1.setVisible( false );
+        this.usernameField.setText(service.getUsername());
+
         errorlabel.setVisible(false);
         noUserLabel.setVisible(false);
         selectULabel.setVisible(false);
@@ -128,23 +177,16 @@ public class DiscoverPeopleController extends AbstractController implements Init
         rankingList.setSpacing(2);
 
         try {
-            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
-            drawer.setSidePane(myPane);
-            drawer.setDefaultDrawerSize(DRAWER_SIZE);
-            //drawer.setOverLayVisible(true);
+                myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ));
 
-            drawer.setResizableOnDrag(true);
-            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-            task.setRate(task.getRate() * -1);
-
-            this.initializeHamburger(task, hamburger, drawer);
 
             infolabel.setText("Global Leaderboard");
             getLeaderBoard();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        initializeHamburger( myPane, hamburger, drawer);
+        drawer.setVisible(false);
 
     }
 
@@ -236,4 +278,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
         }
     }
 }
+
+
 

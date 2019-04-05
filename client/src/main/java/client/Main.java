@@ -5,12 +5,13 @@ import client.gui.tools.SpringFxmlLoader;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+
 
 @SpringBootApplication
 @ComponentScan( {"client.gui.controllers"})
@@ -22,7 +23,6 @@ public class Main extends Application {
         launch(args);
     }
 
-
     @Override
     public void init() throws Exception {
         springContext = SpringApplication.run(Main.class);
@@ -32,9 +32,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        Scene scene = new Scene( root,600,500 );
+        scene.setFill( Color.TRANSPARENT );
         primaryStage.setTitle("GoGreen");
-        primaryStage.setScene(new Scene(root, 600, 500));
-        primaryStage.getIcons().add(new Image("images/logo.png"));
+        primaryStage.setScene(scene);
+        //primaryStage.initStyle( StageStyle.TRANSPARENT);
         primaryStage.setResizable(false);
         primaryStage.show();
     }

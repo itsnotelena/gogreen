@@ -1,8 +1,5 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.DRAWER_SIZE;
-import static client.gui.tools.SceneNames.TOOLBAR;
-
 import client.gui.tools.AbstractController;
 import client.services.BadgeService;
 import client.services.UserService;
@@ -15,10 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
+import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.Badge;
@@ -27,20 +22,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static client.gui.tools.SceneNames.*;
+import static client.gui.tools.SceneNames.TOOLBAR;
 
 @Component
-public class MyPageController extends AbstractController implements Initializable {
-
+public class UserPageController extends AbstractController implements Initializable {
 
     @FXML
     Pane myPane;
 
     @FXML
-    Pane pane1;
+    Pane badgePane;
 
     @FXML
-    Pane badgePane;
+    Pane passPane;
 
     @FXML
     JFXHamburger hamburger;
@@ -103,7 +97,13 @@ public class MyPageController extends AbstractController implements Initializabl
     private ImageView temp3;
 
     @FXML
-    private Text userField;
+    private Label username;
+
+    @FXML
+    private Label email;
+
+    @FXML
+    private JFXTextField passfield;
 
     private BadgeService badgeService;
 
@@ -111,10 +111,11 @@ public class MyPageController extends AbstractController implements Initializabl
 
     private Badge[] badgeLevels;
 
+
     private ImageView[][] badges;
 
     @Autowired
-    public MyPageController(BadgeService badgeService, UserService userService) {
+    public UserPageController(BadgeService badgeService, UserService userService) {
         this.badgeService = badgeService;
         this.userService = userService;
     }
@@ -127,6 +128,7 @@ public class MyPageController extends AbstractController implements Initializabl
         }
     }
 
+
     private void getBadges() {
         badgeLevels = badgeService.getBadges();
         for (int i = 0; i < badgeLevels.length; i++) {
@@ -136,34 +138,17 @@ public class MyPageController extends AbstractController implements Initializabl
         }
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        this.userField.setText(userService.getUsername());
-        pane1.setVisible( false );
-
-        if (userService.getPoints() >= 0) {
-            BackgroundImage myBI = new BackgroundImage( new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-
-        } else if (userService.getPoints() >= 5000) {
-            BackgroundImage myBI = new BackgroundImage( new Image( "/images/image_background.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-        }
-
         badgePane.toBack();
+        passPane.setVisible(false);
 
         try {
             this.badges =  new ImageView[][] {{veg1, veg2, veg3},
-                {local1, local2, local3},
-                {bike1, bike2, bike3}, {public1, public2, public3},
-                {solar1, solar2, solar3}, {temp1, temp2, temp3}};
+                    {local1, local2, local3},
+                    {bike1, bike2, bike3}, {public1, public2, public3},
+                    {solar1, solar2, solar3}, {temp1, temp2, temp3}};
 
                 myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
 
@@ -174,32 +159,23 @@ public class MyPageController extends AbstractController implements Initializabl
         }
         initializeHamburger(myPane, hamburger, drawer);
         drawer.setVisible( false );
+        username.setText(userService.getUser().getUsername());
+        email.setText(userService.getUser().getEmail());
 
     }
 
     @FXML
-    public void logOut() throws IOException{
-        goToSmall( myPane, LOGIN );
+    public void changePass() {
+        passPane.setVisible(true);
     }
 
+
     @FXML
-    public void show() throws IOException {
-        if (pane1.isVisible()) {
-            pane1.setVisible( false );
-        } else {
-            pane1.setVisible( true );
+    public  void setPass() {
+        if (!passfield.getText().isEmpty()) {
+            userService.setPassword(passfield.getText());
         }
-    }
-
-    @FXML
-    public void goToSettings() throws IOException{
-        goToLarge(myPane, SETTINGS );
-    }
-
-    @FXML
-    public void goToHistory() throws IOException{
-        goToLarge(myPane, HISTORY );
+        passPane.setVisible(false);
     }
 
 }
-

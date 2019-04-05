@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDrawersStack?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXListCell?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="/styles/settings.css," xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.historyController">
+   <children>
+      <Pane layoutX="162.0" layoutY="185.0" prefHeight="376.0" prefWidth="577.0" styleClass="border" />
+      <Label layoutX="380.0" layoutY="131.0" prefHeight="41.0" prefWidth="184.0" text="My Activities">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
+            <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="383.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logo.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="usernameField" layoutX="690.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
+               <font>
+                  <Font size="24.0" />
+               </font></Text>
+            <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/close.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />
+      <Pane fx:id="pane1" layoutX="689.0" layoutY="62.0" prefHeight="69.0" prefWidth="135.0" styleClass="border-listcell" stylesheets="/styles/listView.css">
+         <children>
+            <JFXListCell fx:id="profileListCell" layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
+            <JFXListCell fx:id="messagesListCell" layoutY="35.0" prefHeight="28.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
+         </children>
+      </Pane>
+   </children>
+</Pane>

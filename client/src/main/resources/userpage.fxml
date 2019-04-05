@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXNodesList?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<?import com.jfoenix.controls.JFXDrawersStack?>
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="styles/main.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.UserPageController">
+    <JFXNodesList fx:id="foodList" layoutX="413.0" layoutY="202.0" />
+    <JFXNodesList fx:id="transList" layoutX="304.0" layoutY="318.0" />
+    <JFXNodesList fx:id="energyList" layoutX="522.0" layoutY="318.0" />
+    <Accordion layoutX="240.0" layoutY="188.0" />
+    <ImageView fitHeight="85.0" fitWidth="209.0" layoutX="418.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+        <image>
+            <Image url="@images/logo.png" />
+        </image>
+    </ImageView>
+    <Accordion layoutX="281.0" layoutY="152.0" />
+    <JFXHamburger fx:id="hamburger" layoutX="844.0" layoutY="23.0" />
+    <JFXDrawersStack fx:id="drawer" prefHeight="402.0" prefWidth="178.0" />
+    <Pane fx:id="badgePane" layoutX="45.0" layoutY="100.0" prefHeight="402.0" prefWidth="628.0">
+        <ImageView fx:id="veg3" fitHeight="143.0" fitWidth="108.0" layoutX="-18.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge3.png" />
+        </ImageView>
+        <ImageView fx:id="veg2" fitHeight="118.0" fitWidth="102.0" layoutX="-18.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge2.png" />
+        </ImageView>
+        <ImageView fx:id="veg1" fitHeight="120.0" fitWidth="107.0" layoutX="-18.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge1.png" />
+        </ImageView>
+        <ImageView fx:id="local1" fitHeight="122.0" fitWidth="108.0" layoutX="87.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge1.png" />
+        </ImageView>
+        <ImageView fx:id="bike1" fitHeight="120.0" fitWidth="107.0" layoutX="189.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge1.png" />
+        </ImageView>
+        <ImageView fx:id="public1" fitHeight="120.0" fitWidth="107.0" layoutX="297.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge1.png" />
+        </ImageView>
+        <ImageView fx:id="solar1" fitHeight="120.0" fitWidth="107.0" layoutX="405.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge1.png" />
+        </ImageView>
+        <ImageView fx:id="temp1" fitHeight="120.0" fitWidth="107.0" layoutX="509.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge1.png" />
+        </ImageView>
+        <ImageView fx:id="local2" fitHeight="118.0" fitWidth="102.0" layoutX="90.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge2.png" />
+        </ImageView>
+        <ImageView fx:id="bike2" fitHeight="118.0" fitWidth="102.0" layoutX="192.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge2.png" />
+        </ImageView>
+        <ImageView fx:id="public2" fitHeight="118.0" fitWidth="102.0" layoutX="300.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge2.png" />
+        </ImageView>
+        <ImageView fx:id="solar2" fitHeight="118.0" fitWidth="102.0" layoutX="408.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge2.png" />
+        </ImageView>
+        <ImageView fx:id="temp2" fitHeight="118.0" fitWidth="102.0" layoutX="515.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge2.png" />
+        </ImageView>
+        <ImageView fx:id="local3" fitHeight="143.0" fitWidth="108.0" layoutX="87.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge3.png" />
+        </ImageView>
+        <ImageView fx:id="bike3" fitHeight="143.0" fitWidth="108.0" layoutX="189.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge3.png" />
+        </ImageView>
+        <ImageView fx:id="public3" fitHeight="143.0" fitWidth="108.0" layoutX="297.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge3.png" />
+        </ImageView>
+        <ImageView fx:id="solar3" fitHeight="143.0" fitWidth="108.0" layoutX="405.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge3.png" />
+        </ImageView>
+        <ImageView fx:id="temp3" fitHeight="143.0" fitWidth="108.0" layoutX="512.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/vegbadge3.png" />
+        </ImageView>
+        <Label layoutX="270.0" layoutY="2.0" text="My Badges" textFill="#ff790b">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="4.0" layoutY="40.0" text="Vegetarian" />
+        <Label layoutX="101.0" layoutY="40.0" text="Local Produce" />
+        <Label layoutX="230.0" layoutY="40.0" text="Bike" />
+        <Label layoutX="305.0" layoutY="41.0" text="Public Transport" />
+        <Label layoutX="424.0" layoutY="40.0" text="Solar Panels" />
+        <Label layoutX="526.0" layoutY="23.0" text="  Lowering &#10;Temperature" />
+    </Pane>
+    <JFXButton layoutX="737.0" layoutY="403.0" onAction="#changePass" prefHeight="34.0" prefWidth="122.0" style="-fx-background-color: #C7EA46;" text="Change Password" />
+    <ImageView fitHeight="154.0" fitWidth="163.0" layoutX="696.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" />
+    <Label layoutX="686.0" layoutY="288.0" prefHeight="25.0" prefWidth="81.0" text="Username: ">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <Label layoutX="686.0" layoutY="313.0" prefHeight="25.0" prefWidth="81.0" text="Email: ">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <JFXButton layoutX="737.0" layoutY="356.0" prefHeight="34.0" prefWidth="122.0" style="-fx-background-color: #C7EA46;" text="Edit Icon" />
+    <Label layoutX="750.0" layoutY="100.0" prefHeight="25.0" prefWidth="55.0" text="User Info">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <Label fx:id="username" layoutX="749.0" layoutY="283.0" prefHeight="34.0" prefWidth="148.0" text="Label" />
+    <Label fx:id="email" layoutX="749.0" layoutY="309.0" prefHeight="34.0" prefWidth="148.0" text="Label" />
+    <Pane fx:id="passPane" layoutX="658.0" layoutY="444.0" prefHeight="143.0" prefWidth="218.0">
+        <JFXTextField fx:id="passfield" layoutX="49.0" layoutY="39.0" prefHeight="20.0" prefWidth="155.0" promptText="Password" />
+        <Label layoutX="49.0" layoutY="14.0" text="Enter New Password:" />
+        <JFXButton layoutX="23.0" layoutY="98.0" onAction="#setPass" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #C7EA46;" text="Submit" />
+    </Pane>
+</Pane>

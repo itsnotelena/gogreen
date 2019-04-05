@@ -8,14 +8,19 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.ForgotController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.ForgotController">
     <ImageView fitHeight="84.0" fitWidth="192.0" layoutX="248.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
         <Image url="@images/logo.png" />
     </ImageView>
-    <Label layoutX="151.0" layoutY="126.0" text="Enter your e-mail address to get renew your password" />
+    <Label layoutX="151.0" layoutY="126.0" text="Enter your e-mail address to re-new password" />
     <Label layoutX="145.0" layoutY="144.0" text=" A mail will be sent to you, please follow the instructions." />
-    <Hyperlink layoutX="227.0" layoutY="334.0" text="Didn't received an e-mail?" />
+    <Hyperlink layoutX="215.0" layoutY="307.0" text="Didn't received an e-mail?" />
     <JFXTextField layoutX="145.0" layoutY="187.0" prefHeight="26.0" prefWidth="300.0" promptText="E-mail" />
     <JFXButton layoutX="270.0" layoutY="253.0" prefHeight="26.0" prefWidth="59.0" style="-fx-background-color: #2196F3;" text="Send" />
-    <JFXButton fx:id="returnButton" layoutX="469.0" layoutY="332.0" onAction="#goToLogin" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #2196F3;" text="Return" />
+    <JFXButton fx:id="returnButton" layoutX="469.0" layoutY="341.0" onAction="#goToLogin" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #2196F3;" text="Return" />
+   <ImageView fitHeight="27.0" fitWidth="28.0" layoutX="559.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@images/close.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

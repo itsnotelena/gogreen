@@ -4,11 +4,13 @@ import static client.gui.tools.SceneNames.FORGOT;
 import static client.gui.tools.SceneNames.MAIN;
 import static client.gui.tools.SceneNames.SIGNUP;
 
+import client.Main;
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -16,7 +18,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -52,6 +56,9 @@ public class LoginController extends AbstractController implements Initializable
     private PasswordField passwordField;
 
     @FXML
+    private ImageView closeImg;
+
+    @FXML
     private CheckBox remenberMe;
 
     @FXML
@@ -68,6 +75,18 @@ public class LoginController extends AbstractController implements Initializable
     }
 
     /**
+     * Closes the Application
+     * @throws IOException
+     */
+    @FXML
+    public void closeApplication() throws IOException{
+
+        Stage stage = (Stage) closeImg.getScene().getWindow();
+        stage.close();
+
+    }
+
+    /**
      * Goes to the create account.
      *
      * @throws IOException Throws exception when create account window cannot be found
@@ -78,6 +97,7 @@ public class LoginController extends AbstractController implements Initializable
         goToSmall(username, SIGNUP);
 
     }
+
 
     /**
      * Goes to reset password screen.
@@ -113,11 +133,9 @@ public class LoginController extends AbstractController implements Initializable
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        login.setDefaultButton(true);
-    }
-}
+    public void initialize(URL location, ResourceBundle resources) { login.setDefaultButton(true); }
 
+}
 
 
 

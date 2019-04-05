@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDrawersStack?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXListCell?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="/styles/main.css,/styles/settings.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.settingsController">
+   <children>
+      <Pane fx:id="pane2" layoutX="178.0" layoutY="109.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="561.0" style="-fx-background-color: #ffffff;" styleClass="border">
+         <children>
+            <Text fx:id="username" layoutX="364.0" layoutY="134.0" wrappingWidth="150.0">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font></Text>
+            <Text fx:id="firstName" layoutX="370.0" layoutY="208.0" wrappingWidth="150.0000000000001">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font></Text>
+            <Text fx:id="lastName" layoutX="370.0" layoutY="281.0" wrappingWidth="134.9999999999999">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font></Text>
+            <Text fx:id="emailField" layoutX="370.0" layoutY="353.0" wrappingWidth="134.9999999999999">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font></Text>
+            <Label layoutX="342.0" layoutY="89.0" prefHeight="15.0" prefWidth="127.0" text="Username">
+               <font>
+                  <Font name="Arial" size="19.0" />
+               </font></Label>
+            <Label layoutX="342.0" layoutY="163.0" prefHeight="22.0" prefWidth="127.0" text="First Name">
+               <font>
+                  <Font name="Arial" size="19.0" />
+               </font></Label>
+            <Label layoutX="342.0" layoutY="230.0" text="Last Name">
+               <font>
+                  <Font name="Arial" size="19.0" />
+               </font></Label>
+            <Label layoutX="342.0" layoutY="303.0" text="E-mail">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
+            <ImageView fitHeight="191.0" fitWidth="166.0" layoutX="52.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
+            <Text layoutX="38.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Photo" />
+            <JFXButton layoutX="74.0" layoutY="333.0" text="Change Password" onAction="#passwordPane" styleClass="button-main"/>
+         </children>
+
+      </Pane>
+      <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
+            <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logo.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="usernameField" layoutX="690.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
+               <font>
+                  <Font size="24.0" />
+               </font></Text>
+            <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/close.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css" styleClass="border-listView">
+         <children>
+            <JFXListCell fx:id="profileListCell" layoutY="-2.0" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
+            <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Messages" onMouseClicked="#goToHistory"/>
+         </children>
+      </Pane>
+      <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />
+      <Pane styleClass="border" fx:id="passPane" layoutX="642.0" layoutY="420.0" prefHeight="143.0" prefWidth="218.0" style="-fx-background-color: #FFFFFF;">
+         <JFXTextField fx:id="passfield" layoutX="37.0" layoutY="52.0" prefHeight="20.0" prefWidth="155.0" promptText="Password" />
+         <Label layoutX="42.0" layoutY="14.0" prefHeight="27.0" prefWidth="135.0" text="Enter New Password:" />
+         <JFXButton layoutX="69.0" layoutY="95.0" onAction="#setPass" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #C7EA46;" text="Submit" />
+      </Pane>
+   </children>
+</Pane>
