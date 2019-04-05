@@ -12,8 +12,8 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="/styles/settings.css," xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.historyController">
    <children>
-      <Pane layoutX="162.0" layoutY="185.0" prefHeight="376.0" prefWidth="577.0" styleClass="border"/>
-      <Label layoutX="358.0" layoutY="131.0" prefHeight="41.0" prefWidth="184.0" text="My Activities">
+      <Pane layoutX="162.0" layoutY="185.0" prefHeight="376.0" prefWidth="577.0" styleClass="border" />
+      <Label layoutX="380.0" layoutY="131.0" prefHeight="41.0" prefWidth="184.0" text="My Activities">
          <font>
             <Font name="Arial" size="24.0" />
          </font>
@@ -21,7 +21,7 @@
       <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
-            <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="383.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/logo.png" />
                </image>
