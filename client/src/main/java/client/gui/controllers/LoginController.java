@@ -4,11 +4,13 @@ import static client.gui.tools.SceneNames.FORGOT;
 import static client.gui.tools.SceneNames.MAIN;
 import static client.gui.tools.SceneNames.SIGNUP;
 
+import client.Main;
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -16,7 +18,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -32,6 +36,9 @@ import java.util.ResourceBundle;
 @ComponentScan({"client"})
 @NoArgsConstructor
 public class LoginController extends AbstractController implements Initializable {
+
+    @FXML
+    private Stage stage;
 
     @FXML
     private Button signup;
@@ -52,19 +59,32 @@ public class LoginController extends AbstractController implements Initializable
     private PasswordField passwordField;
 
     @FXML
+    private ImageView closeImg;
+
+    @FXML
     private CheckBox remenberMe;
 
     @FXML
     private Hyperlink forgotPassword;
 
-    @FXML
-    private Image mainimg;
 
     private UserService service;
 
     @Autowired
     public LoginController(UserService service) {
         this.service = service;
+    }
+
+    /**
+     * Closes the Application
+     * @throws IOException
+     */
+    @FXML
+    public void closeApplication() throws IOException{
+
+        Stage stage = (Stage) closeImg.getScene().getWindow();
+        stage.close();
+
     }
 
     /**
@@ -78,6 +98,7 @@ public class LoginController extends AbstractController implements Initializable
         goToSmall(username, SIGNUP);
 
     }
+
 
     /**
      * Goes to reset password screen.
@@ -113,11 +134,9 @@ public class LoginController extends AbstractController implements Initializable
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        login.setDefaultButton(true);
-    }
-}
+    public void initialize(URL location, ResourceBundle resources) { login.setDefaultButton(true); }
 
+}
 
 
 
