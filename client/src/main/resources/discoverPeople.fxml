@@ -37,8 +37,8 @@
         <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
             <Image url="@images/close.png" />
         </ImageView>
-        <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User: " wrappingWidth="38.20002233982086">
-            <Font name="Arial" size="17.0" />
+        <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
+            <Font size="14.0" />
         </Text>
     </Pane>
     <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
@@ -51,8 +51,8 @@
         </font>
    </JFXButton>
    <ButtonBar layoutX="103.0" layoutY="199.0" prefHeight="41.0" prefWidth="425.0" />
-   <JFXButton layoutX="431.0" layoutY="125.0" onAction="#getFollowList" prefHeight="30.0" prefWidth="207.0" ripplerFill="#0ddd3a" style="-fx-background-color: #8af55c;" text="Following" />
-   <JFXButton layoutX="225.0" layoutY="125.0" onAction="#getLeaderBoard" prefHeight="30.0" prefWidth="207.0" style="-fx-background-color: ffb75b;" text="Global" />
+   <JFXButton layoutX="431.0" layoutY="125.0" onAction="#getFollowList" prefHeight="30.0" prefWidth="207.0" ripplerFill="#74d14c" style="-fx-background-color: #74d14c;" text="Following" />
+   <JFXButton layoutX="225.0" layoutY="125.0" onAction="#getLeaderBoard" prefHeight="30.0" prefWidth="207.0" style="-fx-background-color: #e58301;" text="Global" />
    <Pane fx:id="userPane" layoutX="668.0" layoutY="275.0" prefHeight="200.0" prefWidth="200.0">
       <children>
          <Label layoutX="14.0" layoutY="14.0" text="Selected User" />

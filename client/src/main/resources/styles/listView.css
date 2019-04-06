@@ -2,10 +2,10 @@
     -fx-background-color: #74d14c ;
 }
 
-.cell:pressed {
+/**.cell:pressed {
      -fx-font-size: 15px;
 }
-
+**/
 .border-listcell {
 
   -fx-background-radius: 13;
