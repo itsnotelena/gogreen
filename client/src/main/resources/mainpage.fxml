@@ -16,9 +16,6 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<!--<?import org.kordamp.ikonli.javafx.FontIcon?>-->
-
-
 <StackPane fx:id="wrapper" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MainController">
    <children>
       <AnchorPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@styles/main.css">
@@ -109,11 +106,6 @@
                <FontIcon iconLiteral="gmi-info-outline" iconSize="25" selectionEnd="0" selectionStart="0" />
             </graphic>
          </JFXButton>
-         <!--<JFXButton fx:id="infoButton" layoutX="800.0" layoutY="20.0" prefHeight="31.0" prefWidth="41.0" >-->
-             <!--<graphic>-->
-                 <!--<FontIcon iconLiteral="fa-info-circle" iconSize="30"/>-->
-             <!--</graphic>-->
-         <!--</JFXButton>-->
           <VBox fx:id="nodeListContainer" alignment="TOP_CENTER" layoutY="250.0" prefHeight="0.0" prefWidth="0.0" AnchorPane.rightAnchor="150.0">
    </VBox>
           <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
