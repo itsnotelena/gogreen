@@ -410,8 +410,13 @@ public class MainController extends AbstractController implements Initializable 
         Text vegetarianContent = new Text(" : you can press the vegetarian meal button after "
                 + "every vegetarian meal you have.\n");
         vegetarianContent.setFont(Font.font("Montserrat", 12));
+        Text solar = new Text("Solar panels");
+        solar.setFont(Font.font("Montserrat", 12));
+        solar.setUnderline(true);
+        Text solarContent = new Text(" : Toggle it on if you have installed your solar panels. "
+                + "Toggle it off if you no longer have solar panels\n");
         TextFlow textFlow = new TextFlow();
-        textFlow.getChildren().addAll(vegetarian, vegetarianContent);
+        textFlow.getChildren().addAll(vegetarian, vegetarianContent, solar, solarContent);
         content.setBody(textFlow);
         JFXDialog dialog = new JFXDialog(wrapper, content, JFXDialog.DialogTransition.CENTER);
         dialog.show();
