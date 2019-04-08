@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -55,7 +56,12 @@ public class UserController {
      */
     @PostMapping(value = UserEndpoints.FORGOTPASSWORD)
     public String sendTokenMail(@RequestBody String email) {
-        System.out.println("method called");
+        User user = repository.findUserByEmail(email);
+        //TODO: change this into an exception
+        if (user == null) {
+            return null;
+        }
+        String uuid = UUID.randomUUID().toString().replace("-","");
         String[] recipient = {email};
         Properties properties = System.getProperties();
         String host = "smtp.gmail.com";
@@ -74,8 +80,9 @@ public class UserController {
 
             message.addRecipients(Message.RecipientType.TO, toAddress);
 
-            message.setSubject("test");
-            message.setText("test");
+            message.setSubject("GoGreen password recovery");
+            message.setText("Hello " + user.getUsername() + ",\n\nThis is your new password: "
+                    + uuid + ".\nPlease change it once you log in.");
             Transport transport = session.getTransport("smtp");
             transport.connect(host, from, pass);
             transport.sendMessage(message, message.getAllRecipients());
@@ -85,6 +92,8 @@ public class UserController {
         } catch (MessagingException me) {
             me.printStackTrace();
         }
+        user.setPassword(hashPassword(uuid));
+        repository.save(user);
         return email;
     }
 

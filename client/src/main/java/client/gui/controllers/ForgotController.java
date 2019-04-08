@@ -30,6 +30,9 @@ public class ForgotController extends AbstractController implements Initializabl
     private ImageView imageView;
 
     @FXML
+    private Label message;
+
+    @FXML
     private JFXTextField textField;
 
     @FXML
@@ -54,6 +57,7 @@ public class ForgotController extends AbstractController implements Initializabl
 
     /**
      * Goes back to login screen.
+     *
      * @throws IOException Throws exception when login window cannot be found.
      */
     public void goToLogin() throws IOException {
@@ -64,8 +68,13 @@ public class ForgotController extends AbstractController implements Initializabl
     public void initialize(URL location, ResourceBundle resources) {
         send.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             String email = textField.getText();
-            service.sendForgot(email);
-            System.out.println(email);
+            String response = service.sendForgot(email);
+            System.out.println(response);
+            if (response == null) {
+                message.setText("No user with that email exists");
+            } else {
+                message.setText("Sent a message to: " + email);
+            }
         });
     }
 }

@@ -18,4 +18,5 @@
     <JFXTextField fx:id="textField" layoutX="145.0" layoutY="187.0" prefHeight="26.0" prefWidth="300.0" promptText="E-mail" />
     <JFXButton fx:id="send" layoutX="270.0" layoutY="253.0" prefHeight="26.0" prefWidth="59.0" style="-fx-background-color: #2196F3;" text="Send" />
     <JFXButton fx:id="returnButton" layoutX="469.0" layoutY="332.0" onAction="#goToLogin" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #2196F3;" text="Return" />
+   <Label fx:id="message" alignment="CENTER" contentDisplay="CENTER" layoutX="140.0" layoutY="301.0" prefHeight="18.0" prefWidth="327.0" textAlignment="CENTER" textFill="#e20f0f" />
 </AnchorPane>

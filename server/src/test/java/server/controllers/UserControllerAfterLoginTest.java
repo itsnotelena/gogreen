@@ -205,7 +205,7 @@ public class UserControllerAfterLoginTest {
         String Fusername = "follow";
         followUser.setUsername(Fusername);
         followUser.setPassword("test");
-        followUser.setEmail("test@test");
+        followUser.setEmail("follow1@gmail.com");
         String request = mapper.writeValueAsString(followUser);
         this.mvc.perform(
                 post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(request));
@@ -225,7 +225,8 @@ public class UserControllerAfterLoginTest {
         String Fusername = "follow1";
         followUser.setUsername(Fusername);
         followUser.setPassword("test");
-        FUString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword() + "\", \"email\": \"" + testUser.getEmail() + "\"}";
+        followUser.setEmail("follow1@gmail.com");
+        FUString = objectMapper.writeValueAsString(followUser);
 
         this.mvc.perform(
                 post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FUString));
@@ -246,7 +247,8 @@ public class UserControllerAfterLoginTest {
         String Fusername = "follow2";
         followUser.setUsername(Fusername);
         followUser.setPassword("test");
-        FUString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword() + "\", \"email\": \"" + testUser.getEmail() + "\"}";
+        followUser.setEmail("follow1@gmail.com");
+        FUString = objectMapper.writeValueAsString(followUser);
 
         this.mvc.perform(
                 post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FUString));
@@ -254,7 +256,8 @@ public class UserControllerAfterLoginTest {
         String F2username = "follow3";
         followUser2.setUsername(F2username);
         followUser2.setPassword("test");
-        FU2String = "{\"username\": \"" + followUser2.getUsername() + "\", \"password\": \"" + followUser2.getPassword() + "\", \"email\": \"" + testUser.getEmail() + "\"}";
+        followUser2.setEmail("follow2@gmail.com");
+        FU2String = objectMapper.writeValueAsString(followUser2);
 
         this.mvc.perform(
                 post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON).content(FU2String));
