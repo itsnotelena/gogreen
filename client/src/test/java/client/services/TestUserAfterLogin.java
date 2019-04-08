@@ -314,7 +314,7 @@ public class TestUserAfterLogin {
 
         mockServer.verify();
 
-        Assert.assertTrue(resp.size()>0);
+        Assert.assertTrue(resp.get(0).equals(Action.PUBLIC));
     }
 
 
