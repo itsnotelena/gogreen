@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,8 @@ public class UserController {
     private final UserRepository repository;
 
     private final LogRepository logRepository;
+
+    private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
@@ -75,7 +78,9 @@ public class UserController {
      */
     @GetMapping(value = UserEndpoints.USER_INFO)
     public User getUserInfo(Authentication authentication) {
-        return repository.findUserByUsername(authentication.getName());
+        User user = repository.findUserByUsername(authentication.getName());
+        user.setPassword("");
+        return user;
     }
 
     /**
@@ -86,7 +91,7 @@ public class UserController {
      * @return User.
      */
     @PostMapping(value = UserEndpoints.CHANGE_PASS)
-    public User changePassword(String password, Authentication authentication) {
+    public User changePassword(Authentication authentication, @RequestBody String password) {
         User user = repository.findUserByUsername(authentication.getName());
         user.setPassword(hashPassword(password));
         repository.save(user);

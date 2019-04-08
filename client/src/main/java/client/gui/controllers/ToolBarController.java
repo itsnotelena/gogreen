@@ -30,6 +30,7 @@ public class ToolBarController extends AbstractController {
     @FXML
     private JFXButton logout;
 
+
     /**
      * Goes back to login screen.
      * @throws IOException Throws exception when login window cannot be found.

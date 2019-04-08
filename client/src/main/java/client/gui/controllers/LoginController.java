@@ -94,6 +94,7 @@ public class LoginController extends AbstractController implements Initializable
      *
      * @throws IOException throws exception when menu is not found
      */
+    @FXML
     public void doLogin() throws IOException {
 
         User user = new User();
