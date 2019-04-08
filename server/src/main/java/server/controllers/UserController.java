@@ -86,7 +86,7 @@ public class UserController {
      * @return User.
      */
     @PostMapping(value = UserEndpoints.CHANGE_PASS)
-    public User changePassword(String password, Authentication authentication) {
+    public User changePassword(@RequestBody String password, Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         user.setPassword(hashPassword(password));
         repository.save(user);
@@ -299,5 +299,4 @@ public class UserController {
         }
         return points;
     }
-
 }
