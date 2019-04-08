@@ -89,7 +89,6 @@ public class UserController {
     public User changePassword(String password, Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         user.setPassword(hashPassword(password));
-        System.out.println(user.getPassword());
         repository.save(user);
         user.setPassword("");
         return user;
@@ -159,7 +158,7 @@ public class UserController {
      *
      * @param authentication Authentication details of the useer
      * @return An array representing a pair of the state of the button
-     * and the amount of points gathered by the solar panels.
+     *     and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
