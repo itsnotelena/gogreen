@@ -107,7 +107,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     private List<User> searchlist;
 
-    private Map<Label, Integer> map;
+    private Map<User, Integer> map;
 
     private User result;
 
@@ -172,7 +172,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
         pane1.setVisible( false );
         this.usernameField.setText(service.getUsername());
 
-        this.map = new HashMap<Label, Integer>();
+        this.map = new HashMap<User, Integer>();
         this.labellist = new ArrayList<>();
 
         errorlabel.setVisible(false);
@@ -191,6 +191,26 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     }
 
+
+    @FXML
+    private void getFollowList() {
+        selectULabel.setVisible(false);
+        leaderboard.setVisible(false);
+        searchView.setVisible(false);
+        followView.setVisible(true);
+        this.followlist = this.service.viewFollowList();
+        this.followView.getItems().clear();
+        this.map.clear();
+        this.followlist.forEach(e -> map.put(e,
+                service.getFollowingPoints(e.getUsername())));
+        this.map = sortByValue(this.map);
+        this.followlist.clear();
+        this.followlist.addAll(map.keySet());
+        Collections.reverse(followlist);
+        this.followlist.forEach(e -> followView.getItems().add(getUserLabel(e)));
+        addListListeners(this.followView);
+    }
+
     @FXML
     private void getLeaderBoard() {
         selectULabel.setVisible(false);
@@ -200,15 +220,15 @@ public class DiscoverPeopleController extends AbstractController implements Init
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
         this.map.clear();
-        this.leaderlist.forEach(e -> map.put(getUserLabel(e),
+        this.leaderlist.forEach(e -> map.put(e,
                 service.getFollowingPoints(e.getUsername())));
         this.map = sortByValue(this.map);
         this.labellist.clear();
-        this.labellist.addAll(map.keySet());
-        Collections.reverse(labellist);
-        this.leaderboard.getItems().addAll(labellist);
+        this.leaderlist.clear();
+        this.leaderlist.addAll(map.keySet());
+        Collections.reverse(leaderlist);
+        this.leaderlist.forEach(e -> leaderboard.getItems().add(getUserLabel(e)));
         addListListeners(this.leaderboard);
-
     }
 
     /**
@@ -279,25 +299,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
 
     @FXML
-    private void getFollowList() {
-        selectULabel.setVisible(false);
-        leaderboard.setVisible(false);
-        searchView.setVisible(false);
-        followView.setVisible(true);
-        this.followlist = this.service.viewFollowList();
-        this.followView.getItems().clear();
-        this.map.clear();
-        this.followlist.forEach(e -> map.put(getUserLabel(e),
-                service.getFollowingPoints(e.getUsername())));
-        this.map = sortByValue(this.map);
-        this.labellist.clear();
-        this.labellist.addAll(map.keySet());
-        Collections.reverse(labellist);
-        this.followView.getItems().addAll(labellist);
-        addListListeners(this.followView);
-    }
-
-    @FXML
     private void search() {
         selectULabel.setVisible(false);
         searchView.setVisible(true);
@@ -309,13 +310,13 @@ public class DiscoverPeopleController extends AbstractController implements Init
                 noUserLabel.setVisible(false);
 
                 this.map.clear();
-                this.searchlist.forEach(e -> map.put(getUserLabel(e),
+                this.searchlist.forEach(e -> map.put(e,
                         service.getFollowingPoints(e.getUsername())));
                 this.map = sortByValue(this.map);
-                this.labellist.clear();
-                this.labellist.addAll(map.keySet());
-                Collections.reverse(labellist);
-                this.searchView.getItems().addAll(labellist);
+                this.searchlist.clear();
+                this.searchlist.addAll(map.keySet());
+                Collections.reverse(searchlist);
+                this.searchlist.forEach(e -> searchView.getItems().add(getUserLabel(e)));
             } else {
                 noUserLabel.setVisible(true);
             }
