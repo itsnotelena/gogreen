@@ -226,6 +226,9 @@ public class UserService {
         restTemplate.postForObject(UserEndpoints.CHANGE_PASS, password, User.class);
     }
 
+    public void sendForgot(String email) {
+        restTemplate.postForObject(UserEndpoints.FORGOTPASSWORD, email, String.class);
+    }
 }
 
 

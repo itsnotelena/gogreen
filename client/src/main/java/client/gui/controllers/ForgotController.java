@@ -3,13 +3,17 @@ package client.gui.controllers;
 import static client.gui.tools.SceneNames.LOGIN;
 
 import client.gui.tools.AbstractController;
+import client.services.UserService;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
@@ -21,14 +25,15 @@ import java.util.ResourceBundle;
 @ComponentScan({"client"})
 public class ForgotController extends AbstractController implements Initializable {
 
+    private UserService service;
     @FXML
     private ImageView imageView;
 
     @FXML
-    private TextField textField;
+    private JFXTextField textField;
 
     @FXML
-    private Button send;
+    private JFXButton send;
 
     @FXML
     private Button returnButton;
@@ -42,6 +47,11 @@ public class ForgotController extends AbstractController implements Initializabl
     @FXML
     private Hyperlink hyperlink;
 
+    @Autowired
+    public ForgotController(UserService service) {
+        this.service = service;
+    }
+
     /**
      * Goes back to login screen.
      * @throws IOException Throws exception when login window cannot be found.
@@ -52,5 +62,10 @@ public class ForgotController extends AbstractController implements Initializabl
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        send.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            String email = textField.getText();
+            service.sendForgot(email);
+            System.out.println(email);
+        });
     }
 }

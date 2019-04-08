@@ -22,17 +22,70 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 @RestController
 @AllArgsConstructor
 public class UserController {
+
+    private static final String from = "ooppgogreen";
+    private static final String pass = "Gogreen63";
+
     private final UserRepository repository;
 
     private final LogRepository logRepository;
 
     private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    /**
+     * Sends a randomly generated UUID to an email and sets the password for that user to that id.
+     * @param email the email to send the new password to
+     * @return returns the email to which the password was sent
+     */
+    @PostMapping(value = UserEndpoints.FORGOTPASSWORD)
+    public String sendTokenMail(@RequestBody String email) {
+        System.out.println("method called");
+        String[] recipient = {email};
+        Properties properties = System.getProperties();
+        String host = "smtp.gmail.com";
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.user", from);
+        properties.put("mail.smtp.password", pass);
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        Session session = Session.getDefaultInstance(properties);
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(from));
+            InternetAddress[] toAddress = new InternetAddress[1];
+            toAddress[0] = new InternetAddress(recipient[0]);
+
+            message.addRecipients(Message.RecipientType.TO, toAddress);
+
+            message.setSubject("test");
+            message.setText("test");
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, pass);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        } catch (AddressException ae) {
+            ae.printStackTrace();
+        } catch (MessagingException me) {
+            me.printStackTrace();
+        }
+        return email;
     }
 
     /**

@@ -16,4 +16,5 @@ public class UserEndpoints {
     public static final String BADGES = "/badges";
     public static final String TODAYPROGRESS = "/today";
     public static final String SOLAR = "/solar";
+    public static final String FORGOTPASSWORD = "/forgotPassword";
 }
