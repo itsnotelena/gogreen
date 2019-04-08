@@ -150,7 +150,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userPane.setVisible(false);
-        addListListeners(this.leaderboard);
 
         if (service.getPoints() >= 5000) {
             BackgroundImage myBI = new BackgroundImage(
@@ -183,7 +182,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
         try {
             myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ));
-
             getLeaderBoard();
         } catch (IOException e) {
             e.printStackTrace();
@@ -201,14 +199,15 @@ public class DiscoverPeopleController extends AbstractController implements Init
         searchView.setVisible(false);
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
-        this.leaderlist.forEach(e -> this.leaderboard.getItems().add(getUserLabel(e)));
-        infolabel.setText("Global Leaderboard");
+        this.map.clear();
         this.leaderlist.forEach(e -> map.put(getUserLabel(e),
                 service.getFollowingPoints(e.getUsername())));
         this.map = sortByValue(this.map);
+        this.labellist.clear();
         this.labellist.addAll(map.keySet());
         Collections.reverse(labellist);
         this.leaderboard.getItems().addAll(labellist);
+        addListListeners(this.leaderboard);
 
     }
 
@@ -287,8 +286,14 @@ public class DiscoverPeopleController extends AbstractController implements Init
         followView.setVisible(true);
         this.followlist = this.service.viewFollowList();
         this.followView.getItems().clear();
-        this.followlist.forEach(e ->
-                this.followView.getItems().add(getUserLabel(e)));
+        this.map.clear();
+        this.followlist.forEach(e -> map.put(getUserLabel(e),
+                service.getFollowingPoints(e.getUsername())));
+        this.map = sortByValue(this.map);
+        this.labellist.clear();
+        this.labellist.addAll(map.keySet());
+        Collections.reverse(labellist);
+        this.followView.getItems().addAll(labellist);
         addListListeners(this.followView);
     }
 
@@ -302,8 +307,15 @@ public class DiscoverPeopleController extends AbstractController implements Init
             this.searchView.getItems().clear();
             if (!searchlist.isEmpty()) {
                 noUserLabel.setVisible(false);
-                this.searchlist.forEach(e ->
-                        this.searchView.getItems().add(getUserLabel(e)));
+
+                this.map.clear();
+                this.searchlist.forEach(e -> map.put(getUserLabel(e),
+                        service.getFollowingPoints(e.getUsername())));
+                this.map = sortByValue(this.map);
+                this.labellist.clear();
+                this.labellist.addAll(map.keySet());
+                Collections.reverse(labellist);
+                this.searchView.getItems().addAll(labellist);
             } else {
                 noUserLabel.setVisible(true);
             }
