@@ -43,7 +43,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Column
