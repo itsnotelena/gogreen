@@ -142,7 +142,6 @@ public class UserController {
     public User changePassword(String password, Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         user.setPassword(hashPassword(password));
-        System.out.println(user.getPassword());
         repository.save(user);
         user.setPassword("");
         return user;
