@@ -3,6 +3,7 @@ package shared.models;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class UserTest {
@@ -34,7 +35,7 @@ public class UserTest {
         user1.setUsername("test");
         User user2 = new User();
         user2.setUsername("test");
-        HashSet<User> friends = new HashSet<>();
+        ArrayList<User> friends = new ArrayList<>();
         friends.add(user2);
         user1.setFollowing(friends);
         Assert.assertEquals(user1, user2);
