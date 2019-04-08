@@ -233,4 +233,91 @@ public class TestUserService {
         Assert.assertEquals(response, toTest);
     }
 
+    @Test
+    public void createAccountExceptionTest() throws Exception {
+        User user = new User();
+        user.setUsername("alreadyInUse");
+        mockServer.expect(requestTo(url + UserEndpoints.SIGNUP))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(content().json(objectMapper.writeValueAsString(user)))
+                .andRespond(withStatus(HttpStatus.CONFLICT));
+
+        boolean toTest = userService.createAccount(user);
+
+        mockServer.verify();
+
+        Assert.assertFalse(toTest);
+    }
+
+    @Test
+    public void nullResponseSignupTest() throws Exception {
+        User user = new User();
+        user.setUsername("alreadyInUse");
+        mockServer.expect(requestTo(url + UserEndpoints.SIGNUP))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(content().json(objectMapper.writeValueAsString(user)))
+                .andRespond(withStatus(HttpStatus.OK).body(""));
+
+        boolean toTest = userService.createAccount(user);
+
+        mockServer.verify();
+
+        Assert.assertFalse(toTest);
+    }
+
+    @Test
+    public void failedSearchTest() throws Exception {
+        String username = "test";
+        ArrayList<User> response = new ArrayList<>();
+        mockServer.expect(requestTo(url + UserEndpoints.SEARCH))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(content().string(username))
+                .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(response)));
+
+        List<User> toTest = userService.search(username);
+
+        mockServer.verify();
+
+        Assert.assertTrue(toTest.isEmpty());
+    }
+
+    @Test
+    public void unsuccessfulLoginTest() throws Exception {
+        User user = new User();
+        user.setUsername("user");
+        user.setPassword("wrongPassword");
+        mockServer.expect(requestTo(url + UserEndpoints.LOGIN))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(content().json(objectMapper.writeValueAsString(user)))
+                .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(user)));
+
+        boolean toTest = userService.login(user);
+
+        mockServer.verify();
+
+        Assert.assertFalse(toTest);
+    }
+
+    @Test
+    public void serverErrorLoginTest() throws Exception {
+        User user = new User();
+        user.setUsername("user");
+        user.setPassword("wrongPassword");
+        HttpHeaders responseHeader = new HttpHeaders();
+        responseHeader.set(HttpHeaders.AUTHORIZATION, "Bearer: test");
+        mockServer.expect(requestTo(url + UserEndpoints.LOGIN))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(content().json(objectMapper.writeValueAsString(user)))
+                .andRespond(withStatus(HttpStatus.valueOf(300)).contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(user)).headers(responseHeader));
+
+        boolean toTest = userService.login(user);
+
+        mockServer.verify();
+
+        Assert.assertFalse(toTest);
+    }
+
 }

@@ -479,6 +479,26 @@ public class UserControllerAfterLoginTest {
         Assert.assertEquals(0, Integer.parseInt(response));
     }
 
+    @Test
+    public void addFollowAlreadyFollowedTest() throws Exception {
+        User follow1 = new User();
+        follow1.setUsername("follow1");
+        follow1.setPassword("pass");
+        follow1.setEmail("ooppgogreen@gmail.com");
+        String request = this.mvc.perform(post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(follow1))).andReturn().getResponse().getContentAsString();
+        this.mvc.perform(post(UserEndpoints.FOLLOW).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(follow1.getUsername()));
+        this.mvc.perform(post(UserEndpoints.FOLLOW).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(follow1.getUsername()));
+        String listResponse = this.mvc.perform(get(UserEndpoints.FOLLOWLIST)
+                .header(HttpHeaders.AUTHORIZATION, authorization))
+                .andReturn().getResponse().getContentAsString();
+        User[] followed = new ObjectMapper().readValue(listResponse, User[].class);
+        Assert.assertEquals(1, followed.length);
+        Assert.assertEquals(follow1.getUsername(), followed[0].getUsername());
+    }
+
     @After
     public void cleanup() {
         logRepository.deleteAll();
