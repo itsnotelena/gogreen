@@ -50,16 +50,9 @@ public class UserControllerTest {
         String username = "test";
         testUser.setUsername(username);
         testUser.setPassword("test");
-        testUser.setEmail("test@test.com");
-        String followUsername = "follow";
-        followUser.setUsername(followUsername);
-        followUser.setPassword("follow");
-        followUser.setEmail("follow@follow.com");
-
+        testUser.setEmail("test@gmail.com");
         UString = "{\"username\": \"" + testUser.getUsername() + "\", \"password\": \"" + testUser.getPassword()
-                + "\", \"email\": \"" + testUser.getEmail() + "\"}";
-        FString = "{\"username\": \"" + followUser.getUsername() + "\", \"password\": \"" + followUser.getPassword()
-                + "\", \"email\": \"" + followUser.getEmail() + "\"}";
+                + "\", \"email\": \"" + testUser.getEmail() +"\"}";
 
         // Remove the test user if it exists
         User toDelete = userRepository.findUserByUsername(username);
@@ -131,6 +124,51 @@ public class UserControllerTest {
 
         Assert.assertEquals(HttpStatus.CONFLICT.value(), conflict);
     }
+
+    @Test
+    public void invalidEmailSignUp() throws Exception{
+        User toRegister = new User();
+        toRegister.setUsername("toRegister");
+        toRegister.setPassword("pass");
+        toRegister.setEmail("invalid");
+        String request = new ObjectMapper().writeValueAsString(toRegister);
+
+        int response = this.mvc.perform(post(UserEndpoints.SIGNUP)
+                .contentType(MediaType.APPLICATION_JSON).content(request))
+                .andExpect(status().isConflict())
+                .andReturn().getResponse().getStatus();
+
+        Assert.assertEquals(HttpStatus.CONFLICT.value(), response);
+    }
+
+    @Test
+    public void passwordRecovery_userNotFoundTest() throws Exception {
+        String email = "noUserWithThisEmailInTheDatabase@gmail.com";
+        String response = this.mvc.perform(post(UserEndpoints.FORGOTPASSWORD)
+                .contentType(MediaType.APPLICATION_JSON).content(email)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        Assert.assertEquals(response, "");
+    }
+
+    @Test
+    public void passwordRecovery_okEmailTest() throws Exception {
+        User user = new User();
+        user.setUsername("oopp");
+        user.setPassword("oopp");
+        String email = "ooppgogreen@gmail.com";
+        user.setEmail(email);
+        String request = new ObjectMapper().writeValueAsString(user);
+        this.mvc.perform(post(UserEndpoints.SIGNUP)
+                .contentType(MediaType.APPLICATION_JSON).content(request))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getStatus();
+
+        String response = this.mvc.perform(post(UserEndpoints.FORGOTPASSWORD)
+                .contentType(MediaType.APPLICATION_JSON).content(email)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        Assert.assertEquals(response, email);
+    }
+
 
     @After
     public void cleanUp() {

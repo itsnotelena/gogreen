@@ -1,7 +1,5 @@
 package server.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,16 +22,76 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 @RestController
 @AllArgsConstructor
 public class UserController {
+
+    private static final String from = "ooppgogreen";
+    private static final String pass = "Gogreen63";
+
     private final UserRepository repository;
 
     private final LogRepository logRepository;
 
     private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    /**
+     * Sends a randomly generated UUID to an email and sets the password for that user to that id.
+     * @param email the email to send the new password to
+     * @return returns the email to which the password was sent
+     */
+    @PostMapping(value = UserEndpoints.FORGOTPASSWORD)
+    public String sendTokenMail(@RequestBody String email) {
+        User user = repository.findUserByEmail(email);
+        //TODO: change this into an exception
+        if (user == null) {
+            return null;
+        }
+        String uuid = UUID.randomUUID().toString().replace("-","");
+        String[] recipient = {email};
+        Properties properties = System.getProperties();
+        String host = "smtp.gmail.com";
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.user", from);
+        properties.put("mail.smtp.password", pass);
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        Session session = Session.getDefaultInstance(properties);
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(from));
+            InternetAddress[] toAddress = new InternetAddress[1];
+            toAddress[0] = new InternetAddress(recipient[0]);
+
+            message.addRecipients(Message.RecipientType.TO, toAddress);
+
+            message.setSubject("GoGreen password recovery");
+            message.setText("Hello " + user.getUsername() + ",\n\nThis is your new password: "
+                    + uuid + ".\nPlease change it once you log in.");
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, pass);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        } catch (MessagingException me) {
+            me.printStackTrace();
+        }
+        user.setPassword(hashPassword(uuid));
+        repository.save(user);
+        return email;
     }
 
     /**
@@ -59,11 +117,6 @@ public class UserController {
 
 
         user.setPassword(""); // Don't leak the (even the hashed) password
-        try {
-            System.out.println(new ObjectMapper().writeValueAsString(user));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
         return user;
     }
 
@@ -118,7 +171,8 @@ public class UserController {
     @PostMapping(value = UserEndpoints.GETOTHERUSERPOINTS)
     public int getOtherPoints(@RequestBody String username) {
         User user = repository.findUserByUsername(username);
-        return calcPoints(user);
+        int points = calcPoints(user);
+        return points;
     }
 
     /**
@@ -127,10 +181,11 @@ public class UserController {
      * @param user For calculating user's points.
      * @return Points.
      */
-    private int calcPoints(User user) {
+    public int calcPoints(User user) {
         int points = 0;
         List<Log> list = logRepository.findByUser(user);
-        if (list == null) {
+        //Never returns a null string. Just an empty one
+        if (list.isEmpty()) {
             return 0;
         }
         for (Log log : list) {
@@ -138,7 +193,7 @@ public class UserController {
                 points = points + log.getPoints();
             }
         }
-        return points  + getStateSolar(user.getUsername()).getPoints();
+        return points + getStateSolar(user.getUsername()).getPoints();
     }
 
 
@@ -159,7 +214,7 @@ public class UserController {
      *
      * @param authentication Authentication details of the useer
      * @return An array representing a pair of the state of the button
-     * and the amount of points gathered by the solar panels.
+     *      and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {

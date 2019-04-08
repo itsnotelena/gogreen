@@ -31,6 +31,7 @@ public class BadgeController {
      * @param auth to identify the user.
      * @return the list of badges and their levels.
      */
+    @SuppressWarnings("missingswitchdefault")
     @GetMapping(value = UserEndpoints.BADGES) // TODO: Reduce Cyclomatic complexity
     public Badge[] getBadgeLevel(Authentication auth) {
 
@@ -110,7 +111,6 @@ public class BadgeController {
                     //add all the solar logs to a separate array
                     solarLogs.add(log);
                     break;
-                default:
             }
         }
 

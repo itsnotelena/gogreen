@@ -226,6 +226,16 @@ public class UserService {
         restTemplate.postForObject(UserEndpoints.CHANGE_PASS, password, User.class);
     }
 
+    /**
+     * Send a post request to the server with the email of the user who forgot the password.
+     * @param email the email to send the new password to
+     * @return null if no user with that email exists, otherwise returns the user's email
+     */
+    public String sendForgot(String email) {
+        String response = restTemplate.postForObject(UserEndpoints.FORGOTPASSWORD,
+                email, String.class);
+        return response;
+    }
 }
 
 

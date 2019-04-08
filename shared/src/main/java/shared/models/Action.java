@@ -37,7 +37,7 @@ public enum Action {
             case PUBLIC:
                 return "used public transport instead of a car";
             default:
-                return "";
+                return "Invalid Action";
         }
     }
 }
