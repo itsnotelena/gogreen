@@ -44,6 +44,10 @@ public class UserService {
         return response != null;
     }
 
+    public void logout() {
+
+    }
+
     /**
      * The method authorizes a user from the database and logs in.
      *

@@ -37,7 +37,12 @@ import shared.models.User;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 
@@ -102,7 +107,11 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     private List<User> searchlist;
 
+    private Map<Label, Integer> map;
+
     private User result;
+
+    private List<Label> labellist;
 
     private User selectedUser;
 
@@ -164,6 +173,9 @@ public class DiscoverPeopleController extends AbstractController implements Init
         pane1.setVisible( false );
         this.usernameField.setText(service.getUsername());
 
+        this.map = new HashMap<Label, Integer>();
+        this.labellist = new ArrayList<>();
+
         errorlabel.setVisible(false);
         noUserLabel.setVisible(false);
         selectULabel.setVisible(false);
@@ -190,12 +202,40 @@ public class DiscoverPeopleController extends AbstractController implements Init
         this.leaderboard.getItems().clear();
         this.leaderlist = this.service.getLeaderBoard();
         this.leaderlist.forEach(e -> this.leaderboard.getItems().add(getUserLabel(e)));
+        infolabel.setText("Global Leaderboard");
+        this.leaderlist.forEach(e -> map.put(getUserLabel(e),
+                service.getFollowingPoints(e.getUsername())));
+        this.map = sortByValue(this.map);
+        this.labellist.addAll(map.keySet());
+        Collections.reverse(labellist);
+        this.leaderboard.getItems().addAll(labellist);
+
     }
+
+    /**
+     * The method sorts a map accendingly.
+     * @param map a map to sort.
+     * @param <K> a key.
+     * @param <V> a value.
+     * @return a sorted map.
+     */
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
+    }
+
 
     private Label getUserLabel(User user) {
         Label result = new Label(
                 "Username: " + user.getUsername() + " Email: " + user.getEmail()
-                        + " Points: " + service.getFollowingPoints(user.getUsername()));
+                        + " Points: "  + service.getFollowingPoints(user.getUsername()));
         if (user.getUsername().equals(this.service.getUser().getUsername())) {
             result.setTextFill(Color.rgb(18, 214, 8));
         }
