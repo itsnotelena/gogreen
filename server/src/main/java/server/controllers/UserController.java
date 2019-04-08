@@ -30,7 +30,6 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -87,8 +86,6 @@ public class UserController {
             transport.connect(host, from, pass);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-        } catch (AddressException ae) {
-            ae.printStackTrace();
         } catch (MessagingException me) {
             me.printStackTrace();
         }
@@ -187,7 +184,8 @@ public class UserController {
     public int calcPoints(User user) {
         int points = 0;
         List<Log> list = logRepository.findByUser(user);
-        if (list == null) {
+        //Never returns a null string. Just an empty one
+        if (list.isEmpty()) {
             return 0;
         }
         for (Log log : list) {

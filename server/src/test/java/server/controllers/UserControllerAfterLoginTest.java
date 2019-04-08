@@ -410,6 +410,75 @@ public class UserControllerAfterLoginTest {
         Assert.assertEquals(Integer.parseInt(points2), 0);
     }
 
+    @Test
+    public void calcPointsNoLogTest() throws Exception {
+        User follow2 = new User();
+        follow2.setUsername("follow2");
+        follow2.setPassword("follow2");
+        follow2.setEmail("follow2@gmail.com");
+        String request = this.mvc.perform(post(UserEndpoints.SIGNUP).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(follow2))).andReturn().getResponse().getContentAsString();
+        User user = new ObjectMapper().readValue(request, User.class);
+        Assert.assertEquals(0, new UserController(userRepository, logRepository).calcPoints(user));
+    }
+
+    @Test
+    public void followYourselfTest() throws Exception {
+        this.mvc.perform(post(UserEndpoints.FOLLOW).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(currentUser.getUsername()));
+        String listResponse = this.mvc.perform(get(UserEndpoints.FOLLOWLIST)
+                .header(HttpHeaders.AUTHORIZATION, authorization))
+                .andReturn().getResponse().getContentAsString();
+        User[] followed = new ObjectMapper().readValue(listResponse, User[].class);
+        Assert.assertEquals(0, followed.length);
+    }
+
+    @Test
+    public void getUserInfoTest() throws Exception {
+        String user = this.mvc.perform(get(UserEndpoints.USER_INFO)
+                .header(HttpHeaders.AUTHORIZATION, authorization))
+                .andReturn().getResponse().getContentAsString();
+        User toCompare = new ObjectMapper().readValue(user, User.class);
+        Assert.assertEquals(currentUser.getUsername(), toCompare.getUsername());
+    }
+
+    @Test
+    public void calcPoints_SolarTest() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        LocalDate datePrevious = LocalDate.now().minus(Period.ofDays(2)).atStartOfDay().toLocalDate();
+        Log solar = new Log();
+        solar.setDate(datePrevious);
+        solar.setAction(Action.SOLAR);
+        solar.setUser(testUser);
+        String log = this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(solar)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        Log test = mapper.readValue(log, Log.class);
+        test.setDate(datePrevious);
+        logRepository.save(test);
+        Assert.assertEquals(2 * Action.SOLAR.getPoints(),
+                new UserController(userRepository, logRepository).calcPoints(currentUser));
+    }
+
+    @Test
+    public void calculatePointsTodayTest() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+
+        Log solar = new Log();
+        solar.setAction(Action.SOLAR);
+        solar.setUser(currentUser);
+        this.mvc.perform(post(UserEndpoints.LOGS).header(HttpHeaders.AUTHORIZATION, authorization)
+                .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(solar)))
+                .andExpect(status().isOk());
+        String response = this.mvc.perform(get(UserEndpoints.TODAYPROGRESS).header(HttpHeaders.AUTHORIZATION, authorization))
+                .andReturn().getResponse().getContentAsString();
+        Assert.assertEquals(0, Integer.parseInt(response));
+    }
+
     @After
     public void cleanup() {
         logRepository.deleteAll();
