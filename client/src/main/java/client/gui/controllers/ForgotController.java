@@ -6,6 +6,7 @@ import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -68,13 +69,23 @@ public class ForgotController extends AbstractController implements Initializabl
     public void initialize(URL location, ResourceBundle resources) {
         send.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             String email = textField.getText();
-            String response = service.sendForgot(email);
-            System.out.println(response);
-            if (response == null) {
-                message.setText("No user with that email exists");
-            } else {
-                message.setText("Sent a message to: " + email);
-            }
+            Task<String> task = new Task<>() {
+                @Override
+                protected String call() {
+                    String response = service.sendForgot(email);
+                    System.out.println(response);
+                    return response;
+                }
+            };
+            task.setOnSucceeded(e -> {
+                String result = task.getValue();
+                if (result == null) {
+                    message.setText("No user with that email exists");
+                } else {
+                    message.setText("Sent a message to: " + email);
+                }
+            });
+            new Thread(task).start();
         });
     }
 }
