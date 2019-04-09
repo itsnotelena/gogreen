@@ -124,7 +124,7 @@ public class SettingsController extends AbstractController implements Initializa
         this.usernameField.setText(service.getUser().getUsername());
 
         this.username.setText( service.getUser().getUsername() );
-        this.emailField.setText( service.getUser().getUsername() );
+        this.emailField.setText( service.getUser().getEmail() );
 
         if (service.getPoints() >= 5000) {
             BackgroundImage myBI = new BackgroundImage(
