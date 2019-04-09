@@ -107,7 +107,7 @@ public class SignUpController extends AbstractController implements Initializabl
             goToSmall(username, LOGIN);
             System.out.println("Signed up successfully.");
         } else {
-            validpass.setText("Username already in use");
+            validpass.setText("Username or email already in use");
             System.err.println("Signed up is incorrect.");
         }
 

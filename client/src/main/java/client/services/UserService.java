@@ -174,8 +174,8 @@ public class UserService {
 
     /**
      * Adds user to the 'following' list.
-     * @param user To be added.
-     * @return The added user.
+     * @param user to be added.
+     * @return the added user.
      */
     public User addFollow(User user) {
         User response = restTemplate.postForObject(
@@ -210,6 +210,10 @@ public class UserService {
         return followlist;
     }
 
+    public int getPointsToday() {
+        return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
+    }
+
     /**
      * Returns the current user.
      * @return The user.
@@ -226,8 +230,15 @@ public class UserService {
         restTemplate.postForObject(UserEndpoints.CHANGE_PASS, password, User.class);
     }
 
-    public int getPointsToday() {
-        return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
+    /**
+     * Send a post request to the server with the email of the user who forgot the password.
+     * @param email the email to send the new password to
+     * @return null if no user with that email exists, otherwise returns the user's email
+     */
+    public String sendForgot(String email) {
+        String response = restTemplate.postForObject(UserEndpoints.FORGOTPASSWORD,
+                email, String.class);
+        return response;
     }
 
     /**

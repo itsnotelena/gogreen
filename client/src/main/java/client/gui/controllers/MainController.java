@@ -1,10 +1,15 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.*;
+
 import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawersStack;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXNodesList;
@@ -28,6 +33,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
+import javafx.scene.text.TextFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.Action;
@@ -40,8 +46,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static client.gui.tools.SceneNames.*;
-
 @Component
 public class MainController extends AbstractController implements Initializable {
 
@@ -50,6 +54,9 @@ public class MainController extends AbstractController implements Initializable 
     private UserService service;
 
     private List<Log> logs;
+
+    @FXML
+    private StackPane wrapper;
 
     @FXML
     private Pane myPane;
@@ -124,6 +131,11 @@ public class MainController extends AbstractController implements Initializable 
     private JFXSlider tempSliderWinter;
 
     @FXML
+    private JFXButton infoButton;
+
+    @FXML
+    private StackPane stackPaneChart;
+    @FXML
     private StackPane stackPane;
 
     @FXML
@@ -190,9 +202,8 @@ public class MainController extends AbstractController implements Initializable 
         stackPane = new StackPane();
         ObservableList<PieChart.Data> pieChartData = createData();
         this.chart = new DoughnutChart(pieChartData);
-        this.chartContainer.getChildren().add(stackPane);
-        stackPane.setAlignment(Pos.CENTER);
-        stackPane.getChildren().add(chart);
+        stackPaneChart.setAlignment(Pos.CENTER);
+        chartContainer.getChildren().add(chart);
         this.createPoints();
         if (service.getStateSolar().isEnabled()) {
             toggleButton(solarbtn);
@@ -200,12 +211,15 @@ public class MainController extends AbstractController implements Initializable 
 
         createLogList();
 
+        infoButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loadInfo());
+
         this.foodList = createFoodList();
         this.transportList = createTransportList();
         this.energyList = createEnergyList();
         this.tempList = createTemperatureList();
 
         addListenerChart();
+
 
         tempSliderSummer.setValue(0);
         tempSliderWinter.setValue(0);
@@ -247,10 +261,10 @@ public class MainController extends AbstractController implements Initializable 
             this.service.madeAction(action, amount);
             int points = this.service.getPointsToday();
             this.pointsContainer.setText("Points\nearned\ntoday\n" + points);
-            this.stackPane.getChildren().remove(pointsContainer);
+            this.stackPaneChart.getChildren().remove(pointsContainer);
             this.createLogList();
             this.updateChart();
-            this.stackPane.getChildren().add(pointsContainer);
+            this.stackPaneChart.getChildren().add(pointsContainer);
         }
     }
 
@@ -391,9 +405,9 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void updateChart() {
-        if (this.stackPane.getChildren().remove(this.chart)) {
+        if (this.chartContainer.getChildren().remove(this.chart)) {
             this.chart = new DoughnutChart(createData());
-            this.stackPane.getChildren().add(chart);
+            this.chartContainer.getChildren().add(chart);
         }
         addListenerChart();
     }
@@ -415,6 +429,29 @@ public class MainController extends AbstractController implements Initializable 
         pointsContainer.setFont(new Font(20));
         pointsContainer.setFill(Color.GREEN);
         pointsContainer.setTranslateY(-10);
-        stackPane.getChildren().add(pointsContainer);
+        stackPaneChart.getChildren().add(pointsContainer);
+    }
+
+    private void loadInfo() {
+        JFXDialogLayout content = new JFXDialogLayout();
+        Text heading = new Text("Information");
+        heading.setFont(Font.font("Montserrat"));
+        content.setHeading(new Text("Information"));
+        Text vegetarian = new Text("Vegetarian Meal");
+        vegetarian.setFont(Font.font("Montserrat", 12));
+        vegetarian.setUnderline(true);
+        Text vegetarianContent = new Text(" : you can press the vegetarian meal button after "
+                + "every vegetarian meal you have.\n");
+        vegetarianContent.setFont(Font.font("Montserrat", 12));
+        Text solar = new Text("Solar panels");
+        solar.setFont(Font.font("Montserrat", 12));
+        solar.setUnderline(true);
+        Text solarContent = new Text(" : Toggle it on if you have installed your solar panels. "
+                + "Toggle it off if you no longer have solar panels\n");
+        TextFlow textFlow = new TextFlow();
+        textFlow.getChildren().addAll(vegetarian, vegetarianContent, solar, solarContent);
+        content.setBody(textFlow);
+        JFXDialog dialog = new JFXDialog(wrapper, content, JFXDialog.DialogTransition.CENTER);
+        dialog.show();
     }
 }

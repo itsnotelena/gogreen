@@ -11,9 +11,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <?import com.jfoenix.controls.JFXListCell?>
 <AnchorPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@styles/main.css,styles/background.css" styleClass="rootPane"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MainController">
@@ -132,3 +134,121 @@
         <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" text="History" styleClass="cell:hover;cell:pressed" onMouseClicked="#goToHistory"/>
     </Pane>
 </AnchorPane>
+<StackPane fx:id="wrapper" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MainController">
+   <children>
+      <AnchorPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@styles/main.css">
+          <ImageView fitHeight="90.0" fitWidth="102.0" layoutX="401.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+              <Image url="@images/logo.png" />
+          </ImageView>
+         <StackPane fx:id="stackPaneChart" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox fx:id="chartContainer" alignment="CENTER" prefHeight="600.0" prefWidth="900.0" />
+            </children>
+         </StackPane>
+          <HBox layoutX="207.0" layoutY="156.0" prefHeight="46.0" prefWidth="189.0">
+                  <JFXButton fx:id="vegbtn" styleClass="animated-option-button-sub" text="Vegetarian&#10;    Meal">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </JFXButton>
+                  <Label fx:id="vegLabel" prefHeight="44.0" prefWidth="97.0" text="Click to add a&#10;vegetarian meal!">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </Label>
+          </HBox>
+          <HBox layoutX="418.0" layoutY="73.0" prefHeight="44.0" prefWidth="189.0">
+                  <JFXButton fx:id="localbtn" styleClass="animated-option-button-sub" text=" Local&#10;Produce">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </JFXButton>
+                  <Label fx:id="localLabel" prefHeight="46.0" prefWidth="105.0" text="Click to add buying&#10;local produce!">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </Label>
+          </HBox>
+          <HBox layoutX="131.0" layoutY="288.0">
+                  <JFXButton fx:id="bikebtn" styleClass="animated-option-button-sub" text="Bike Ride">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </JFXButton>
+                  <Label fx:id="bikeLabel" prefHeight="46.0" prefWidth="113.0" text="Click to add taking &#10;a bike ride instead&#10;         of car">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </Label>
+          </HBox>
+         <HBox layoutX="141.0" layoutY="298.0">
+               <JFXButton fx:id="publicbtn" styleClass="animated-option-button-sub" text="Public Transport" textAlignment="CENTER" wrapText="true">
+                  <font>
+                     <Font size="10.0" />
+                  </font>
+               </JFXButton>
+               <Label fx:id="publicLabel" prefHeight="46.0" prefWidth="113.0" text="Click to add taking &#10;public transport instead&#10;         of car">
+                  <font>
+                     <Font size="10.0" />
+                  </font>
+               </Label>
+         </HBox>
+          <HBox layoutX="558.0" layoutY="290.0" prefHeight="44.0" prefWidth="190.0">
+                  <JFXButton fx:id="tempbtn" styleClass="animated-option-button-sub" text="  Lowering &#10;Temperature">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </JFXButton>
+                  <Label fx:id="tempLabel" prefHeight="46.0" prefWidth="103.0" text="Click to add lowering&#10;the temperature of&#10;your house">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </Label>
+          </HBox>
+          <HBox layoutX="584.0" layoutY="326.0" prefHeight="46.0" prefWidth="190.0">
+                  <JFXButton fx:id="solarbtn" styleClass="animated-option-button-sub" text="Solar Panels">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </JFXButton>
+                  <Label fx:id="solarLabel" prefHeight="46.0" prefWidth="114.0" text="Click to add using&#10;solar panels">
+                      <font>
+                          <Font size="10.0" />
+                      </font>
+                  </Label>
+          </HBox>
+
+          <JFXHamburger fx:id="hamburger" layoutX="844.0" layoutY="20.0" prefHeight="31.0" prefWidth="41.0" />
+         <JFXButton fx:id="infoButton" focusTraversable="false" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="20.0">
+            <graphic>
+               <FontIcon iconLiteral="gmi-info-outline" iconSize="25" selectionEnd="0" selectionStart="0" />
+            </graphic>
+         </JFXButton>
+          <VBox fx:id="nodeListContainer" alignment="TOP_CENTER" layoutY="250.0" prefHeight="0.0" prefWidth="0.0" AnchorPane.rightAnchor="150.0">
+   </VBox>
+          <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
+          <Text fx:id="pointsContainer" layoutX="750.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="105.59999937191606" />
+          <JFXListView fx:id="loglist" layoutX="645.0" layoutY="350.0" prefHeight="250.0" prefWidth="250.0" />
+         <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
+            <children>
+               <JFXButton fx:id="winterBtn" styleClass="animated-option-button-sub" text="Reduce Heating" textAlignment="CENTER" wrapText="true">
+                  <font>
+                     <Font size="10.0" />
+                  </font>
+               </JFXButton>
+               <JFXSlider fx:id="tempSliderWinter" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+            </children>
+         </HBox>
+         <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
+            <children>
+               <JFXButton fx:id="summerBtn" styleClass="animated-option-button-sub" text="Reduce Climate Control" textAlignment="CENTER" wrapText="true">
+                  <font>
+                     <Font size="8.0" />
+                  </font>
+               </JFXButton>
+               <JFXSlider fx:id="tempSliderSummer" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+            </children>
+         </HBox>
+      </AnchorPane>
+   </children>
+</StackPane>
