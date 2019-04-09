@@ -1,17 +1,19 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.*;
+import static client.gui.tools.SceneNames.HISTORY;
+import static client.gui.tools.SceneNames.LOGIN;
+import static client.gui.tools.SceneNames.SETTINGS;
+import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
+
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.controls.JFXSlider;
 import javafx.collections.FXCollections;
@@ -53,7 +55,6 @@ public class MainController extends AbstractController implements Initializable 
 
     private UserService service;
 
-    private List<Log> logs;
 
     @FXML
     private StackPane wrapper;
@@ -121,8 +122,6 @@ public class MainController extends AbstractController implements Initializable 
     @FXML
     private JFXHamburger hamburger;
 
-    @FXML
-    private JFXListView loglist;
 
     @FXML
     private JFXSlider tempSliderSummer;
@@ -209,8 +208,6 @@ public class MainController extends AbstractController implements Initializable 
             toggleButton(solarbtn);
         }
 
-        createLogList();
-
         infoButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loadInfo());
 
         this.foodList = createFoodList();
@@ -262,29 +259,8 @@ public class MainController extends AbstractController implements Initializable 
             int points = this.service.getPointsToday();
             this.pointsContainer.setText("Points\nearned\ntoday\n" + points);
             this.stackPaneChart.getChildren().remove(pointsContainer);
-            this.createLogList();
             this.updateChart();
             this.stackPaneChart.getChildren().add(pointsContainer);
-        }
-    }
-
-    private void createLogList() {
-        this.logs = this.service.getLog();
-        this.loglist.getItems().clear();
-
-        int parity = 0;
-        for (Log log : logs) {
-            if (log.getAction().equals(Action.SOLAR)) {
-                if (parity % 2 == 1) {
-                    this.loglist.getItems().add(0,
-                            new Label("You removed your solar panels on "
-                                    + log.getDate()));
-                }
-                parity++;
-            }
-            this.loglist.getItems().add(0,
-                    new Label("You " + log.getAction().historyString() + " on "
-                            + log.getDate()));
         }
     }
 
