@@ -188,7 +188,7 @@ public class MainController extends AbstractController implements Initializable 
         pane1.setVisible( false );
 
 
-        this.usernameField.setText(service.getUsername());
+        this.usernameField.setText(service.getUser().getUsername());
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
 

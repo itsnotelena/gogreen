@@ -7,17 +7,12 @@ import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
 import client.services.UserService;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXNodesList;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -34,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shared.models.User;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,6 +38,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 
 
 
@@ -131,20 +126,20 @@ public class DiscoverPeopleController extends AbstractController implements Init
     @FXML
     public void show() {
         if (pane1.isVisible()) {
-            pane1.setVisible( false );
+            pane1.setVisible(false);
         } else {
-            pane1.setVisible( true );
+            pane1.setVisible(true);
         }
     }
 
     @FXML
     public void goToSettings() throws IOException {
-        goToLarge(myPane, SETTINGS );
+        goToLarge(myPane, SETTINGS);
     }
 
     @FXML
     public void goToHistory() throws IOException {
-        goToLarge( myPane, HISTORY );
+        goToLarge(myPane, HISTORY);
     }
 
     @Override
@@ -154,23 +149,23 @@ public class DiscoverPeopleController extends AbstractController implements Init
         if (service.getPoints() >= 5000) {
             BackgroundImage myBI = new BackgroundImage(
                     new Image(
-                            "/images/backgroundlevel2.png", 900, 600, false, true ),
+                            "/images/backgroundlevel2.png", 900, 600, false, true),
                     BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
+                    BackgroundSize.DEFAULT);
 
-            myPane.setBackground( new Background( myBI ) );
+            myPane.setBackground(new Background(myBI));
 
         } else if (service.getPoints() >= 10000) {
             BackgroundImage myBI = new BackgroundImage(
-                    new Image( "/images/image_background.png", 900, 600, false, true ),
+                    new Image("/images/image_background.png", 900, 600, false, true),
                     BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
+                    BackgroundSize.DEFAULT);
 
-            myPane.setBackground( new Background( myBI ) );
+            myPane.setBackground(new Background(myBI));
         }
 
-        pane1.setVisible( false );
-        this.usernameField.setText(service.getUsername());
+        pane1.setVisible(false);
+        this.usernameField.setText(service.getUser().getUsername());
 
         this.map = new HashMap<User, Integer>();
         this.labellist = new ArrayList<>();
@@ -181,12 +176,12 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
 
         try {
-            myPane = FXMLLoader.load(getClass().getResource( TOOLBAR ));
+            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
             getLeaderBoard();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeHamburger( myPane, hamburger, drawer);
+        initializeHamburger(myPane, hamburger, drawer);
         drawer.setVisible(false);
 
     }
@@ -232,13 +227,14 @@ public class DiscoverPeopleController extends AbstractController implements Init
     }
 
     /**
-     * The method sorts a map accendingly.
+     * The method sorts a map in an ascending order.
+     *
      * @param map a map to sort.
      * @param <K> a key.
      * @param <V> a value.
      * @return a sorted map.
      */
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
         List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
         list.sort(Map.Entry.comparingByValue());
 
@@ -254,7 +250,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private Label getUserLabel(User user) {
         Label result = new Label(
                 "Username: " + user.getUsername() + " Email: " + user.getEmail()
-                        + " Points: "  + service.getFollowingPoints(user.getUsername()));
+                        + " Points: " + service.getFollowingPoints(user.getUsername()));
         if (user.getUsername().equals(this.service.getUser().getUsername())) {
             result.setTextFill(Color.rgb(18, 214, 8));
         }
@@ -265,9 +261,8 @@ public class DiscoverPeopleController extends AbstractController implements Init
     }
 
     private void addListListeners(ListView list) {
-        list.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+        list.getSelectionModel().selectedIndexProperty().addListener(
+            (observableValue, number, t1) -> {
                 if (t1.intValue() != -1) {
                     if (list.equals(followView)) {
                         selectedUser = followlist.get(t1.intValue());
@@ -293,8 +288,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
                         unfollowbtn.setVisible(false);
                     }
                 }
-            }
-        });
+            });
     }
 
 

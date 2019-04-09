@@ -241,22 +241,6 @@ public class UserService {
         return response;
     }
 
-    /**
-     * Returns the current user's username.
-     * @return
-     */
-    public String getUsername() {
-        return getUser().getUsername();
-    }
-
-    /**
-     * Returns the current user's email.
-     * @return
-     */
-    public String getEmail() {
-        return getUser().getEmail();
-    }
-
 
 }
 

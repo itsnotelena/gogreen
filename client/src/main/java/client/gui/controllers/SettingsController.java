@@ -70,11 +70,9 @@ public class SettingsController extends AbstractController implements Initializa
         this.service = service;
     }
 
-    @FXML
-    public void changePass() {
-        passPane.setVisible(true);
-    }
-
+    /**
+     * Shows or closes the change password pane.
+     */
     @FXML
     public void passwordPane() {
         if (passPane.isVisible()) {
@@ -84,6 +82,9 @@ public class SettingsController extends AbstractController implements Initializa
         }
     }
 
+    /**
+     * Changes the password based on user input.
+     */
     @FXML
     public  void setPass() {
         if (!passfield.getText().isEmpty()) {
@@ -97,6 +98,9 @@ public class SettingsController extends AbstractController implements Initializa
         goToSmall(myPane, LOGIN);
     }
 
+    /**
+     * Shows the pane with user options.
+     */
     @FXML
     public void show() {
         if (pane1.isVisible()) {
@@ -117,10 +121,10 @@ public class SettingsController extends AbstractController implements Initializa
         pane1.setVisible( false );
         passPane.setVisible( false );
 
-        this.usernameField.setText(service.getUsername());
+        this.usernameField.setText(service.getUser().getUsername());
 
-        this.username.setText( service.getUsername() );
-        this.emailField.setText( service.getEmail() );
+        this.username.setText( service.getUser().getUsername() );
+        this.emailField.setText( service.getUser().getUsername() );
 
         if (service.getPoints() >= 5000) {
             BackgroundImage myBI = new BackgroundImage(

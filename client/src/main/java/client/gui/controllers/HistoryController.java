@@ -61,6 +61,9 @@ public class HistoryController extends AbstractController implements Initializab
         goToSmall(myPane, LOGIN);
     }
 
+    /**
+     * Shows the pane with user options.
+     */
     @FXML
     public void show() {
         if (pane1.isVisible()) {
@@ -78,7 +81,7 @@ public class HistoryController extends AbstractController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rs) {
 
-        this.usernameField.setText( service.getUsername() );
+        this.usernameField.setText( service.getUser().getUsername() );
         this.pane1.setVisible(false);
 
         try {
@@ -92,6 +95,9 @@ public class HistoryController extends AbstractController implements Initializab
         createLogList();
     }
 
+    /**
+     * Creates the list of actions taken by the user.
+     */
     private void createLogList() {
         this.logs = this.service.getLog();
         this.historyView.getItems().clear();

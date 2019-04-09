@@ -141,18 +141,20 @@ public class MyPageController extends AbstractController implements Initializabl
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        this.usernameField.setText(userService.getUsername());
+        this.usernameField.setText(userService.getUser().getUsername());
         pane1.setVisible( false );
 
         if (userService.getPoints() >= 0) {
-            BackgroundImage myBI = new BackgroundImage( new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
+            BackgroundImage myBI = new BackgroundImage(
+                    new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
                     BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                     BackgroundSize.DEFAULT );
 
             myPane.setBackground( new Background( myBI ) );
 
         } else if (userService.getPoints() >= 5000) {
-            BackgroundImage myBI = new BackgroundImage( new Image( "/images/image_background.png", 900, 600, false, true ),
+            BackgroundImage myBI = new BackgroundImage(
+                    new Image( "/images/image_background.png", 900, 600, false, true ),
                     BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                     BackgroundSize.DEFAULT );
 
@@ -167,7 +169,7 @@ public class MyPageController extends AbstractController implements Initializabl
                 {bike1, bike2, bike3}, {public1, public2, public3},
                 {solar1, solar2, solar3}, {temp1, temp2, temp3}};
 
-                myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
 
             initBadges();
             getBadges();

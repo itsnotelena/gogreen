@@ -155,8 +155,8 @@ public class TestUserAfterLogin {
         User response = userService.getUser();
 
         mockServer.verify();
-
         Assert.assertEquals(responseT, new ObjectMapper().writeValueAsString(response));
+
     }
 
     @Test
@@ -177,7 +177,7 @@ public class TestUserAfterLogin {
     }
 
     @Test
-    public void testGetPointsToday() throws Exception{
+    public void testGetPointsToday() {
 
         mockServer.expect(requestTo(url + UserEndpoints.TODAYPROGRESS))
                 .andExpect(method(HttpMethod.GET))
@@ -216,7 +216,7 @@ public class TestUserAfterLogin {
     }
 
     @Test
-    public void testFollowingPoints() throws Exception{
+    public void testFollowingPoints() {
 
         mockServer.expect(requestTo(url + UserEndpoints.GETOTHERUSERPOINTS))
                 .andExpect(method(HttpMethod.POST))
@@ -317,14 +317,6 @@ public class TestUserAfterLogin {
 
         Assert.assertTrue(resp.size()>0);
     }
-
-
-
-
-
-
-
-
 
 
 }
