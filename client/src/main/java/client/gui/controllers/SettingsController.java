@@ -1,7 +1,11 @@
 package client.gui.controllers;
 
-import client.gui.tools.AbstractController;
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
+import static client.gui.tools.SceneNames.HISTORY;
+import static client.gui.tools.SceneNames.LOGIN;
+import static client.gui.tools.SceneNames.TOOLBAR;
 
+import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
@@ -21,7 +25,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static client.gui.tools.SceneNames.*;
 
 @Component
 public class SettingsController extends AbstractController implements Initializable {

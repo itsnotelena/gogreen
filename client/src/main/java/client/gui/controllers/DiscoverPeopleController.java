@@ -1,5 +1,11 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
+import static client.gui.tools.SceneNames.HISTORY;
+import static client.gui.tools.SceneNames.LOGIN;
+import static client.gui.tools.SceneNames.SETTINGS;
+import static client.gui.tools.SceneNames.TOOLBAR;
+
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
@@ -35,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static client.gui.tools.SceneNames.*;
 
 
 @Component

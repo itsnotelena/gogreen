@@ -1,10 +1,21 @@
 package client.gui.controllers;
 
-import client.gui.tools.AbstractController;
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
+import static client.gui.tools.SceneNames.HISTORY;
+import static client.gui.tools.SceneNames.LOGIN;
+import static client.gui.tools.SceneNames.SETTINGS;
+import static client.gui.tools.SceneNames.TOOLBAR;
 
+import client.gui.tools.AbstractController;
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXNodesList;
+import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,7 +49,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static client.gui.tools.SceneNames.*;
 
 @Component
 public class MainController extends AbstractController implements Initializable {

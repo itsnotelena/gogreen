@@ -1,7 +1,6 @@
 package client.gui.tools;
 
 import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.geometry.Rectangle2D;
@@ -9,14 +8,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import static client.gui.tools.SceneNames.DRAWER_SIZE;
 
 public abstract class AbstractController {
 

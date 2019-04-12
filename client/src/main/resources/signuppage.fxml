@@ -27,9 +27,9 @@
     <JFXTextField fx:id="confirmemail" layoutX="200.0" layoutY="355.0" prefHeight="27.0" prefWidth="200.0" promptText="Confirm E-mail" />
     <JFXRadioButton fx:id="man" layoutX="188.0" layoutY="265.0" text="Man" />
     <JFXRadioButton fx:id="woman" layoutX="262.0" layoutY="265.0" text="Woman" />
-    <JFXRadioButton fx:id="other" layoutX="349.0" layoutY="265.0" text="Other" />
-    <JFXButton fx:id="signUpButton" layoutX="201.0" layoutY="444.0" onAction="#doSignUp" prefHeight="34.0" prefWidth="83.0" style="-fx-background-color: #73C2FB;" text="Sign up!" styleClass="button-border" />
-    <JFXButton fx:id="returnButton" layoutX="339.0" layoutY="444.0" onAction="#goToLogin" prefHeight="34.0" prefWidth="83.0" style="-fx-background-color: #73C2FB;" text="Return" styleClass="button-border"/>
+    <JFXRadioButton fx:id="other" layoutX="349.0" layoutY="265.0" text="Prefer not to say" />
+    <JFXButton fx:id="signUpButton" layoutX="201.0" layoutY="444.0" onAction="#doSignUp" prefHeight="34.0" prefWidth="83.0" style="-fx-background-color: #73C2FB;" styleClass="button-border" text="Sign up!" />
+    <JFXButton fx:id="returnButton" layoutX="339.0" layoutY="444.0" onAction="#goToLogin" prefHeight="34.0" prefWidth="83.0" style="-fx-background-color: #73C2FB;" styleClass="button-border" text="Return" />
     <Label fx:id="validpass" layoutX="215.0" layoutY="380.0" textFill="#e82121" />
    <JFXCheckBox layoutX="199.0" layoutY="410.0" text="I agree to the" />
    <Hyperlink layoutX="307.0" layoutY="406.0" text="terms of service" />

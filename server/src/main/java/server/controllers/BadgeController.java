@@ -160,7 +160,7 @@ public class BadgeController {
         }
 
         if (list.size() > 1) {
-            for (int i = 0; i < list.size(); i += 2) {
+            for (int i = 0; i < list.size() - 1; i += 2) {
                 int days = (int) ChronoUnit.DAYS.between(
                         list.get(i).getDate(),
                         list.get(i + 1).getDate());

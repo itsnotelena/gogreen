@@ -1,22 +1,21 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
+import static client.gui.tools.SceneNames.HISTORY;
+import static client.gui.tools.SceneNames.LOGIN;
+import static client.gui.tools.SceneNames.SETTINGS;
+import static client.gui.tools.SceneNames.TOOLBAR;
+
 import client.gui.tools.AbstractController;
 import client.services.BadgeService;
 import client.services.UserService;
 import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static client.gui.tools.SceneNames.*;
 
 
 @Component
@@ -145,8 +143,8 @@ public class MyPageController extends AbstractController implements Initializabl
         badgePane.toBack();
 
         try {
-            this.badges =  new ImageView[][] {{veg1, veg2, veg3},
-                    {local1, local2, local3},
+            this.badges =  new ImageView[][] {
+                    {veg1, veg2, veg3}, {local1, local2, local3},
                     {bike1, bike2, bike3}, {public1, public2, public3},
                     {solar1, solar2, solar3}, {temp1, temp2, temp3}};
 
