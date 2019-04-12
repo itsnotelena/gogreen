@@ -42,7 +42,7 @@ Vykintas Civas (vcivas) [Personal Development Plan](doc/personal-development-pla
 
 Agata Kordyl (akordyl) [Personal Development Plan](doc/personal-development-plans/agata_pdp.md)
 
-![](./pics/agata.JPG)
+![](./pics/agata.jpg)
 
 Alin Dondera (adondera) [Personal Development Plan](doc/personal-development-plans/Alin_Plan.md)
 
