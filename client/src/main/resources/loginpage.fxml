@@ -26,9 +26,4 @@
          <Image url="@images/image-main.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="40.0" layoutX="563.0" layoutY="14.0" onMouseClicked="#closeApplication" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@images/close.png" />
-      </image>
-   </ImageView>
 </AnchorPane>

@@ -1,26 +1,17 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.HISTORY;
-import static client.gui.tools.SceneNames.LOGIN;
-import static client.gui.tools.SceneNames.TOOLBAR;
-
 import client.gui.tools.AbstractController;
 
 import client.services.UserService;
-import com.jfoenix.controls.JFXDrawersStack;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +20,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static client.gui.tools.SceneNames.*;
 
 @Component
 public class SettingsController extends AbstractController implements Initializable {
@@ -51,7 +44,7 @@ public class SettingsController extends AbstractController implements Initializa
     private JFXHamburger hamburger;
 
     @FXML
-    private JFXDrawersStack drawer;
+    private JFXDrawer drawer;
 
     @FXML
     private Text usernameField;
@@ -126,31 +119,21 @@ public class SettingsController extends AbstractController implements Initializa
         this.username.setText( service.getUser().getUsername() );
         this.emailField.setText( service.getUser().getEmail() );
 
-        if (service.getPoints() >= 5000) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-
-        } else if (service.getPoints() >= 10000) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image( "/images/image_background.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-        }
 
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+            drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
+
+            drawer.setResizableOnDrag(true);
+            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+            task.setRate(task.getRate() * -1);
+
+            this.initializeHamburger(task, hamburger, drawer);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeHamburger(myPane, hamburger, drawer);
-        drawer.setVisible(false);
     }
 
 }

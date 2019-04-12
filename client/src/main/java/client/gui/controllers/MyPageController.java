@@ -1,15 +1,12 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.HISTORY;
-import static client.gui.tools.SceneNames.LOGIN;
-import static client.gui.tools.SceneNames.SETTINGS;
-import static client.gui.tools.SceneNames.TOOLBAR;
-
 import client.gui.tools.AbstractController;
 import client.services.BadgeService;
 import client.services.UserService;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,6 +27,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static client.gui.tools.SceneNames.*;
+
 
 @Component
 public class MyPageController extends AbstractController implements Initializable {
@@ -48,7 +47,7 @@ public class MyPageController extends AbstractController implements Initializabl
     JFXHamburger hamburger;
 
     @FXML
-    JFXDrawersStack drawer;
+    JFXDrawer drawer;
 
     @FXML
     private ImageView veg1;
@@ -143,41 +142,31 @@ public class MyPageController extends AbstractController implements Initializabl
 
         this.usernameField.setText(userService.getUser().getUsername());
         pane1.setVisible( false );
-
-        if (userService.getPoints() >= 0) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-
-        } else if (userService.getPoints() >= 5000) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image( "/images/image_background.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-        }
-
         badgePane.toBack();
 
         try {
             this.badges =  new ImageView[][] {{veg1, veg2, veg3},
-                {local1, local2, local3},
-                {bike1, bike2, bike3}, {public1, public2, public3},
-                {solar1, solar2, solar3}, {temp1, temp2, temp3}};
-
-            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+                    {local1, local2, local3},
+                    {bike1, bike2, bike3}, {public1, public2, public3},
+                    {solar1, solar2, solar3}, {temp1, temp2, temp3}};
 
             initBadges();
             getBadges();
+            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+            drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
+            //drawer.setOverLayVisible(true);
+
+            drawer.setResizableOnDrag(true);
+            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+            task.setRate(task.getRate() * -1);
+
+            this.initializeHamburger(task, hamburger, drawer);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeHamburger(myPane, hamburger, drawer);
-        drawer.setVisible( false );
+
 
     }
 

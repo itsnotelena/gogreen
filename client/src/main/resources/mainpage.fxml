@@ -14,10 +14,10 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<?import com.jfoenix.controls.JFXDrawersStack?>
 <?import javafx.scene.layout.Pane?>
 <?import com.jfoenix.controls.JFXListCell?>
-<StackPane fx:id="wrapper"  stylesheets="@styles/main.css,styles/background.css" styleClass="rootPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MainController">
+<?import com.jfoenix.controls.JFXDrawer?>
+<StackPane fx:id="wrapper" stylesheets="@styles/main.css,styles/background.css" styleClass="rootPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MainController">
         <AnchorPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
             <StackPane fx:id="stackPaneChart" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <HBox fx:id="chartContainer" alignment="CENTER" prefHeight="600.0" prefWidth="900.0" />
@@ -102,7 +102,7 @@
             </JFXButton>
             <VBox fx:id="nodeListContainer" alignment="TOP_CENTER" layoutY="250.0" prefHeight="0.0" prefWidth="0.0" AnchorPane.rightAnchor="150.0">
             </VBox>
-            <JFXDrawersStack fx:id="drawer" layoutY="50.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />
+            <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
             <Text fx:id="pointsContainer" layoutX="750.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="105.59999937191606" />
             <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
                     <JFXButton fx:id="winterBtn" styleClass="button-energy" text="Reduce Heating" textAlignment="CENTER" wrapText="true">
@@ -120,7 +120,7 @@
                     </JFXButton>
                     <JFXSlider fx:id="tempSliderSummer" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
             </HBox>
-            <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
+            <Pane prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
                 <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
                 <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/logo.png" />
@@ -129,9 +129,6 @@
                     <font>
                         <Font size="14.0" />
                     </font></Text>
-                <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@images/close.png" />
-                </ImageView>
                 <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
                     <Font size="14.0" />
                 </Text>

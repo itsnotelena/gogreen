@@ -35,10 +35,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 
         Scene scene = new Scene( root,600,500 );
-        scene.setFill( Color.TRANSPARENT );
         primaryStage.setTitle("GoGreen");
         primaryStage.setScene(scene);
-        primaryStage.initStyle( StageStyle.TRANSPARENT);
         primaryStage.setResizable(false);
         primaryStage.show();
     }

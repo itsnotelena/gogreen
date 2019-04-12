@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDrawersStack?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListCell?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -13,6 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import com.jfoenix.controls.JFXDrawer?>
 <Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="/styles/main.css,/styles/settings.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.SettingsController">
       <Pane layoutX="167.0" layoutY="106.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="561.0" style="-fx-background-color: #ffffff;" styleClass="border">
             <Text fx:id="username" layoutX="344.0" layoutY="135.0" wrappingWidth="150.0">
@@ -36,7 +36,8 @@
             <JFXButton layoutX="342.0" layoutY="237.0" onAction="#passwordPane" styleClass="animated-option-sub-button" stylesheets="@styles/main.css" text="Change Password" />
 
       </Pane>
-       <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
+    <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
+       <Pane prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
            <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
            <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/logo.png" />
@@ -45,9 +46,6 @@
                <font>
                    <Font size="14.0" />
                </font></Text>
-           <ImageView fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
-               <Image url="@images/close.png" />
-           </ImageView>
            <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
                <Font size="14.0" />
            </Text>
@@ -56,7 +54,7 @@
             <JFXListCell layoutY="-2.0" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
             <JFXListCell layoutY="34.0" onMouseClicked="#goToHistory" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
       </Pane>
-      <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />
+
       <Pane fx:id="passPane" layoutX="642.0" layoutY="420.0" prefHeight="143.0" prefWidth="218.0" style="-fx-background-color: #FFFFFF;" styleClass="border">
          <JFXTextField fx:id="passfield" layoutX="37.0" layoutY="52.0" prefHeight="20.0" prefWidth="155.0" promptText="Password" />
          <Label layoutX="42.0" layoutY="14.0" prefHeight="27.0" prefWidth="135.0" text="Enter New Password:" />

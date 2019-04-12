@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDrawersStack?>
+<?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListCell?>
 <?import com.jfoenix.controls.JFXListView?>
@@ -22,10 +22,10 @@
     <JFXTextField fx:id="searchfield" layoutX="661.0" layoutY="154.0" prefHeight="27.0" prefWidth="188.0" promptText="Enter Username" />
     <Label fx:id="errorlabel" layoutX="672.0" layoutY="181.0" prefHeight="25.0" prefWidth="174.0" text="please enter username" textFill="#ea0101" />
     <Label fx:id="noUserLabel" layoutX="688.0" layoutY="181.0" prefHeight="25.0" prefWidth="135.0" text="user does not exist" textFill="#ea0101" />
-    <JFXDrawersStack fx:id="drawer" layoutY="56.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color:#FFFFFF" />
     <Label fx:id="selectULabel" layoutX="688.0" layoutY="194.0" prefHeight="25.0" prefWidth="135.0" text="Please select a User" textFill="#ea0101" />
+    <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
     <JFXTextArea layoutX="768.0" layoutY="17.0" prefHeight="25.0" prefWidth="104.0" />
-    <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
+    <Pane prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
         <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
         <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@images/logo.png" />
@@ -34,9 +34,6 @@
             <font>
                 <Font size="14.0" />
             </font></Text>
-        <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
-            <Image url="@images/close.png" />
-        </ImageView>
         <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
             <Font size="14.0" />
         </Text>

@@ -54,7 +54,7 @@
         -fx-border-width: 2px;
 }
 
-
+/**
 .default-color0.chart-pie {
    -fx-background-color: #74d14c;
 }
@@ -66,10 +66,11 @@
 .default-color2.chart-pie {
    -fx-background-color: #e58301;
 }
+**/
 
 .button-food{
         -fx-pref-width: 130px;
-        -fx-background-color: #74d14c;
+        -fx-background-color: #e58301;
         -fx-background-radius: 45px;
         -fx-pref-height:35px;
         -fx-text-fill: #000000;
@@ -79,7 +80,7 @@
 
 .button-energy {
          -fx-pref-width: 130px;
-         -fx-background-color: #f2f11f;
+         -fx-background-color: #ff9a16;
          -fx-background-radius: 45px;
          -fx-pref-height:35px;
          -fx-text-fill: #000000;
@@ -89,10 +90,14 @@
 
 .button-transportation {
          -fx-pref-width: 130px;
-         -fx-background-color:  #e58301;
+         -fx-background-color: #74d14c ;
          -fx-background-radius: 45px;
          -fx-pref-height:35px;
           -fx-text-fill: #000000;
           -fx-border-radius:45px;
           -fx-border-width: 2px;
+}
+
+.drawer-color{
+        -fx-background-color: #FFFFFF;
 }

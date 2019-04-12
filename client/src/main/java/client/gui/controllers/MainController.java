@@ -1,21 +1,11 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.HISTORY;
-import static client.gui.tools.SceneNames.LOGIN;
-import static client.gui.tools.SceneNames.SETTINGS;
-import static client.gui.tools.SceneNames.TOOLBAR;
-
 import client.gui.tools.AbstractController;
 
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXDrawersStack;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXNodesList;
-import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.*;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -48,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static client.gui.tools.SceneNames.*;
+
 @Component
 public class MainController extends AbstractController implements Initializable {
 
@@ -61,6 +53,9 @@ public class MainController extends AbstractController implements Initializable 
 
     @FXML
     private Pane myPane;
+
+    @FXML
+    private Pane toolbar;
 
     @FXML
     private Pane pane1;
@@ -117,7 +112,7 @@ public class MainController extends AbstractController implements Initializable 
     private JFXButton winterBtn;
 
     @FXML
-    private JFXDrawersStack drawer;
+    private JFXDrawer drawer;
 
     @FXML
     private JFXHamburger hamburger;
@@ -191,12 +186,19 @@ public class MainController extends AbstractController implements Initializable 
         this.usernameField.setText(service.getUser().getUsername());
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+            drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
+
+            drawer.setResizableOnDrag(true);
+            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+            task.setRate(task.getRate() * -1);
+
+            this.initializeHamburger(task, hamburger, drawer);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeHamburger(myPane, hamburger, drawer);
-        drawer.setVisible( false );
+
 
         stackPane = new StackPane();
         ObservableList<PieChart.Data> pieChartData = createData();

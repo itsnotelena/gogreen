@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXDrawersStack?>
+<?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListCell?>
 <?import com.jfoenix.controls.JFXListView?>
@@ -17,7 +17,8 @@
          <children>
             <JFXListView fx:id="historyView" layoutX="-4.0" layoutY="1.0" prefHeight="376.0" prefWidth="585.0" styleClass="border" stylesheets="@styles/main.css" />
          </children></Pane>
-      <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
+      <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
+      <Pane prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
          <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
          <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@images/logo.png" />
@@ -26,19 +27,13 @@
             <font>
                <Font size="14.0" />
             </font></Text>
-         <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
-            <Image url="@images/close.png" />
-         </ImageView>
          <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
-            <Font size="17.0" />
+            <Font size="14.0" />
          </Text>
       </Pane>
-      <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />
-      <Pane fx:id="pane1" layoutX="689.0" layoutY="62.0" prefHeight="69.0" prefWidth="135.0" styleClass="border-listcell" stylesheets="/styles/listView.css">
-         <children>
-            <JFXListCell fx:id="profileListCell" layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
-            <JFXListCell fx:id="messagesListCell" layoutY="35.0" prefHeight="28.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
-         </children>
+      <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
+         <JFXListCell fx:id="profileListCell" layoutY="-2.0" prefHeight="39.0" prefWidth="135.0" text="Profile Settings" onMouseClicked="#goToSettings" styleClass="cell:hover;cell:pressed"/>
+         <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" text="History" styleClass="cell:hover;cell:pressed" />
       </Pane>
       <ImageView fitHeight="96.0" fitWidth="103.0" layoutX="275.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
          <image>

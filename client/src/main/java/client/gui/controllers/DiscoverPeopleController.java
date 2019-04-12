@@ -1,15 +1,11 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.HISTORY;
-import static client.gui.tools.SceneNames.LOGIN;
-import static client.gui.tools.SceneNames.SETTINGS;
-import static client.gui.tools.SceneNames.TOOLBAR;
-
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawersStack;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-
+import static client.gui.tools.SceneNames.*;
 
 
 @Component
@@ -58,7 +54,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private JFXHamburger hamburger;
 
     @FXML
-    private JFXDrawersStack drawer;
+    private JFXDrawer drawer;
 
     @FXML
     private JFXButton followbtn;
@@ -177,12 +173,20 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
-            getLeaderBoard();
+            drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
+            //drawer.setOverLayVisible(true);
+
+            drawer.setResizableOnDrag(true);
+            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+            task.setRate(task.getRate() * -1);
+
+            this.initializeHamburger(task, hamburger, drawer);
+
         } catch (IOException e) {
-            e.printStackTrace();
+            //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        initializeHamburger(myPane, hamburger, drawer);
-        drawer.setVisible(false);
+
 
     }
 

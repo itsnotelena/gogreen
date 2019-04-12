@@ -31,11 +31,6 @@
     <JFXButton fx:id="signUpButton" layoutX="201.0" layoutY="444.0" onAction="#doSignUp" prefHeight="34.0" prefWidth="83.0" style="-fx-background-color: #73C2FB;" text="Sign up!" styleClass="button-border" />
     <JFXButton fx:id="returnButton" layoutX="339.0" layoutY="444.0" onAction="#goToLogin" prefHeight="34.0" prefWidth="83.0" style="-fx-background-color: #73C2FB;" text="Return" styleClass="button-border"/>
     <Label fx:id="validpass" layoutX="215.0" layoutY="380.0" textFill="#e82121" />
-    <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="40.0" layoutX="563.0" layoutY="14.0" onMouseClicked="#goToLogin" pickOnBounds="true" preserveRatio="true">
-        <image>
-            <Image url="@images/close.png" />
-        </image>
-    </ImageView>
    <JFXCheckBox layoutX="199.0" layoutY="410.0" text="I agree to the" />
    <Hyperlink layoutX="307.0" layoutY="406.0" text="terms of service" />
 </AnchorPane>

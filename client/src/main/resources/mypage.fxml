@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXDrawersStack?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListCell?>
 <?import com.jfoenix.controls.JFXNodesList?>
@@ -12,13 +11,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import com.jfoenix.controls.JFXDrawer?>
 <Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="rootPane" stylesheets="@styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MyPageController">
     <JFXNodesList fx:id="foodList" layoutX="413.0" layoutY="202.0" />
     <JFXNodesList fx:id="transList" layoutX="304.0" layoutY="318.0" />
     <JFXNodesList fx:id="energyList" layoutX="522.0" layoutY="318.0" />
     <Accordion layoutX="240.0" layoutY="188.0" />
     <Accordion layoutX="281.0" layoutY="152.0" />
-    <JFXDrawersStack fx:id="drawer" layoutY="43.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />
+    <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
    <Pane fx:id="badgePane" layoutX="138.0" layoutY="116.0" prefHeight="404.0" prefWidth="625.0">
          <ImageView fx:id="veg3" fitHeight="143.0" fitWidth="108.0" layoutX="-18.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/vegbadge3.png" />
@@ -81,7 +81,7 @@
          <Label layoutX="424.0" layoutY="40.0" text="Solar Panels" />
          <Label layoutX="526.0" layoutY="23.0" text="  Lowering &#10;Temperature" />
    </Pane>
-    <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
+    <Pane prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
         <children>
             <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
             <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
@@ -93,9 +93,6 @@
                 <font>
                     <Font size="14.0" />
                 </font></Text>
-            <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
-                <Image url="@images/close.png" />
-            </ImageView>
             <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
                 <Font size="14.0" />
             </Text>
