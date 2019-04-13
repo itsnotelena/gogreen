@@ -135,7 +135,7 @@ public class MainController extends AbstractController implements Initializable 
     private JFXSlider tempSliderWinter;
 
     @FXML
-    private JFXButton infoButton;
+    private JFXButton infoIcon;
 
     @FXML
     private StackPane stackPaneChart;
@@ -220,7 +220,7 @@ public class MainController extends AbstractController implements Initializable 
             toggleButton(solarbtn);
         }
 
-        infoButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loadInfo());
+        infoIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loadUserInfo());
 
         this.foodList = createFoodList();
         this.transportList = createTransportList();
@@ -420,24 +420,19 @@ public class MainController extends AbstractController implements Initializable 
         stackPaneChart.getChildren().add(pointsContainer);
     }
 
-    private void loadInfo() {
+    private void loadUserInfo() {
+        int points = service.getPoints();
         JFXDialogLayout content = new JFXDialogLayout();
         Text heading = new Text("Information");
         heading.setFont(Font.font("Montserrat"));
         content.setHeading(new Text("Information"));
-        Text vegetarian = new Text("Vegetarian Meal");
-        vegetarian.setFont(Font.font("Montserrat", 12));
-        vegetarian.setUnderline(true);
-        Text vegetarianContent = new Text(" : you can press the vegetarian meal button after "
-                + "every vegetarian meal you have.\n");
-        vegetarianContent.setFont(Font.font("Montserrat", 12));
-        Text solar = new Text("Solar panels");
-        solar.setFont(Font.font("Montserrat", 12));
-        solar.setUnderline(true);
-        Text solarContent = new Text(" : Toggle it on if you have installed your solar panels. "
-                + "Toggle it off if you no longer have solar panels\n");
+        Text totalPoints = new Text("Total Points: " + points + "\n");
+        totalPoints.setFont(Font.font("Montserrat", 12));
+        Text totalCO2 = new Text("Total CO2 saved: "
+                + String.format("%.2f",points / 636.0) + " kgCO2");
+        totalCO2.setFont(Font.font("Montserrat", 12));
         TextFlow textFlow = new TextFlow();
-        textFlow.getChildren().addAll(vegetarian, vegetarianContent, solar, solarContent);
+        textFlow.getChildren().addAll(totalPoints, totalCO2);
         content.setBody(textFlow);
         JFXDialog dialog = new JFXDialog(wrapper, content, JFXDialog.DialogTransition.CENTER);
         dialog.show();
