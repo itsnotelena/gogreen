@@ -1,7 +1,7 @@
 package client.gui.controllers;
 
-import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.CONDITIONS;
+import static client.gui.tools.SceneNames.LOGIN;
 
 import client.gui.tools.AbstractController;
 import client.services.UserService;

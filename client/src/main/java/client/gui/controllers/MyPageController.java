@@ -2,7 +2,6 @@ package client.gui.controllers;
 
 import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.HISTORY;
-import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.SETTINGS;
 import static client.gui.tools.SceneNames.TOOLBAR;
 

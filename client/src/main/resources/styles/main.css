@@ -1,3 +1,24 @@
+#background2{
+    -fx-background-image: url("/images/backgroundlevel2.png");
+}
+
+#background3{
+    -fx-background-image: url("/images/backgroundlevel3.png");
+}
+
+#background4{
+    -fx-background-image: url("/images/backgroundlevel4.png");
+}
+
+#background5 {
+    -fx-background-image: url("/images/backgroundlevel5.png");
+}
+
+.background {
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
 
 .toggle-button-off{
         -fx-pref-width: 75px;

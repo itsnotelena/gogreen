@@ -67,10 +67,10 @@ public class SettingsController extends AbstractController implements Initializa
      * Changes the password based on user input.
      */
     @FXML
-    public  void setPass() {
+    public void setPass() {
         if (!passfield.getText().isEmpty()) {
             service.setPassword(passfield.getText());
-        }else{
+        } else {
             errLabel.setVisible(true);
         }
 
@@ -82,27 +82,27 @@ public class SettingsController extends AbstractController implements Initializa
     @FXML
     public void show() {
         if (pane1.isVisible()) {
-            pane1.setVisible( false );
+            pane1.setVisible(false);
         } else {
-            pane1.setVisible( true );
+            pane1.setVisible(true);
         }
     }
 
     @FXML
     public void goToHistory() throws IOException {
-        goToLarge( myPane, HISTORY );
+        goToLarge(myPane, HISTORY);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rs) {
 
-        pane1.setVisible( false );
+        pane1.setVisible(false);
         errLabel.setVisible(false);
 
         this.usernameField.setText(service.getUser().getUsername());
 
-        this.username.setText( service.getUser().getUsername() );
-        this.emailField.setText( service.getUser().getEmail() );
+        this.username.setText(service.getUser().getUsername());
+        this.emailField.setText(service.getUser().getEmail());
 
 
         try {

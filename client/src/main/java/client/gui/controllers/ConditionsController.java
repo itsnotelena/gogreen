@@ -9,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.springframework.stereotype.Component;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,12 +25,12 @@ public class ConditionsController extends AbstractController implements Initiali
     @FXML
     private TextArea textArea;
 
-    public void goToSignup() throws IOException{
-        goToSmall( myPane, SceneNames.SIGNUP );
+    public void goToSignup() throws IOException {
+        goToSmall(myPane, SceneNames.SIGNUP);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        textArea.editableProperty().setValue( false );
+        textArea.editableProperty().setValue(false);
     }
 }
