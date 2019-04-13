@@ -15,7 +15,7 @@
     <ImageView fitHeight="78.0" fitWidth="89.0" layoutX="279.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
         <Image url="@images/logo.png" />
     </ImageView>
-    <Label fx:id="validpass" layoutX="395.0" layoutY="280.0" textFill="#e82121" />
+    <Label fx:id="validpass" layoutX="376.0" layoutY="264.0" prefHeight="18.0" prefWidth="123.0" textFill="#e82121" />
     <CheckBox layoutX="335.0" layoutY="301.0" text="Remember Me" />
     <JFXTextField fx:id="username" layoutX="335.0" layoutY="164.0" prefHeight="27.0" prefWidth="194.0" promptText="Username" />
     <JFXPasswordField fx:id="passwordField" layoutX="335.0" layoutY="223.0" prefHeight="27.0" prefWidth="194.0" promptText="Password" />
