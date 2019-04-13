@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" styleClass="rootPane" stylesheets="/styles/background.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.ConditionsController">
+        <ImageView fitHeight="71.0" fitWidth="69.0" layoutX="263.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
+            <Image url="@images/logo.png" />
+        </ImageView>
+        <Label layoutX="297.0" layoutY="102.0" />
+        <TextArea fx:id="textArea" layoutX="90.0" layoutY="136.0" prefHeight="335.0" prefWidth="435.0" text=" Terms and Conditions of Use (the &quot;Terms of Use&quot;) apply &#10;to the Go Green site located at www.gogreen.com, and all &#10;associated sites linked to www.gogreen.com by Go Green, its &#10;subsidiaries and affiliates, including Go Green sites around the world (&#10;collectively, the &quot;Site&quot;). The Site is the property of Go Green Inc. &#10;(&quot;GoGreen&quot;) and its licensors. BY USING THE SITE, YOU AGREE &#10;TO THESE TERMS OF USE; IF YOU DO NOT AGREE, DO NOT USE &#10;THE SITE.&#10;&#10;GoGreen reserves the right, at its sole discretion, to change, modify, &#10;add or remove portions of these Terms of Use, at any time. It is &#10;your responsibility to check these Terms of Use periodically for &#10;changes. Your continued use of the Site following the posting of&#10; changes will mean that you accept and agree to the changes. &#10;As long as you comply with these Terms of Use, GoGreen grants you a&#10; personal, non-exclusive, non-transferable, limited privilege to &#10;enter and use the Site.&#10;&#10;Privacy&#10;GoGreen’s Privacy Policy applies to use of this Site, and its terms are made a part of these Terms of Use by this reference. To view GoGreen’s Privacy Policy, click here. Additionally, by using the Site, you acknowledge &#10;and agree that Internet transmissions are never completely private or secure. &#10;You understand that any message or information you send to the Site may be read or intercepted by others, even if there is a special notice that a particular transmission (for example, credit card information) is encrypted." wrapText="true" />
+        <Text layoutX="145.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agreement to Terms of Use" wrappingWidth="353.0">
+            <font>
+                <Font name="Arial" size="24.0" />
+            </font>
+        </Text>
+        <ImageView fx:id="img" fitHeight="24.0" fitWidth="33.0" layoutX="552.0" layoutY="21.0" onMouseClicked="#goToSignup" pickOnBounds="true" preserveRatio="true">
+                <Image url="@images/close.png" />
+        </ImageView>
+</Pane>

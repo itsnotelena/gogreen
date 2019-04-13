@@ -36,12 +36,6 @@ import java.util.ResourceBundle;
 public class LoginController extends AbstractController implements Initializable {
 
     @FXML
-    private Button signup;
-
-    @FXML
-    private AnchorPane pane;
-
-    @FXML
     private Label validpass;
 
     @FXML
@@ -53,34 +47,12 @@ public class LoginController extends AbstractController implements Initializable
     @FXML
     private PasswordField passwordField;
 
-    @FXML
-    private ImageView closeImg;
-
-    @FXML
-    private CheckBox remenberMe;
-
-    @FXML
-    private Hyperlink forgotPassword;
-
-    @FXML
-    private Image mainimg;
 
     private UserService service;
 
     @Autowired
     public LoginController(UserService service) {
         this.service = service;
-    }
-
-    /**
-     * Closes the Application.
-     */
-    @FXML
-    public void closeApplication() {
-
-        Stage stage = (Stage) closeImg.getScene().getWindow();
-        stage.close();
-
     }
 
     /**

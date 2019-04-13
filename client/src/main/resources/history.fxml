@@ -11,12 +11,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="/styles/settings.css," xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.HistoryController">
-   <children>
-      <Pane layoutX="162.0" layoutY="185.0" prefHeight="376.0" prefWidth="577.0" styleClass="border">
-         <children>
-            <JFXListView fx:id="historyView" layoutX="-4.0" layoutY="1.0" prefHeight="376.0" prefWidth="585.0" styleClass="border" stylesheets="@styles/main.css" />
-         </children></Pane>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="/styles/settings.css," xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.HistoryController">
+      <Pane layoutX="162.0" layoutY="185.0" prefHeight="365.0" prefWidth="549.0" styleClass="border">
+         <JFXListView fx:id="historyView" layoutX="-32.0" layoutY="-37.0" prefHeight="411.0" prefWidth="614.0" />
+      </Pane>
+
+      <ImageView fitHeight="39.0" fitWidth="38.0" layoutX="354.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@images/activity.png" />
+      </ImageView>
+      <Label layoutX="398.0" layoutY="91.0" prefHeight="41.0" prefWidth="105.0" text="Activities">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
       <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
       <Pane prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
          <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
@@ -32,18 +39,7 @@
          </Text>
       </Pane>
       <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
-         <JFXListCell fx:id="profileListCell" layoutY="-2.0" prefHeight="39.0" prefWidth="135.0" text="Profile Settings" onMouseClicked="#goToSettings" styleClass="cell:hover;cell:pressed"/>
-         <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" text="History" styleClass="cell:hover;cell:pressed" />
+         <JFXListCell layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
+         <JFXListCell layoutY="34.0" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
       </Pane>
-      <ImageView fitHeight="96.0" fitWidth="103.0" layoutX="275.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/activity.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="395.0" layoutY="117.0" prefHeight="41.0" prefWidth="160.0" text="Activities">
-         <font>
-            <Font name="Arial" size="35.0" />
-         </font>
-      </Label>
-   </children>
 </Pane>

@@ -65,9 +65,6 @@ public class MainController extends AbstractController implements Initializable 
     private Pane myPane;
 
     @FXML
-    private Pane toolbar;
-
-    @FXML
     private Pane pane1;
 
     @FXML
@@ -158,11 +155,6 @@ public class MainController extends AbstractController implements Initializable 
     @Autowired
     public MainController(UserService service) {
         this.service = service;
-    }
-
-    @FXML
-    public void logOut() throws IOException {
-        goToSmall(myPane, LOGIN);
     }
 
     @FXML

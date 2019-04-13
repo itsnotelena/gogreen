@@ -2,7 +2,6 @@ package client.gui.controllers;
 
 import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.HISTORY;
-import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
@@ -16,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +38,6 @@ public class SettingsController extends AbstractController implements Initializa
     private Pane pane1;
 
     @FXML
-    private Pane passPane;
-
-    @FXML
     private JFXTextField passfield;
 
     @FXML
@@ -56,7 +53,7 @@ public class SettingsController extends AbstractController implements Initializa
     private Text username;
 
     @FXML
-    private Text firstname;
+    private Label errLabel;
 
     @FXML
     private Text emailField;
@@ -67,31 +64,16 @@ public class SettingsController extends AbstractController implements Initializa
     }
 
     /**
-     * Shows or closes the change password pane.
-     */
-    @FXML
-    public void passwordPane() {
-        if (passPane.isVisible()) {
-            passPane.setVisible( false );
-        } else {
-            passPane.setVisible( true );
-        }
-    }
-
-    /**
      * Changes the password based on user input.
      */
     @FXML
     public  void setPass() {
         if (!passfield.getText().isEmpty()) {
             service.setPassword(passfield.getText());
+        }else{
+            errLabel.setVisible(true);
         }
-        passPane.setVisible(false);
-    }
 
-    @FXML
-    public void logOut() throws IOException {
-        goToSmall(myPane, LOGIN);
     }
 
     /**
@@ -115,7 +97,7 @@ public class SettingsController extends AbstractController implements Initializa
     public void initialize(URL url, ResourceBundle rs) {
 
         pane1.setVisible( false );
-        passPane.setVisible( false );
+        errLabel.setVisible(false);
 
         this.usernameField.setText(service.getUser().getUsername());
 

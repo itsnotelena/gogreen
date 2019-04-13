@@ -10,6 +10,7 @@ public class SceneNames {
     public static final String FOLLOWERS = "discoverPeople.fxml";
     public static final String SETTINGS = "settings.fxml";
     public static final String HISTORY = "history.fxml";
+    public static final String CONDITIONS = "termsofUse.fxml";
 
     public static final int DRAWER_SIZE = 190;
 

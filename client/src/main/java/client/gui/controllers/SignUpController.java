@@ -1,6 +1,7 @@
 package client.gui.controllers;
 
 import static client.gui.tools.SceneNames.LOGIN;
+import static client.gui.tools.SceneNames.CONDITIONS;
 
 import client.gui.tools.AbstractController;
 import client.services.UserService;
@@ -122,6 +123,12 @@ public class SignUpController extends AbstractController implements Initializabl
     public void goToLogin() throws IOException {
         goToSmall(username, LOGIN);
     }
+
+    @FXML
+    public void goToConditions() throws IOException {
+        goToSmall( pane, CONDITIONS );
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

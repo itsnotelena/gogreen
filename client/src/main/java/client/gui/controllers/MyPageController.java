@@ -168,11 +168,6 @@ public class MyPageController extends AbstractController implements Initializabl
 
     }
 
-    @FXML
-    public void logOut() throws IOException {
-        goToSmall( myPane, LOGIN );
-    }
-
     /**
      * Shows pane1.
      */

@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +84,6 @@ public class HistoryController extends AbstractController implements Initializab
 
     @Override
     public void initialize(URL url, ResourceBundle rs) {
-
         this.usernameField.setText( service.getUser().getUsername() );
         this.pane1.setVisible(false);
 
@@ -100,7 +100,7 @@ public class HistoryController extends AbstractController implements Initializab
             this.initializeHamburger(task, hamburger, drawer);
 
         } catch (IOException e) {
-            //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            e.printStackTrace();
         }
         createLogList();
     }
@@ -127,5 +127,6 @@ public class HistoryController extends AbstractController implements Initializab
                             + log.getDate()));
         }
     }
+
 
 }
