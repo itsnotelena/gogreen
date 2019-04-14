@@ -91,7 +91,7 @@
 
 .button-food{
         -fx-pref-width: 130px;
-        -fx-background-color: #ff5c2b;
+        -fx-background-color: #df5f30;
         -fx-background-radius: 45px;
         -fx-pref-height:35px;
         -fx-text-fill: #000000;
@@ -107,6 +107,16 @@
          -fx-text-fill: #000000;
          -fx-border-radius:45px;
          -fx-border-width: 2px;
+}
+
+.button-energy-off {
+    -fx-pref-width: 130px;
+    -fx-background-color: #ad6a13;
+    -fx-background-radius: 45px;
+    -fx-pref-height:35px;
+    -fx-text-fill: #000000;
+    -fx-border-radius:45px;
+    -fx-border-width: 2px;
 }
 
 .button-transportation {

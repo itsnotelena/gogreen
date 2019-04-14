@@ -28,7 +28,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-
 @Component
 public class MyPageController extends AbstractController implements Initializable {
 
@@ -186,12 +185,9 @@ public class MyPageController extends AbstractController implements Initializabl
 
             this.initializeHamburger(task, hamburger, drawer);
 
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
 
     }
@@ -202,20 +198,20 @@ public class MyPageController extends AbstractController implements Initializabl
     @FXML
     public void show() {
         if (pane1.isVisible()) {
-            pane1.setVisible( false );
+            pane1.setVisible(false);
         } else {
-            pane1.setVisible( true );
+            pane1.setVisible(true);
         }
     }
 
     @FXML
     public void goToSettings() throws IOException {
-        goToLarge(myPane, SETTINGS );
+        goToLarge(myPane, SETTINGS);
     }
 
     @FXML
     public void goToHistory() throws IOException {
-        goToLarge(myPane, HISTORY );
+        goToLarge(myPane, HISTORY);
     }
 
 }

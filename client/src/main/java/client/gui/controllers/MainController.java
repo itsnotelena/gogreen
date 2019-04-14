@@ -402,12 +402,12 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void toggleButton(JFXButton button) {
-        if (button.getStyleClass().contains("toggle-button-off")) {
-            button.getStyleClass().remove("toggle-button-off");
-            button.getStyleClass().add("animated-option-button-sub");
+        if (button.getStyleClass().contains("button-energy-off")) {
+            button.getStyleClass().remove("button-energy-off");
+            button.getStyleClass().add("button-energy");
         } else {
-            button.getStyleClass().remove("animated-option-button-sub");
-            button.getStyleClass().add("toggle-button-off");
+            button.getStyleClass().remove("button-energy");
+            button.getStyleClass().add("button-energy-off");
         }
     }
 
@@ -424,7 +424,7 @@ public class MainController extends AbstractController implements Initializable 
     private void loadUserInfo() {
         int points = service.getPoints();
         JFXDialogLayout content = new JFXDialogLayout();
-        Text heading = new Text("Information");
+        Text heading = new Text("Points information");
         heading.setFont(Font.font("Montserrat"));
         content.setHeading(new Text("Information"));
         Text totalPoints = new Text("Total Points: " + points + "\n");

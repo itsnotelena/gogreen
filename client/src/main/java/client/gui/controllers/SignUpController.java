@@ -22,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import shared.models.Gender;
 import shared.models.User;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -86,7 +85,7 @@ public class SignUpController extends AbstractController implements Initializabl
             return;
             //show error message in a modal
         }
-        if (!agree.isSelected()){
+        if (!agree.isSelected()) {
             validpass.setText("Please read and agree with TCs.");
             return;
         }

@@ -7,11 +7,11 @@
 
 <Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="217.0" stylesheets="styles/toolbar.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.ToolBarController">
     <JFXButton focusTraversable="false" layoutX="40.0" layoutY="299.0" onAction="#goToFollowers" prefHeight="31.0" prefWidth="137.0" styleClass="button" text="Discover People" />
-    <JFXButton fx:id="logout" layoutX="36.0" layoutY="521.0" onAction="#logOut" prefHeight="31.0" prefWidth="95.0" styleClass="button" text="Log out" />
+    <JFXButton fx:id="logout" focusTraversable="false" layoutX="36.0" layoutY="521.0" onAction="#logOut" prefHeight="31.0" prefWidth="95.0" styleClass="button" text="Log out" />
     <ImageView fitHeight="59.0" fitWidth="51.0" layoutX="83.0" layoutY="459.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@images/logout.png" />
     </ImageView>
-    <JFXButton layoutX="40.0" layoutY="415.0" onAction="#goToPersonal" prefHeight="31.0" prefWidth="103.0" styleClass="button" text="MyPage" />
+    <JFXButton focusTraversable="false" layoutX="40.0" layoutY="415.0" onAction="#goToPersonal" prefHeight="31.0" prefWidth="103.0" styleClass="button" text="MyPage" />
     <JFXButton layoutX="40.0" layoutY="173.0" onAction="#goToMain" prefHeight="31.0" prefWidth="103.0" styleClass="button" text="Main Page" />
    <ImageView fitHeight="59.0" fitWidth="77.0" layoutX="72.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
       <image>
