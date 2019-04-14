@@ -85,7 +85,6 @@ public class HistoryController extends AbstractController implements Initializab
     public void initialize(URL url, ResourceBundle rs) {
         this.usernameField.setText( service.getUser().getUsername() );
         this.pane1.setVisible(false);
-
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
             drawer.setSidePane(myPane);
