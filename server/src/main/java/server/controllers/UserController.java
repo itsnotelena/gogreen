@@ -245,7 +245,7 @@ public class UserController {
             points += Action.SOLAR.getPoints()
                     * Period.between(datePrevious, LocalDate.now()).getDays();
         }
-        return new SolarState(points, total % 2 == 0);
+        return new SolarState(points, total % 2 == 1);
     }
 
     /**
