@@ -423,7 +423,7 @@ public class MainController extends AbstractController implements Initializable 
     private void loadUserInfo() {
         int points = service.getPoints();
         JFXDialogLayout content = new JFXDialogLayout();
-        Text heading = new Text("Information");
+        Text heading = new Text("Points information");
         heading.setFont(Font.font("Montserrat"));
         content.setHeading(new Text("Information"));
         Text totalPoints = new Text("Total Points: " + points + "\n");

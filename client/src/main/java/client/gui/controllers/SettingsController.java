@@ -9,7 +9,7 @@ import client.services.UserService;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,7 +38,10 @@ public class SettingsController extends AbstractController implements Initializa
     private Pane pane1;
 
     @FXML
-    private JFXTextField passfield;
+    private JFXPasswordField passfield;
+
+    @FXML
+    private JFXPasswordField confirmPassField;
 
     @FXML
     private JFXHamburger hamburger;
@@ -68,8 +71,11 @@ public class SettingsController extends AbstractController implements Initializa
      */
     @FXML
     public void setPass() {
-        if (!passfield.getText().isEmpty()) {
+        if (!passfield.getText().isEmpty()
+                && passfield.getText().equals(confirmPassField.getText())) {
             service.setPassword(passfield.getText());
+            errLabel.setText("Password changed");
+            errLabel.setVisible(true);
         } else {
             errLabel.setVisible(true);
         }
