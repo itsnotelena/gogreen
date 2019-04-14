@@ -187,7 +187,7 @@ public class MainController extends AbstractController implements Initializable 
             wrapper.setId("background2");
         } else if (pointsForBackground < 2500) {
             wrapper.setId("background3");
-        } else if (pointsForBackground < 5000) {
+        } else if (pointsForBackground < 10000) {
             wrapper.setId("background4");
         } else {
             wrapper.setId("background5");

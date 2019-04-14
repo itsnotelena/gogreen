@@ -3,20 +3,18 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" scaleShape="false" style="-fx-background-color: #FFFFFF;" styleClass="rootPane" stylesheets="styles/background.css,/styles/main.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" scaleShape="false" style="-fx-background-color: #FFFFFF;" styleClass="rootPane" stylesheets="styles/background.css,/styles/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.LoginController">
     <Hyperlink layoutX="367.0" layoutY="344.0" onAction="#resetPass" text="Forgot Your Password?" />
     <ImageView fitHeight="78.0" fitWidth="89.0" layoutX="279.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
         <Image url="@images/logo.png" />
     </ImageView>
     <Label fx:id="validpass" layoutX="376.0" layoutY="264.0" prefHeight="18.0" prefWidth="123.0" textFill="#e82121" />
-    <CheckBox layoutX="335.0" layoutY="301.0" text="Remember Me" />
     <JFXTextField fx:id="username" layoutX="335.0" layoutY="164.0" prefHeight="27.0" prefWidth="194.0" promptText="Username" />
     <JFXPasswordField fx:id="passwordField" layoutX="335.0" layoutY="223.0" prefHeight="27.0" prefWidth="194.0" promptText="Password" />
    <ImageView fitHeight="215.0" fitWidth="256.0" layoutX="39.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
