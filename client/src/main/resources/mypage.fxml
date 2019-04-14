@@ -28,10 +28,10 @@
                <ImageView fx:id="solar2" fitHeight="73.0" fitWidth="110.0" layoutX="448.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
                      <Image url="@images/heliumBadge1.png" />
                </ImageView>
-                  <ImageView fx:id="veg2" fitHeight="118.0" fitWidth="102.0" layoutX="23.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="veg2" fitHeight="118.0" fitWidth="90.0" layoutX="29.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true">
                           <Image url="@images/vegbadge2.png" />
                   </ImageView>
-               <ImageView fx:id="veg3" fitHeight="143.0" fitWidth="108.0" layoutX="20.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fx:id="veg3" fitHeight="135.0" fitWidth="97.0" layoutX="25.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
                      <Image url="@images/vegbadge3.png" />
                </ImageView>
                <Label layoutX="295.0" prefHeight="28.0" prefWidth="108.0" text="Achievements" textFill="#ff790b">
@@ -39,6 +39,9 @@
                      <Font name="Ariel" size="16.0" />
                   </font>
                </Label>
+               <ImageView fx:id="veg1" fitHeight="116.0" fitWidth="102.0" layoutX="23.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                       <Image url="@images/vegbadge1.png" />
+               </ImageView>
       </Pane>
          <ImageView fx:id="local1" fitHeight="105.0" fitWidth="150.0" layoutX="75.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/cherryTomato.PNG" />
@@ -49,16 +52,13 @@
          <ImageView fx:id="public1" fitHeight="105.0" fitWidth="107.0" layoutX="302.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/moobikeBadge.PNG" />
          </ImageView>
-         <ImageView fx:id="temp1" fitHeight="102.0" fitWidth="74.0" layoutX="524.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
-               <Image url="@images/celciusBadge.png" />
-         </ImageView>
-         <ImageView fx:id="local2" fitHeight="149.0" fitWidth="156.0" layoutX="67.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fx:id="local2" fitHeight="105.0" fitWidth="97.0" layoutX="97.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/goodTomato.PNG" />
          </ImageView>
          <ImageView fx:id="bike2" fitHeight="118.0" fitWidth="102.0" layoutX="190.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/swapfietsBadge.png" />
          </ImageView>
-         <ImageView fx:id="local3" fitHeight="150.0" fitWidth="156.0" layoutX="67.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fx:id="local3" fitHeight="118.0" fitWidth="97.0" layoutX="96.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/beefTomato.PNG" />
          </ImageView>
          <ImageView fx:id="public2" fitHeight="118.0" fitWidth="102.0" layoutX="297.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
@@ -80,9 +80,9 @@
                <Image url="@images/magnesiumBadge1.png" />
          </ImageView>
          <Label layoutX="526.0" layoutY="23.0" text="  Lowering &#10;Temperature" />
-            <ImageView fx:id="veg1" fitHeight="120.0" fitWidth="107.0" layoutX="-16.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@images/vegbadge1.png" />
-            </ImageView>
+         <ImageView fx:id="temp1" fitHeight="102.0" fitWidth="74.0" layoutX="524.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@images/celciusBadge.png" />
+         </ImageView>
    </Pane>
     <Pane prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
             <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
