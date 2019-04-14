@@ -11,7 +11,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" stylesheets="/styles/main.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.SignUpController">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" stylesheets="/styles/main.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.SignUpController">
     <ImageView fitHeight="87.0" fitWidth="93.0" layoutX="250.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0">
         <Image url="@images/logo.png" />
     </ImageView>
@@ -26,8 +26,8 @@
     <JFXRadioButton fx:id="man" layoutX="188.0" layoutY="265.0" text="Man" />
     <JFXRadioButton fx:id="woman" layoutX="262.0" layoutY="265.0" text="Woman" />
     <JFXRadioButton fx:id="other" layoutX="349.0" layoutY="265.0" text="Prefer not to say" />
-    <Label fx:id="validpass" layoutX="215.0" layoutY="380.0" textFill="#e82121" />
-   <JFXCheckBox layoutX="199.0" layoutY="410.0" text="I agree to the" />
+    <Label fx:id="validpass" layoutX="215.0" layoutY="480.0" textFill="#e82121" />
+   <JFXCheckBox fx:id="agree" layoutX="199.0" layoutY="410.0" text="I agree to the" />
    <Hyperlink layoutX="307.0" layoutY="406.0" onAction="#goToConditions" text="terms of service" />
    <JFXButton fx:id="signUpButton" layoutX="323.0" layoutY="445.0" onAction="#doSignUp" prefHeight="27.0" prefWidth="83.0" style="-fx-background-color: #2196F3;" text="Sign Up" />
    <JFXButton layoutX="200.0" layoutY="446.0" onAction="#goToLogin" prefHeight="26.0" prefWidth="59.0" style="-fx-background-color: #2196F3;" text="Return" />

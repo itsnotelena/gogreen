@@ -6,6 +6,7 @@ import static client.gui.tools.SceneNames.LOGIN;
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import shared.models.Gender;
 import shared.models.User;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -63,6 +65,9 @@ public class SignUpController extends AbstractController implements Initializabl
     @FXML
     private JFXButton signUpButton;
 
+    @FXML
+    private JFXCheckBox agree;
+
     private UserService userService;
 
 
@@ -80,6 +85,10 @@ public class SignUpController extends AbstractController implements Initializabl
             validpass.setText("Please input correct values.");
             return;
             //show error message in a modal
+        }
+        if (!agree.isSelected()){
+            validpass.setText("Please read and agree with TCs.");
+            return;
         }
 
         User user = new User();
