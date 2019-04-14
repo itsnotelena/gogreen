@@ -14,7 +14,9 @@ import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,9 @@ public class MyPageController extends AbstractController implements Initializabl
 
     @FXML
     JFXDrawer drawer;
+
+    @FXML
+    Label infolabel;
 
     @FXML
     private ImageView veg1;
@@ -109,6 +114,8 @@ public class MyPageController extends AbstractController implements Initializabl
 
     private Badge[] badgeLevels;
 
+    private String[] activities;
+
     private ImageView[][] badges;
 
     @Autowired
@@ -121,6 +128,21 @@ public class MyPageController extends AbstractController implements Initializabl
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 3; j++) {
                 badges[i][j].opacityProperty().setValue(0.25);
+                int temp = 3;
+                if (j == 1) {
+                    temp = 7;
+                } else if (j == 2) {
+                    temp = 28;
+                }
+                int days = temp;
+                int finalI = i;
+                badges[i][j].addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+                    infolabel.setText("  Reward for "
+                        + this.activities[finalI] + " " +  days + " days in a row!" );
+                    infolabel.setVisible(true);
+                });
+                badges[i][j].addEventHandler(
+                        MouseEvent.MOUSE_EXITED, e -> infolabel.setVisible(false));
             }
         }
     }
@@ -139,9 +161,13 @@ public class MyPageController extends AbstractController implements Initializabl
 
         this.usernameField.setText(userService.getUser().getUsername());
         pane1.setVisible( false );
+        infolabel.setVisible(false);
         badgePane.toBack();
 
         try {
+            this.activities = new String[] {"eating vegetarian",
+                "buying local produce", "taking the bike",
+                "using public transport", "using solar panels", "lowering temperature"};
             this.badges =  new ImageView[][] {
                     {veg1, veg2, veg3}, {local1, local2, local3},
                     {bike1, bike2, bike3}, {public1, public2, public3},
@@ -160,9 +186,12 @@ public class MyPageController extends AbstractController implements Initializabl
 
             this.initializeHamburger(task, hamburger, drawer);
 
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
 
     }

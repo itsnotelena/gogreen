@@ -18,7 +18,7 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <StackPane fx:id="wrapper" styleClass="rootPane" stylesheets="@styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MainController">
-        <AnchorPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
             <StackPane fx:id="stackPaneChart" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <HBox fx:id="chartContainer" alignment="CENTER" prefHeight="600.0" prefWidth="900.0" />
             </StackPane>
@@ -113,7 +113,7 @@
                     <JFXSlider fx:id="tempSliderWinter" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
             </HBox>
             <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
-                    <JFXButton fx:id="summerBtn" styleClass="button-energy" text="Reduce Climate Control" textAlignment="CENTER" wrapText="true">
+                <JFXButton fx:id="summerBtn" focusTraversable="false" styleClass="button-energy" text="Reduce Climate Control" textAlignment="CENTER" wrapText="true">
                         <font>
                             <Font size="8.0" />
                         </font>
@@ -129,7 +129,7 @@
                     <font>
                         <Font size="14.0" />
                     </font></Text>
-                <Text fx:id="infoButton" layoutX="656.0" layoutY="43.0" onMouseClicked="#show" text="User: " wrappingWidth="38.20002233982086">
+                <Text layoutX="656.0" layoutY="43.0" onMouseClicked="#show" text="User: " wrappingWidth="38.20002233982086">
                     <Font size="14.0" />
             <font>
                <Font size="14.0" />
@@ -140,8 +140,8 @@
          <JFXButton fx:id="infoIcon" layoutX="616.0" layoutY="25.0" prefHeight="25.0" prefWidth="26.0" />
             </Pane>
             <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
-                <JFXListCell fx:id="profileListCell" layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
-                <JFXListCell fx:id="messagesListCell" layoutY="34.0" onMouseClicked="#goToHistory" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
+                <JFXListCell layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
+                <JFXListCell layoutY="34.0" onMouseClicked="#goToHistory" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
             </Pane>
 
         </AnchorPane>

@@ -256,7 +256,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
                     } else {
                         selectedUser = searchlist.get(t1.intValue());
                     }
-                    System.out.println(t1.intValue());
                     if (service.viewFollowList().contains(selectedUser)) {
                         unfollowbtn.setVisible(true);
                         followbtn.setVisible(false);

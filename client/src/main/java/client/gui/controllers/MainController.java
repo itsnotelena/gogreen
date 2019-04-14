@@ -182,17 +182,17 @@ public class MainController extends AbstractController implements Initializable 
     public void initialize(URL url, ResourceBundle rs) {
 
         pane1.setVisible( false );
-        //wrapper.getStyleClass().add("background");
         int pointsForBackground = service.getPoints();
-        if (pointsForBackground < 1500) {
+        if (pointsForBackground < 1000) {
             wrapper.setId("background2");
-        } else if (pointsForBackground < 3000) {
+        } else if (pointsForBackground < 2500) {
             wrapper.setId("background3");
-        } else if (pointsForBackground < 6000) {
+        } else if (pointsForBackground < 10000) {
             wrapper.setId("background4");
         } else {
             wrapper.setId("background5");
         }
+
 
         this.usernameField.setText(service.getUser().getUsername());
         try {

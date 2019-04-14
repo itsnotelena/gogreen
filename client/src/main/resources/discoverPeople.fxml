@@ -30,19 +30,22 @@
         <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@images/logo.png" />
         </ImageView>
-        <Text fx:id="usernameField" layoutX="690.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
+        <Text fx:id="usernameField" layoutX="694.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
             <font>
                 <Font size="14.0" />
             </font></Text>
-        <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
+        <Text layoutX="656.0" layoutY="43.0" onMouseClicked="#show" text="User: " wrappingWidth="38.20002233982086">
             <Font size="14.0" />
+            <font>
+                <Font size="14.0" />
+            </font>
         </Text>
     </Pane>
     <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
-        <JFXListCell fx:id="profileListCell" layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
-        <JFXListCell fx:id="messagesListCell" layoutY="34.0" onMouseClicked="#goToHistory" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
+        <JFXListCell layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
+        <JFXListCell layoutY="34.0" onMouseClicked="#goToHistory" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
     </Pane>
-    <JFXButton fx:id="searchbtn" layoutX="768.0" layoutY="225.0" onAction="#search" prefHeight="16.0" prefWidth="81.0" style="-fx-background-color: #74d14c;" text="Search">
+    <JFXButton layoutX="768.0" layoutY="225.0" onAction="#search" prefHeight="16.0" prefWidth="81.0" style="-fx-background-color: #74d14c;" text="Search">
         <font>
             <Font size="13.0" />
         </font>
@@ -51,7 +54,6 @@
    <JFXButton layoutX="431.0" layoutY="125.0" onAction="#getFollowList" prefHeight="30.0" prefWidth="207.0" ripplerFill="#74d14c" style="-fx-background-color: #74d14c;" text="Following" />
    <JFXButton layoutX="225.0" layoutY="125.0" onAction="#getLeaderBoard" prefHeight="30.0" prefWidth="207.0" style="-fx-background-color: #e58301;" text="Global" />
    <Pane fx:id="userPane" layoutX="668.0" layoutY="275.0" prefHeight="200.0" prefWidth="200.0">
-      <children>
          <Label layoutX="14.0" layoutY="14.0" text="Selected User" />
          <Label fx:id="userLabel" layoutX="97.0" layoutY="9.0" prefHeight="27.0" prefWidth="88.0">
             <font>
@@ -59,6 +61,5 @@
             </font></Label>
          <JFXButton fx:id="followbtn" layoutX="101.0" layoutY="47.0" onAction="#addFollow" prefHeight="30.0" prefWidth="81.0" style="-fx-background-color: #74d14c;" text="Follow" />
          <JFXButton fx:id="unfollowbtn" layoutX="101.0" layoutY="47.0" onAction="#removeFollow" prefHeight="29.0" prefWidth="81.0" style="-fx-background-color: #74d14c;" text="Unfollow" />
-      </children>
    </Pane>
 </Pane>
