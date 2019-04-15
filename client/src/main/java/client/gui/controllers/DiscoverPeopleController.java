@@ -233,7 +233,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
     private Label getUserLabel(User user) {
         Label result = new Label(
-                "Username: " + user.getUsername() + " Email: " + user.getEmail()
+                "Username: " + user.getUsername()
                         + " Points: " + service.getFollowingPoints(user.getUsername()));
         if (user.getUsername().equals(this.service.getUser().getUsername())) {
             result.setTextFill(Color.rgb(18, 214, 8));
