@@ -5,24 +5,27 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane xmlns:fx="http://javafx.com/fxml/1" fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity"
-      minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="217.0"
-      xmlns="http://javafx.com/javafx/10.0.1" fx:controller="client.gui.controllers.ToolBarController">
-      <JFXButton layoutX="70.0" layoutY="143.0" onAction="#goToSettings" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #C7EA46;" text="Settings" />
-      <ImageView fitHeight="59.0" fitWidth="114.0" layoutX="85.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@images/settings_icon.png" />
-      </ImageView>
-      <JFXButton layoutX="52.0" layoutY="266.0" onAction="#goToFollowers" prefHeight="47.0" prefWidth="126.0" style="-fx-background-color: #C7EA46;" text="Discover People" />
-      <JFXButton fx:id="logout" layoutX="64.0" layoutY="523.0" onAction="#logOut" prefHeight="39.0" prefWidth="89.0" style="-fx-background-color: C7EA46;" text="Log out" />
-      <ImageView fitHeight="76.0" fitWidth="76.0" layoutX="77.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@images/network_icon.png" />
-      </ImageView>
-      <ImageView fitHeight="59.0" fitWidth="59.0" layoutX="85.0" layoutY="455.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@images/logout_icon.png" />
-      </ImageView>
-      <JFXButton layoutX="67.0" layoutY="395.0" onAction="#goToPersonal" prefHeight="47.0" prefWidth="97.0" style="-fx-background-color: #C7EA46;" text="MyPage" />
-   <JFXButton layoutX="70.0" layoutY="24.0" onAction="#goToMain" prefHeight="39.0" prefWidth="89.0" style="-fx-background-color: C7EA46;" text="Main Page" />
-      <ImageView fitHeight="79.0" fitWidth="76.0" layoutX="77.0" layoutY="319.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@images/leaf_icon.png" />
-      </ImageView>
+<Pane fx:id="myPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="217.0" stylesheets="styles/toolbar.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.ToolBarController">
+    <JFXButton focusTraversable="false" layoutX="40.0" layoutY="299.0" onAction="#goToFollowers" prefHeight="31.0" prefWidth="137.0" styleClass="button" text="Discover People" />
+    <JFXButton fx:id="logout" focusTraversable="false" layoutX="36.0" layoutY="521.0" onAction="#logOut" prefHeight="31.0" prefWidth="95.0" styleClass="button" text="Log out" />
+    <ImageView fitHeight="59.0" fitWidth="51.0" layoutX="83.0" layoutY="459.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/logout.png" />
+    </ImageView>
+    <JFXButton focusTraversable="false" layoutX="40.0" layoutY="415.0" onAction="#goToPersonal" prefHeight="31.0" prefWidth="103.0" styleClass="button" text="MyPage" />
+    <JFXButton layoutX="40.0" layoutY="173.0" onAction="#goToMain" prefHeight="31.0" prefWidth="103.0" styleClass="button" text="Main Page" />
+   <ImageView fitHeight="59.0" fitWidth="77.0" layoutX="72.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@images/homepage.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="65.0" fitWidth="89.0" layoutX="69.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@images/collaboration.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="59.0" fitWidth="71.0" layoutX="72.0" layoutY="343.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@images/award.png" />
+      </image>
+   </ImageView>
 </Pane>

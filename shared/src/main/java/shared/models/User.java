@@ -7,9 +7,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 
 
 @Entity
@@ -20,7 +29,9 @@ import javax.persistence.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
 
-    private @Id @GeneratedValue long id;
+    @Id
+    @GeneratedValue
+    private long id;
 
     @Column(unique = true)
     private String username;
@@ -32,18 +43,15 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Column
     private Boolean hasSolarPanels = false;
 
-    @Column
-    private long foodPoints;
-
     @JsonIgnore
     @ManyToMany
-    private Set<User> following;
+    private List<User> following;
 
     @Override
     public boolean equals(Object other) {
@@ -61,4 +69,17 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hash(username);
     }
+
+    /**
+     * Method checks if email has the right format.
+     * @return true if yes.
+     */
+    public boolean validateEmail() {
+        if (this.email.isEmpty()) {
+            return false;
+        }
+        //RFC 5322 regex for character permission in the email
+        return this.email.matches("^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$");
+    }
+
 }

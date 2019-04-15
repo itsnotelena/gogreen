@@ -1,9 +1,7 @@
 package server.controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,7 +19,9 @@ import shared.endpoints.UserEndpoints;
 import shared.models.Action;
 import shared.models.Log;
 import shared.models.User;
-import org.springframework.http.HttpHeaders;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -45,7 +46,9 @@ public class LogControllerTest {
         String username = "test";
         testUser.setUsername(username);
         testUser.setPassword("test");
-        UString = "{\"username\": \"" + testUser.getUsername() + "\", \"password\": \"" + testUser.getPassword() + "\"}";
+        testUser.setEmail("test@test.com");
+        UString = "{\"username\": \"" + testUser.getUsername() + "\", \"password\": \"" + testUser.getPassword()
+                + "\", \"email\": \"" + testUser.getEmail() +"\"}";
 
         // Remove the test user if it exists
         User toDelete = userRepository.findUserByUsername(username);
@@ -64,15 +67,18 @@ public class LogControllerTest {
 
     @Test
     public void sendActionLogTest() throws Exception{
+        ObjectMapper mapper =  new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
         Log req = new Log();
         req.setAction(Action.VEGETARIAN);
-        String postContent = new ObjectMapper().writeValueAsString(req);
+        String postContent = mapper.writeValueAsString(req);
         String response = this.mvc.perform(post(UserEndpoints.LOGS)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
                 .contentType(MediaType.APPLICATION_JSON).content(postContent))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        Log log = new ObjectMapper().readValue(response,Log.class);
+        Log log = mapper.readValue(response,Log.class);
 
         Assert.assertEquals(log.getAction(), req.getAction());
         Assert.assertEquals(log.getUser().getUsername(), testUser.getUsername());

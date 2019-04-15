@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXListCell?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="/styles/settings.css," xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.HistoryController">
+      <Pane layoutX="162.0" layoutY="185.0" prefHeight="365.0" prefWidth="549.0" styleClass="border">
+         <JFXListView fx:id="historyView" layoutX="-32.0" layoutY="-37.0" prefHeight="411.0" prefWidth="614.0" />
+      </Pane>
+
+      <ImageView fitHeight="39.0" fitWidth="38.0" layoutX="354.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@images/activity.png" />
+      </ImageView>
+      <Label layoutX="398.0" layoutY="91.0" prefHeight="41.0" prefWidth="105.0" text="Activities">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
+    <Pane prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
+        <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
+        <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@images/logo.png" />
+        </ImageView>
+        <Text fx:id="usernameField" layoutX="694.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
+            <font>
+                <Font size="14.0" />
+            </font></Text>
+        <Text layoutX="656.0" layoutY="43.0" onMouseClicked="#show" text="User: " wrappingWidth="38.20002233982086">
+            <Font size="14.0" />
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+    </Pane>
+      <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
+         <JFXListCell layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
+         <JFXListCell layoutY="34.0" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
+      </Pane>
+</Pane>

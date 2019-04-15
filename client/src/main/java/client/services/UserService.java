@@ -14,9 +14,9 @@ import shared.models.Log;
 import shared.models.SolarState;
 import shared.models.User;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service("UserService")
 public class UserService {
@@ -42,6 +42,10 @@ public class UserService {
             return false;
         }
         return response != null;
+    }
+
+    public void logout() {
+
     }
 
     /**
@@ -78,10 +82,13 @@ public class UserService {
     /**
      * Methods logs to the database that the user has eaten a vegetarian meal.
      */
-    public void madeAction(Action action) {
+    public void madeAction(Action action, int amount) {
         Log req = new Log();
         req.setAction(action);
-        req.setDate(new Date());
+        req.setDate(LocalDate.now());
+        if (action.equals(Action.TEMP)) {
+            req.setAmount(amount);
+        }
         restTemplate.postForObject(UserEndpoints.LOGS, req, Log.class);
         System.out.println("Successfully added a log to the table");
     }
@@ -94,6 +101,17 @@ public class UserService {
      */
     public int getPoints() {
         int response = restTemplate.getForObject(UserEndpoints.ACTIONLIST, int.class);
+        return response;
+    }
+
+    /**
+     * Gets the points of a followed user.
+     * @param username of the followed user.
+     * @return that user's points.
+     */
+    public int getFollowingPoints(String username) {
+        int response = restTemplate.postForObject(
+                UserEndpoints.GETOTHERUSERPOINTS, username, int.class);
         return response;
     }
 
@@ -120,6 +138,10 @@ public class UserService {
         return loglist;
     }
 
+    /**
+     * Retrieves a list of users from the database sorted descending by score.
+     * @return The list of users based on score
+     */
     public List<User> getLeaderBoard() {
         ResponseEntity<List<User>> response =
                 restTemplate.exchange(
@@ -133,33 +155,90 @@ public class UserService {
         return leaderlist;
     }
 
-    public User search(String username) {
-        User response = restTemplate.postForObject(UserEndpoints.SEARCH, username, User.class);
-        System.out.println(response);
-        return response;
+    /**
+     * Searches for users.
+     * @param username a string which will be checked.
+     * @return a list of users whose usernames match the string.
+     */
+    public List<User> search(String username) {
+        HttpEntity<String> request = new HttpEntity<>(username);
+        ResponseEntity<List<User>> response =
+                restTemplate.exchange(UserEndpoints.SEARCH, HttpMethod.POST, request,
+                        new ParameterizedTypeReference<List<User>>() {
+                        });
+        if (response.getBody().isEmpty()) {
+            return new ArrayList<User>();
+        }
+        return response.getBody();
     }
 
+    /**
+     * Adds user to the 'following' list.
+     * @param user to be added.
+     * @return the added user.
+     */
     public User addFollow(User user) {
-        User response = restTemplate.postForObject(UserEndpoints.FOLLOW, user, User.class);
-
-        //response.getFollowing().forEach(e -> System.out.println(e));
-
+        User response = restTemplate.postForObject(
+                UserEndpoints.FOLLOW, user.getUsername(), User.class);
         System.out.println(response);
         return response;
     }
 
-    public Set<User> viewFollowList() {
-        ResponseEntity<Set<User>> response =
+    /**
+     * Removes user from the 'following' list.
+     * @param user to be removed.
+     */
+    public void removeFollow(User user) {
+        User another = restTemplate.postForObject(UserEndpoints.UNFOLLOW, user, User.class);
+        System.out.println("removed user: " + another.getUsername());
+    }
+
+    /**
+     * Creates a view of the 'following' set.
+     * @return that set.
+     */
+    public List<User> viewFollowList() {
+        ResponseEntity<List<User>> response =
                 restTemplate.exchange(
                         UserEndpoints.FOLLOWLIST,
                         HttpMethod.GET,
                         null,
-                        new ParameterizedTypeReference<Set<User>>() {
+                        new ParameterizedTypeReference<List<User>>() {
                         });
 
-        Set<User> followlist = response.getBody();
-        followlist.forEach(e -> System.out.println(e));
+        List<User> followlist = response.getBody();
         return followlist;
+    }
+
+    public int getPointsToday() {
+        return restTemplate.getForObject(UserEndpoints.TODAYPROGRESS, Integer.class);
+    }
+
+    /**
+     * Returns the current user.
+     * @return The user.
+     */
+    public User getUser() {
+        return restTemplate.getForObject(UserEndpoints.USER_INFO, User.class);
+    }
+
+    /**
+     * Sends a request to change the user's password.
+     * @param password The new password value.
+     */
+    public void setPassword(String password) {
+        restTemplate.postForObject(UserEndpoints.CHANGE_PASS, password, User.class);
+    }
+
+    /**
+     * Send a post request to the server with the email of the user who forgot the password.
+     * @param email the email to send the new password to
+     * @return null if no user with that email exists, otherwise returns the user's email
+     */
+    public String sendForgot(String email) {
+        String response = restTemplate.postForObject(UserEndpoints.FORGOTPASSWORD,
+                email, String.class);
+        return response;
     }
 
 

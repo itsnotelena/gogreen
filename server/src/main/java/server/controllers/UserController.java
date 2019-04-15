@@ -1,7 +1,5 @@
 package server.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import server.exceptions.EmailException;
 import server.exceptions.UserExistsException;
 import server.repositories.LogRepository;
 import server.repositories.UserRepository;
@@ -21,16 +20,24 @@ import shared.models.User;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Properties;
+import java.util.UUID;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 @RestController
 @AllArgsConstructor
 public class UserController {
 
-    private static final AtomicLong counter = new AtomicLong();
+    private static final String from = "ooppgogreen";
+    private static final String pass = "Gogreen63";
 
     private final UserRepository repository;
 
@@ -40,18 +47,61 @@ public class UserController {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    private static boolean checkPassword(String candidate, String hashed) {
-        return BCrypt.checkpw(candidate, hashed);
+    /**
+     * Sends a randomly generated UUID to an email and sets the password for that user to that id.
+     * @param email the email to send the new password to
+     * @return returns the email to which the password was sent
+     */
+    @PostMapping(value = UserEndpoints.FORGOTPASSWORD)
+    public String sendTokenMail(@RequestBody String email) {
+        User user = repository.findUserByEmail(email);
+        //TODO: change this into an exception
+        if (user == null) {
+            return null;
+        }
+        String uuid = UUID.randomUUID().toString().replace("-","");
+        String[] recipient = {email};
+        Properties properties = System.getProperties();
+        String host = "smtp.gmail.com";
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.user", from);
+        properties.put("mail.smtp.password", pass);
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        Session session = Session.getDefaultInstance(properties);
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(from));
+            InternetAddress[] toAddress = new InternetAddress[1];
+            toAddress[0] = new InternetAddress(recipient[0]);
+
+            message.addRecipients(Message.RecipientType.TO, toAddress);
+
+            message.setSubject("GoGreen password recovery");
+            message.setText("Hello " + user.getUsername() + ",\n\nThis is your new password: "
+                    + uuid + ".\nPlease change it once you log in.");
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, pass);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        } catch (MessagingException me) {
+            me.printStackTrace();
+        }
+        user.setPassword(hashPassword(uuid));
+        repository.save(user);
+        return email;
     }
 
     /**
      * Creates and returns a user with the given username and password.
      *
-     * @return the created user
+     * @return The created user.
      */
     @PostMapping(value = UserEndpoints.SIGNUP)
-    public User createUser(@RequestBody User user) throws UserExistsException {
+    public User createUser(@RequestBody User user) throws UserExistsException, EmailException {
         user.setPassword(hashPassword(user.getPassword())); // Hash the password
+
 
         // Catch duplicate exception
         try {
@@ -59,43 +109,98 @@ public class UserController {
         } catch (DataIntegrityViolationException e) {
             throw new UserExistsException();
         }
-        user.setPassword(""); // Don't leak the (even the hashed) password
-        try {
-            System.out.println(new ObjectMapper().writeValueAsString(user));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+
+        if (!user.validateEmail()) {
+            throw new EmailException();
         }
+
+
+        user.setPassword(""); // Don't leak the (even the hashed) password
+        return user;
+    }
+
+    /**
+     * Returns the current user.
+     *
+     * @param authentication Identifies user.
+     * @return The current user.
+     */
+    @GetMapping(value = UserEndpoints.USER_INFO)
+    public User getUserInfo(Authentication authentication) {
+        User user = repository.findUserByUsername(authentication.getName());
+        user.setPassword("");
+        return user;
+    }
+
+    /**
+     * Sets a new password for the given user.
+     *
+     * @param password       The new password.
+     * @param authentication Identifies user.
+     * @return User.
+     */
+    @PostMapping(value = UserEndpoints.CHANGE_PASS)
+    public User changePassword(Authentication authentication, @RequestBody String password) {
+        User user = repository.findUserByUsername(authentication.getName());
+        user.setPassword(hashPassword(password));
+        repository.save(user);
+        user.setPassword("");
         return user;
     }
 
     /**
      * The method returns how many points a user has according to the logs.
      *
-     * @param authentication takes a user by which the log repository is sorted.
-     * @return user points.
+     * @param authentication Takes a user by which the log repository is sorted.
+     * @return User points.
      */
     @GetMapping(value = UserEndpoints.ACTIONLIST)
     public int actionList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
         user.setPassword("");
-        int points = 0;
-        List<Log> list = logRepository.findByUser(user);
-        if (list == null) {
-            return 0;
-        }
-        for (Log log : list) {
-            if (!log.getAction().equals(Action.SOLAR)) {
-                points = points + log.getAction().getPoints();
-            }
-        }
+        int points = calcPoints(user);
         return points + getStateSolar(authentication).getPoints();
     }
 
     /**
+     * Calculates leader board points.
+     *
+     * @param username Takes a username of leader board.
+     * @return Points of that user.
+     */
+    @PostMapping(value = UserEndpoints.GETOTHERUSERPOINTS)
+    public int getOtherPoints(@RequestBody String username) {
+        User user = repository.findUserByUsername(username);
+        return calcPoints(user);
+    }
+
+    /**
+     * Method to be used to calculate points by username.
+     *
+     * @param user For calculating user's points.
+     * @return Points.
+     */
+    public int calcPoints(User user) {
+        int points = 0;
+        List<Log> list = logRepository.findByUser(user);
+        //Never returns a null string. Just an empty one
+        if (list.isEmpty()) {
+            return 0;
+        }
+        for (Log log : list) {
+            if (!log.getAction().equals(Action.SOLAR)) {
+                points = points + log.getPoints();
+            }
+        }
+        return points + getStateSolar(user.getUsername()).getPoints();
+    }
+
+
+    /**
      * The method returns a list of logs of a user to be displayed on the main screen.
      *
-     * @param authentication to identify user.
-     * @return the list of user logs.
+     * @param authentication To identify user.
+     * @return The list of user logs.
      */
     @GetMapping(value = UserEndpoints.LOGS)
     public List<Log> getLogs(Authentication authentication) {
@@ -106,65 +211,146 @@ public class UserController {
     /**
      * Returns the state of the solar panels.
      *
-     * @param authentication authentication details pof the useer
-     * @return an array representing a pair of the state of the button
-     *          and the amount of points gathered by the solar panels
+     * @param authentication Authentication details of the useer
+     * @return An array representing a pair of the state of the button
+     *      and the amount of points gathered by the solar panels.
      */
     @GetMapping(value = "/solar")
     public SolarState getStateSolar(Authentication authentication) {
+        return getStateSolar(authentication.getName());
+    }
+
+    private SolarState getStateSolar(String username) {
+        User user = repository.findUserByUsername(username);
+        List<Log> list = logRepository.findByUser(user);
         int points = 0;
         int total = 0;
         Log lastLog = null;
-        for (Log log : getLogs(authentication)) {
+        for (Log log : list) {
             if (log.getAction().equals(Action.SOLAR)) {
                 total++;
                 if (total % 2 == 1) {
                     lastLog = log;
                 } else {
-                    LocalDate dateLatest = LocalDate.ofInstant(log.getDate().toInstant(),
-                            ZoneId.systemDefault());
-                    LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
-                            ZoneId.systemDefault());
+                    LocalDate dateLatest = log.getDate();
+                    LocalDate datePrevious = lastLog.getDate();
                     points += Action.SOLAR.getPoints()
                             * Period.between(datePrevious, dateLatest).getDays();
                 }
             }
         }
+
         if (total % 2 == 1) {
-            LocalDate datePrevious = LocalDate.ofInstant(lastLog.getDate().toInstant(),
-                    ZoneId.systemDefault());
+            LocalDate datePrevious = lastLog.getDate();
             points += Action.SOLAR.getPoints()
                     * Period.between(datePrevious, LocalDate.now()).getDays();
         }
         return new SolarState(points, total % 2 == 1);
     }
 
+    /**
+     * Returns a list of all users.
+     *
+     * @return Lists of users.
+     */
     @GetMapping(value = UserEndpoints.LEADERBOARD)
     public List<User> getLeaderBoard() {
-        return repository.findByOrderByFoodPointsDesc();
+        List<User> user = repository.findAll();
+        for (User withPassword : user) {
+            withPassword.setPassword("");
+        }
+        return user;
     }
 
-    @GetMapping(value = UserEndpoints.SEARCH)
-    public User search(@RequestBody String username) {
-        return repository.findUserByUsername(username);
+    /**
+     * Searches for users.
+     *
+     * @param username Takes a string to be searched in the user repo.
+     * @return List with matching usernames.
+     */
+    @PostMapping(value = UserEndpoints.SEARCH)
+    public List<User> search(@RequestBody String username) {
+        List<User> users = repository.findAll();
+        List<User> usersToReturn = new ArrayList<>();
+        for (User user : users) {
+            if (user.getUsername().startsWith(username)) {
+                user.setPassword("");
+                usersToReturn.add(user);
+            }
+        }
+        if (usersToReturn.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return usersToReturn;
     }
 
+    /**
+     * Adds the provided user to the current user's following set.
+     *
+     * @param username       Username of the User to add.
+     * @param authentication Of the current user.
+     * @return The added User.
+     */
     @PostMapping(value = UserEndpoints.FOLLOW)
-    public User addFollow(@RequestBody User user, Authentication authentication) {
+    public User addFollow(@RequestBody String username, Authentication authentication) {
         User current = repository.findUserByUsername(authentication.getName());
-        if (!current.getUsername().equals(user.getUsername())) {
-
+        User user = repository.findUserByUsername(username);
+        if (!current.getUsername().equals(user.getUsername())
+                && !current.getFollowing().contains(user)) {
             current.getFollowing().add(user);
             repository.save(current);
         }
-        return current;
+        user.setPassword("");
+        return user;
     }
 
+    /**
+     * Removes user from 'following' set.
+     *
+     * @param user           To be removed.
+     * @param authentication The user who is unfollowing.
+     * @return The unfollowed user.
+     */
+    @PostMapping(value = UserEndpoints.UNFOLLOW)
+    public User unfollow(@RequestBody User user, Authentication authentication) {
+        User current = repository.findUserByUsername(authentication.getName());
+        current.getFollowing().remove(user);
+        repository.save(current);
+        user.setPassword("");
+        return user;
+    }
+
+    /**
+     * Returns a set of the 'following'.
+     *
+     * @param authentication The user whose set is returned.
+     * @return The set of the followed users.
+     */
     @GetMapping(value = UserEndpoints.FOLLOWLIST)
-    public Set<User> viewFollowList(Authentication authentication) {
+    public List<User> viewFollowList(Authentication authentication) {
         User user = repository.findUserByUsername(authentication.getName());
-        Set<User> friends = user.getFollowing();
-        return friends;
+        List<User> list = user.getFollowing();
+        for (User withPassword : list) {
+            withPassword.setPassword("");
+        }
+        return list;
     }
 
+    /**
+     * Returns the amount of points earned today by the user making the request.
+     *
+     * @param authentication identifies the user making the request
+     * @return the amount of points earned today
+     */
+    @GetMapping(value = UserEndpoints.TODAYPROGRESS)
+    public int getPointsToday(Authentication authentication) {
+        int points = 0;
+        for (Log log : getLogs(authentication)) {
+            if (Period.between(log.getDate(), LocalDate.now()).getDays() == 0
+                    && !log.getAction().equals(Action.SOLAR)) {
+                points += log.getPoints();
+            }
+        }
+        return points;
+    }
 }

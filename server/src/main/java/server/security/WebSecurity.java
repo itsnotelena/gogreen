@@ -1,8 +1,10 @@
 package server.security;
 
+import static server.security.SecurityConstants.FORGOT_PASSWORD_URL;
 import static server.security.SecurityConstants.SIGN_UP_URL;
 
 import lombok.AllArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,6 +35,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // this disables session creation on Spring security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    @Override
+    public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity
+                                      web) {
+        web.ignoring().antMatchers(HttpMethod.POST, FORGOT_PASSWORD_URL);
     }
 
     @Override

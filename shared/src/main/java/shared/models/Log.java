@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -33,5 +33,12 @@ public class Log implements Serializable {
     private Action action;
 
     @Column
-    private Date date;
+    private int amount = 1;
+
+    @Column
+    private LocalDate date;
+
+    public int getPoints() {
+        return action.getPoints() * amount;
+    }
 }
