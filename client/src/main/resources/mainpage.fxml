@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXListCell?>
 <?import com.jfoenix.controls.JFXSlider?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<?import com.jfoenix.controls.JFXDrawersStack?>
-<?import javafx.scene.layout.Pane?>
-<?import com.jfoenix.controls.JFXListCell?>
-<StackPane fx:id="wrapper"  stylesheets="@styles/main.css,styles/background.css" styleClass="rootPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MainController">
-        <AnchorPane fx:id="menupane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<StackPane fx:id="wrapper" styleClass="rootPane" stylesheets="@styles/main.css,styles/background.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controllers.MainController">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
             <StackPane fx:id="stackPaneChart" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <HBox fx:id="chartContainer" alignment="CENTER" prefHeight="600.0" prefWidth="900.0" />
             </StackPane>
@@ -102,7 +102,7 @@
             </JFXButton>
             <VBox fx:id="nodeListContainer" alignment="TOP_CENTER" layoutY="250.0" prefHeight="0.0" prefWidth="0.0" AnchorPane.rightAnchor="150.0">
             </VBox>
-            <JFXDrawersStack fx:id="drawer" layoutY="50.0" prefHeight="559.0" prefWidth="167.0" style="-fx-background-color: #FFFFFF;" />
+            <JFXDrawer fx:id="drawer" layoutY="-4.0" prefHeight="606.0" prefWidth="224.0" />
             <Text fx:id="pointsContainer" layoutX="750.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="105.59999937191606" />
             <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
                     <JFXButton fx:id="winterBtn" styleClass="button-energy" text="Reduce Heating" textAlignment="CENTER" wrapText="true">
@@ -113,36 +113,36 @@
                     <JFXSlider fx:id="tempSliderWinter" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
             </HBox>
             <HBox layoutX="568.0" layoutY="300.0" prefHeight="44.0" prefWidth="190.0">
-                    <JFXButton fx:id="summerBtn" styleClass="button-energy" text="Reduce Climate Control" textAlignment="CENTER" wrapText="true">
+                    <JFXButton fx:id="summerBtn" focusTraversable="false" styleClass="button-energy" text="Reduce Climate Control" textAlignment="CENTER" wrapText="true">
                         <font>
                             <Font size="8.0" />
                         </font>
                     </JFXButton>
                     <JFXSlider fx:id="tempSliderSummer" majorTickUnit="1.0" max="4.0" minorTickCount="0" prefHeight="44.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
             </HBox>
-            <Pane layoutY="2.0" prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
+            <Pane prefHeight="69.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;">
                 <JFXHamburger fx:id="hamburger" layoutX="7.0" prefHeight="49.0" prefWidth="55.0" />
                 <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="369.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@images/logo.png" />
                 </ImageView>
-                <Text fx:id="usernameField" layoutX="690.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
+                <Text fx:id="usernameField" layoutX="694.0" layoutY="43.0" onMouseClicked="#show" wrappingWidth="135.0">
                     <font>
                         <Font size="14.0" />
                     </font></Text>
-                <ImageView fx:id="closeImg" fitHeight="25.0" fitWidth="21.0" layoutX="865.0" layoutY="9.0" onMouseClicked="#logOut" onMousePressed="#logOut" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@images/close.png" />
-                </ImageView>
-                <Text layoutX="651.0" layoutY="42.0" onMouseClicked="#show" text="User:" wrappingWidth="38.20002233982086">
+                <Text layoutX="656.0" layoutY="43.0" onMouseClicked="#show" text="User: " wrappingWidth="38.20002233982086">
                     <Font size="14.0" />
+            <font>
+               <Font size="14.0" />
+            </font>
                 </Text>
+         <FontIcon layoutX="630.0" layoutY="42.0" />
+         <FontIcon iconLiteral="gmi-info-outline" iconSize="20" layoutX="620.0" layoutY="47.0" />
+         <JFXButton fx:id="infoIcon" layoutX="616.0" layoutY="25.0" prefHeight="25.0" prefWidth="26.0" />
             </Pane>
             <Pane fx:id="pane1" layoutX="691.0" layoutY="56.0" prefHeight="69.0" prefWidth="135.0" stylesheets="/styles/listView.css">
-                <JFXListCell fx:id="profileListCell" layoutY="-2.0" prefHeight="39.0" prefWidth="135.0" text="Profile Settings" onMouseClicked="#goToSettings" styleClass="cell:hover;cell:pressed"/>
-                <JFXListCell fx:id="messagesListCell" layoutY="34.0" prefHeight="39.0" prefWidth="135.0" text="History" styleClass="cell:hover;cell:pressed" onMouseClicked="#goToHistory"/>
+                <JFXListCell layoutY="-2.0" onMouseClicked="#goToSettings" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="Profile Settings" />
+                <JFXListCell layoutY="34.0" onMouseClicked="#goToHistory" prefHeight="39.0" prefWidth="135.0" styleClass="cell:hover;cell:pressed" text="History" />
             </Pane>
 
         </AnchorPane>
 </StackPane>
-
-
-

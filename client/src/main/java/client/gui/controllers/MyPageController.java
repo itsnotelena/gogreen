@@ -1,25 +1,22 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.HISTORY;
-import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.SETTINGS;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
 import client.services.BadgeService;
 import client.services.UserService;
-import com.jfoenix.controls.JFXDrawersStack;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +45,10 @@ public class MyPageController extends AbstractController implements Initializabl
     JFXHamburger hamburger;
 
     @FXML
-    JFXDrawersStack drawer;
+    JFXDrawer drawer;
+
+    @FXML
+    Label infolabel;
 
     @FXML
     private ImageView veg1;
@@ -113,6 +113,8 @@ public class MyPageController extends AbstractController implements Initializabl
 
     private Badge[] badgeLevels;
 
+    private String[] activities;
+
     private ImageView[][] badges;
 
     @Autowired
@@ -125,6 +127,21 @@ public class MyPageController extends AbstractController implements Initializabl
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 3; j++) {
                 badges[i][j].opacityProperty().setValue(0.25);
+                int temp = 3;
+                if (j == 1) {
+                    temp = 7;
+                } else if (j == 2) {
+                    temp = 28;
+                }
+                int days = temp;
+                int finalI = i;
+                badges[i][j].addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+                    infolabel.setText("  Reward for "
+                        + this.activities[finalI] + " " +  days + " days in a row!" );
+                    infolabel.setVisible(true);
+                });
+                badges[i][j].addEventHandler(
+                        MouseEvent.MOUSE_EXITED, e -> infolabel.setVisible(false));
             }
         }
     }
@@ -143,47 +160,36 @@ public class MyPageController extends AbstractController implements Initializabl
 
         this.usernameField.setText(userService.getUser().getUsername());
         pane1.setVisible( false );
-
-        if (userService.getPoints() >= 0) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-
-        } else if (userService.getPoints() >= 5000) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image( "/images/image_background.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-        }
-
+        infolabel.setVisible(false);
         badgePane.toBack();
 
         try {
-            this.badges =  new ImageView[][] {{veg1, veg2, veg3},
-                {local1, local2, local3},
-                {bike1, bike2, bike3}, {public1, public2, public3},
-                {solar1, solar2, solar3}, {temp1, temp2, temp3}};
-
-            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+            this.activities = new String[] {"eating vegetarian",
+                "buying local produce", "taking the bike",
+                "using public transport", "using solar panels", "lowering temperature"};
+            this.badges =  new ImageView[][] {
+                    {veg1, veg2, veg3}, {local1, local2, local3},
+                    {bike1, bike2, bike3}, {public1, public2, public3},
+                    {solar1, solar2, solar3}, {temp1, temp2, temp3}};
 
             initBadges();
             getBadges();
+            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+            drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
+            //drawer.setOverLayVisible(true);
+
+            drawer.setResizableOnDrag(true);
+            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+            task.setRate(task.getRate() * -1);
+
+            this.initializeHamburger(task, hamburger, drawer);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeHamburger(myPane, hamburger, drawer);
-        drawer.setVisible( false );
 
-    }
 
-    @FXML
-    public void logOut() throws IOException {
-        goToSmall( myPane, LOGIN );
     }
 
     /**
@@ -192,20 +198,20 @@ public class MyPageController extends AbstractController implements Initializabl
     @FXML
     public void show() {
         if (pane1.isVisible()) {
-            pane1.setVisible( false );
+            pane1.setVisible(false);
         } else {
-            pane1.setVisible( true );
+            pane1.setVisible(true);
         }
     }
 
     @FXML
     public void goToSettings() throws IOException {
-        goToLarge(myPane, SETTINGS );
+        goToLarge(myPane, SETTINGS);
     }
 
     @FXML
     public void goToHistory() throws IOException {
-        goToLarge(myPane, HISTORY );
+        goToLarge(myPane, HISTORY);
     }
 
 }

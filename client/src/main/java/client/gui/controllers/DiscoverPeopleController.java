@@ -1,5 +1,6 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.HISTORY;
 import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.SETTINGS;
@@ -8,20 +9,15 @@ import static client.gui.tools.SceneNames.TOOLBAR;
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawersStack;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -41,7 +37,6 @@ import java.util.ResourceBundle;
 
 
 
-
 @Component
 public class DiscoverPeopleController extends AbstractController implements Initializable {
 
@@ -58,7 +53,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
     private JFXHamburger hamburger;
 
     @FXML
-    private JFXDrawersStack drawer;
+    private JFXDrawer drawer;
 
     @FXML
     private JFXButton followbtn;
@@ -146,24 +141,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userPane.setVisible(false);
 
-        if (service.getPoints() >= 5000) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image(
-                            "/images/backgroundlevel2.png", 900, 600, false, true),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT);
-
-            myPane.setBackground(new Background(myBI));
-
-        } else if (service.getPoints() >= 10000) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image("/images/image_background.png", 900, 600, false, true),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT);
-
-            myPane.setBackground(new Background(myBI));
-        }
-
         pane1.setVisible(false);
         this.usernameField.setText(service.getUser().getUsername());
 
@@ -177,12 +154,19 @@ public class DiscoverPeopleController extends AbstractController implements Init
 
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
-            getLeaderBoard();
+            drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
+
+            drawer.setResizableOnDrag(true);
+            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+            task.setRate(task.getRate() * -1);
+
+            this.initializeHamburger(task, hamburger, drawer);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeHamburger(myPane, hamburger, drawer);
-        drawer.setVisible(false);
+        getLeaderBoard();
 
     }
 
@@ -261,6 +245,7 @@ public class DiscoverPeopleController extends AbstractController implements Init
     }
 
     private void addListListeners(ListView list) {
+
         list.getSelectionModel().selectedIndexProperty().addListener(
             (observableValue, number, t1) -> {
                 if (t1.intValue() != -1) {
@@ -271,7 +256,6 @@ public class DiscoverPeopleController extends AbstractController implements Init
                     } else {
                         selectedUser = searchlist.get(t1.intValue());
                     }
-                    System.out.println(t1.intValue());
                     if (service.viewFollowList().contains(selectedUser)) {
                         unfollowbtn.setVisible(true);
                         followbtn.setVisible(false);

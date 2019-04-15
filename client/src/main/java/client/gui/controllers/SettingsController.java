@@ -1,26 +1,21 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.HISTORY;
-import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
-
 import client.services.UserService;
-import com.jfoenix.controls.JFXDrawersStack;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +24,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 
 @Component
 public class SettingsController extends AbstractController implements Initializable {
@@ -42,16 +38,16 @@ public class SettingsController extends AbstractController implements Initializa
     private Pane pane1;
 
     @FXML
-    private Pane passPane;
+    private JFXPasswordField passfield;
 
     @FXML
-    private JFXTextField passfield;
+    private JFXPasswordField confirmPassField;
 
     @FXML
     private JFXHamburger hamburger;
 
     @FXML
-    private JFXDrawersStack drawer;
+    private JFXDrawer drawer;
 
     @FXML
     private Text usernameField;
@@ -60,7 +56,7 @@ public class SettingsController extends AbstractController implements Initializa
     private Text username;
 
     @FXML
-    private Text firstname;
+    private Label errLabel;
 
     @FXML
     private Text emailField;
@@ -71,31 +67,19 @@ public class SettingsController extends AbstractController implements Initializa
     }
 
     /**
-     * Shows or closes the change password pane.
-     */
-    @FXML
-    public void passwordPane() {
-        if (passPane.isVisible()) {
-            passPane.setVisible( false );
-        } else {
-            passPane.setVisible( true );
-        }
-    }
-
-    /**
      * Changes the password based on user input.
      */
     @FXML
-    public  void setPass() {
-        if (!passfield.getText().isEmpty()) {
+    public void setPass() {
+        if (!passfield.getText().isEmpty()
+                && passfield.getText().equals(confirmPassField.getText())) {
             service.setPassword(passfield.getText());
+            errLabel.setText("Password changed");
+            errLabel.setVisible(true);
+        } else {
+            errLabel.setVisible(true);
         }
-        passPane.setVisible(false);
-    }
 
-    @FXML
-    public void logOut() throws IOException {
-        goToSmall(myPane, LOGIN);
     }
 
     /**
@@ -104,53 +88,43 @@ public class SettingsController extends AbstractController implements Initializa
     @FXML
     public void show() {
         if (pane1.isVisible()) {
-            pane1.setVisible( false );
+            pane1.setVisible(false);
         } else {
-            pane1.setVisible( true );
+            pane1.setVisible(true);
         }
     }
 
     @FXML
     public void goToHistory() throws IOException {
-        goToLarge( myPane, HISTORY );
+        goToLarge(myPane, HISTORY);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rs) {
 
-        pane1.setVisible( false );
-        passPane.setVisible( false );
+        pane1.setVisible(false);
+        errLabel.setVisible(false);
 
         this.usernameField.setText(service.getUser().getUsername());
 
-        this.username.setText( service.getUser().getUsername() );
-        this.emailField.setText( service.getUser().getEmail() );
+        this.username.setText(service.getUser().getUsername());
+        this.emailField.setText(service.getUser().getEmail());
 
-        if (service.getPoints() >= 5000) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image( "/images/backgroundlevel2.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-
-        } else if (service.getPoints() >= 10000) {
-            BackgroundImage myBI = new BackgroundImage(
-                    new Image( "/images/image_background.png", 900, 600, false, true ),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT );
-
-            myPane.setBackground( new Background( myBI ) );
-        }
 
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+            drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
+
+            drawer.setResizableOnDrag(true);
+            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+            task.setRate(task.getRate() * -1);
+
+            this.initializeHamburger(task, hamburger, drawer);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeHamburger(myPane, hamburger, drawer);
-        drawer.setVisible(false);
     }
 
 }

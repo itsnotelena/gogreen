@@ -1,10 +1,12 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.CONDITIONS;
 import static client.gui.tools.SceneNames.LOGIN;
 
 import client.gui.tools.AbstractController;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -12,10 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -65,6 +64,9 @@ public class SignUpController extends AbstractController implements Initializabl
     @FXML
     private JFXButton signUpButton;
 
+    @FXML
+    private JFXCheckBox agree;
+
     private UserService userService;
 
 
@@ -82,6 +84,10 @@ public class SignUpController extends AbstractController implements Initializabl
             validpass.setText("Please input correct values.");
             return;
             //show error message in a modal
+        }
+        if (!agree.isSelected()) {
+            validpass.setText("Please read and agree with TCs.");
+            return;
         }
 
         User user = new User();
@@ -125,6 +131,12 @@ public class SignUpController extends AbstractController implements Initializabl
     public void goToLogin() throws IOException {
         goToSmall(username, LOGIN);
     }
+
+    @FXML
+    public void goToConditions() throws IOException {
+        goToSmall( pane, CONDITIONS );
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

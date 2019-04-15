@@ -1,7 +1,6 @@
 package client.gui.tools;
 
 import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.geometry.Rectangle2D;
@@ -9,12 +8,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 
 public abstract class AbstractController {
 
@@ -57,27 +56,26 @@ public abstract class AbstractController {
     }
 
     /**
-     * The method displays the toolbar
-     * @param myPane
-     * @param hamburger
-     * @param drawer
+     * The method initializes the slide-out menu.
+     * @param task Transition of the "hamburger" to open/close menu.
+     * @param hamburger To open/close menu.
+     * @param drawer The panel in which the menu resides.
      */
-    protected void initializeHamburger(Pane myPane,
-                                       JFXHamburger hamburger, JFXDrawersStack drawer) {
-        drawer.setContent(myPane);
-        HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-        task.setRate( -1 );
+    protected void initializeHamburger(HamburgerSlideCloseTransition task,
+                                       JFXHamburger hamburger, JFXDrawer drawer) {
+        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 
-        hamburger.addEventHandler( MouseEvent.MOUSE_CLICKED, e -> {
-            task.setRate(task.getRate() * -1 );
+            task.setRate(task.getRate() * -1);
             task.play();
 
-            if (drawer.isVisible()) {
-                drawer.setVisible(false);
+            if (drawer.isOpened()) {
+                drawer.close();
             } else {
-                drawer.setVisible(true);
+                drawer.open();
             }
         });
     }
+
+
 
 }

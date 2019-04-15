@@ -9,16 +9,9 @@ import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,12 +29,6 @@ import java.util.ResourceBundle;
 public class LoginController extends AbstractController implements Initializable {
 
     @FXML
-    private Button signup;
-
-    @FXML
-    private AnchorPane pane;
-
-    @FXML
     private Label validpass;
 
     @FXML
@@ -53,34 +40,12 @@ public class LoginController extends AbstractController implements Initializable
     @FXML
     private PasswordField passwordField;
 
-    @FXML
-    private ImageView closeImg;
-
-    @FXML
-    private CheckBox remenberMe;
-
-    @FXML
-    private Hyperlink forgotPassword;
-
-    @FXML
-    private Image mainimg;
 
     private UserService service;
 
     @Autowired
     public LoginController(UserService service) {
         this.service = service;
-    }
-
-    /**
-     * Closes the Application.
-     */
-    @FXML
-    public void closeApplication() {
-
-        Stage stage = (Stage) closeImg.getScene().getWindow();
-        stage.close();
-
     }
 
     /**

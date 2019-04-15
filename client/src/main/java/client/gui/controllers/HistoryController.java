@@ -1,14 +1,16 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.SETTINGS;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
 import client.services.UserService;
-import com.jfoenix.controls.JFXDrawersStack;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
+
 @Component
 public class HistoryController extends AbstractController implements Initializable {
 
@@ -41,7 +44,7 @@ public class HistoryController extends AbstractController implements Initializab
     private JFXHamburger hamburger;
 
     @FXML
-    private JFXDrawersStack drawer;
+    private JFXDrawer drawer;
 
     @FXML
     private Text usernameField;
@@ -80,18 +83,23 @@ public class HistoryController extends AbstractController implements Initializab
 
     @Override
     public void initialize(URL url, ResourceBundle rs) {
-
         this.usernameField.setText( service.getUser().getUsername() );
         this.pane1.setVisible(false);
-
         try {
-            myPane = FXMLLoader.load( getClass().getResource( TOOLBAR ) );
+            myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+            drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
+            //drawer.setOverLayVisible(true);
+
+            drawer.setResizableOnDrag(true);
+            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+            task.setRate(task.getRate() * -1);
+
+            this.initializeHamburger(task, hamburger, drawer);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeHamburger( myPane, hamburger, drawer );
-        drawer.setVisible( false );
         createLogList();
     }
 
@@ -117,5 +125,6 @@ public class HistoryController extends AbstractController implements Initializab
                             + log.getDate()));
         }
     }
+
 
 }

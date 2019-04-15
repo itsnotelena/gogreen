@@ -1,21 +1,21 @@
 package client.gui.controllers;
 
+import static client.gui.tools.SceneNames.DRAWER_SIZE;
 import static client.gui.tools.SceneNames.HISTORY;
-import static client.gui.tools.SceneNames.LOGIN;
 import static client.gui.tools.SceneNames.SETTINGS;
 import static client.gui.tools.SceneNames.TOOLBAR;
 
 import client.gui.tools.AbstractController;
-
 import client.gui.tools.DoughnutChart;
 import client.services.UserService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXDrawersStack;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 
 @Component
 public class MainController extends AbstractController implements Initializable {
@@ -117,7 +118,7 @@ public class MainController extends AbstractController implements Initializable 
     private JFXButton winterBtn;
 
     @FXML
-    private JFXDrawersStack drawer;
+    private JFXDrawer drawer;
 
     @FXML
     private JFXHamburger hamburger;
@@ -130,7 +131,7 @@ public class MainController extends AbstractController implements Initializable 
     private JFXSlider tempSliderWinter;
 
     @FXML
-    private JFXButton infoButton;
+    private JFXButton infoIcon;
 
     @FXML
     private StackPane stackPaneChart;
@@ -153,11 +154,6 @@ public class MainController extends AbstractController implements Initializable 
     @Autowired
     public MainController(UserService service) {
         this.service = service;
-    }
-
-    @FXML
-    public void logOut() throws IOException {
-        goToSmall(myPane, LOGIN);
     }
 
     @FXML
@@ -186,17 +182,34 @@ public class MainController extends AbstractController implements Initializable 
     public void initialize(URL url, ResourceBundle rs) {
 
         pane1.setVisible( false );
+        int pointsForBackground = service.getPoints();
+        if (pointsForBackground < 1000) {
+            wrapper.setId("background2");
+        } else if (pointsForBackground < 2500) {
+            wrapper.setId("background3");
+        } else if (pointsForBackground < 10000) {
+            wrapper.setId("background4");
+        } else {
+            wrapper.setId("background5");
+        }
 
 
         this.usernameField.setText(service.getUser().getUsername());
         try {
             myPane = FXMLLoader.load(getClass().getResource(TOOLBAR));
+            drawer.setSidePane(myPane);
+            drawer.setDefaultDrawerSize(DRAWER_SIZE);
+
+            drawer.setResizableOnDrag(true);
+            HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+            task.setRate(task.getRate() * -1);
+
+            this.initializeHamburger(task, hamburger, drawer);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeHamburger(myPane, hamburger, drawer);
-        drawer.setVisible( false );
+
 
         stackPane = new StackPane();
         ObservableList<PieChart.Data> pieChartData = createData();
@@ -208,7 +221,7 @@ public class MainController extends AbstractController implements Initializable 
             toggleButton(solarbtn);
         }
 
-        infoButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loadInfo());
+        infoIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loadUserInfo());
 
         this.foodList = createFoodList();
         this.transportList = createTransportList();
@@ -389,12 +402,12 @@ public class MainController extends AbstractController implements Initializable 
     }
 
     private void toggleButton(JFXButton button) {
-        if (button.getStyleClass().contains("toggle-button-off")) {
-            button.getStyleClass().remove("toggle-button-off");
-            button.getStyleClass().add("animated-option-button-sub");
+        if (button.getStyleClass().contains("button-energy-off")) {
+            button.getStyleClass().remove("button-energy-off");
+            button.getStyleClass().add("button-energy");
         } else {
-            button.getStyleClass().remove("animated-option-button-sub");
-            button.getStyleClass().add("toggle-button-off");
+            button.getStyleClass().remove("button-energy");
+            button.getStyleClass().add("button-energy-off");
         }
     }
 
@@ -408,24 +421,19 @@ public class MainController extends AbstractController implements Initializable 
         stackPaneChart.getChildren().add(pointsContainer);
     }
 
-    private void loadInfo() {
+    private void loadUserInfo() {
+        int points = service.getPoints();
         JFXDialogLayout content = new JFXDialogLayout();
-        Text heading = new Text("Information");
+        Text heading = new Text("Points information");
         heading.setFont(Font.font("Montserrat"));
         content.setHeading(new Text("Information"));
-        Text vegetarian = new Text("Vegetarian Meal");
-        vegetarian.setFont(Font.font("Montserrat", 12));
-        vegetarian.setUnderline(true);
-        Text vegetarianContent = new Text(" : you can press the vegetarian meal button after "
-                + "every vegetarian meal you have.\n");
-        vegetarianContent.setFont(Font.font("Montserrat", 12));
-        Text solar = new Text("Solar panels");
-        solar.setFont(Font.font("Montserrat", 12));
-        solar.setUnderline(true);
-        Text solarContent = new Text(" : Toggle it on if you have installed your solar panels. "
-                + "Toggle it off if you no longer have solar panels\n");
+        Text totalPoints = new Text("Total Points: " + points + "\n");
+        totalPoints.setFont(Font.font("Montserrat", 12));
+        Text totalCO2 = new Text("Total CO2 saved: "
+                + String.format("%.2f",points / 636.0) + " kgCO2");
+        totalCO2.setFont(Font.font("Montserrat", 12));
         TextFlow textFlow = new TextFlow();
-        textFlow.getChildren().addAll(vegetarian, vegetarianContent, solar, solarContent);
+        textFlow.getChildren().addAll(totalPoints, totalCO2);
         content.setBody(textFlow);
         JFXDialog dialog = new JFXDialog(wrapper, content, JFXDialog.DialogTransition.CENTER);
         dialog.show();
