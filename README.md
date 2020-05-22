@@ -1,6 +1,6 @@
 # CSE1105 - GoGreen ![](https://gitlab.ewi.tudelft.nl/cse1105/2018-2019/oopp-group-63/gogreen/badges/dev/coverage.svg)
 
-This repository is a complete Java Desktop Application project consisting of 2 parts - the Server & the Client. The project is a web application that functions much like a social network for tracking the amount of carbon saved per user.
+This repository is a complete Java Desktop Application project consisting of 2 parts - the Server & the Client. The project is works like a social network for tracking the amount of carbon saved per user.
 
 ## How to import into your IDE
 
