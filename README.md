@@ -1,10 +1,6 @@
-# CSE1105 Template Repository ![](https://gitlab.ewi.tudelft.nl/cse1105/2018-2019/oopp-group-63/gogreen/badges/dev/coverage.svg)
+# CSE1105 - GoGreen ![](https://gitlab.ewi.tudelft.nl/cse1105/2018-2019/oopp-group-63/gogreen/badges/dev/coverage.svg)
 
-This a template repository to help you get started on making the best project possible!
-
-You can download the latest version [here](https://github.com/SERG-Delft/TI1216/releases)
-
-http://stackoverflow.com/a/6466993
+This repository is a complete Java Desktop Application project consisting of 2 parts - the Server & the Client. The project is a web application that functions much like a social network for tracking the amount of carbon saved per user.
 
 ## How to import into your IDE
 
